@@ -1,0 +1,97 @@
+a:focus {
+  outline: 0;
+}
+
+@media only all and (max-width: 1920px) {
+  .search-bar {
+    width: 600px;
+  }
+
+  .btn-box {
+    float: right;
+    display: inline-flex;
+    flex-direction: row;
+    margin-top: -1.0869vh;
+    margin-bottom: 1.5217vh;
+  }
+
+  .jcrop-img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .card-details {
+      margin-top: 2.1vh;
+  }
+
+  .file-btn, .post-btn {
+      margin-top: 0.05vh;
+  }
+
+  .loader {
+      width: 100px;
+      height: 100px;
+  }
+
+  .img-thumbnail {
+      width: 160px !important;
+      height: 160px !important;
+  }
+
+  #like iframe {
+      border: none;
+      margin-top: 0;
+      padding: 0;
+      height: 22px;
+      width: 67px;
+  }
+
+  .btn-del, .btn-reply {
+      margin-top: -5px;
+  }
+
+  hr.comment {
+    border-top: 1px solid rgba(152, 152, 152, .15);
+    width: 95%;
+  }
+
+  hr.comment:last-child {
+    border-top: none;
+    padding-bottom: 0;  
+  }
+
+
+  .comments-block {
+    padding: 0;
+  }
+}
+
+
+@media only all and (max-width: 1400px) {
+  .logo-lg {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+
+@media only all and (max-width: 1100px) {
+  .search-bar {
+    width: 500px;
+  }
+}
+
+
+@media only all and (max-width: 900px) {
+  .search-bar {
+    width: 400px;
+  }
+}
+
+@media only all and (max-width: 700px) {
+  .search-bar {
+    width: 299px;
+  }
+}
+
