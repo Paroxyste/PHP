@@ -8,7 +8,6 @@ $firstName = '';
 $lastName  = '';
 $email     = '';
 $password  = '';
-$date      = '';
 
 $errFirstName = '';
 $errLastName  = '';
@@ -141,10 +140,6 @@ if (
         $errPassword = 'Your password must have at least 8 characters';
     }
 
-    // ------------------------------------------------------------------- Date
-
-    $date = date('Y.m.d');
-
     // --------------------------------------------------------------- Username
 
     if (
@@ -173,29 +168,39 @@ if (
             $usernameCheck = $con->query($usernameCheckQuery);
         }
 
-        // -------------------------------------------------------- Profile Pic
+        // ----------------------------------------------------- Default Values
 
-        $profilePic = './view/images/users/default.jpg';
-
+        $date        = date('Y.m.d');
+        $profilePic  = './view/images/users/default.jpg';
+        $numPosts    = '0';
+        $numLikes    = '0';
+        $friendArray = ',';
+        $userClosed  = 'no';
+    
         // ------------------------------------------------------ Hash Password
 
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         // --------------------------------------------------------- Add to BDD
 
-        $firstName  = $con->real_escape_string($firstName);
-        $lastName   = $con->real_escape_string($lastName);
-        $username   = $con->real_escape_string($username);
-        $email      = $con->real_escape_string($email);
-        $password   = $con->real_escape_string($password);
-        $date       = $con->real_escape_string($date);
-        $profilePic = $con->real_escape_string($profilePic);
+        $firstName   = $con->real_escape_string($firstName);
+        $lastName    = $con->real_escape_string($lastName);
+        $username    = $con->real_escape_string($username);
+        $email       = $con->real_escape_string($email);
+        $password    = $con->real_escape_string($password);
+        $date        = $con->real_escape_string($date);
+        $profilePic  = $con->real_escape_string($profilePic);
+        $numPosts    = $con->real_escape_string($numPosts);
+        $numLikes    = $con->real_escape_string($numLikes);
+        $friendArray = $con->real_escape_string($friendArray);
+        $userClosed  = $con->real_escape_string($userClosed);
 
         $addToDatabaseQuery = "INSERT INTO users
-                               VALUES ('', '$firstName', '$lastName',
+                               VALUES (0, '$firstName', '$lastName',
                                        '$email', '$username', '$password',
-                                       '$date', '$profilePic', '0', '0', ',',
-                                       'no')";
+                                       '$date', '$profilePic', '$numPosts', 
+                                       '$numLikes', '$friendArray',
+                                       '$userClosed')";
 
         $addToDatabase = $con->query($addToDatabaseQuery);
 
