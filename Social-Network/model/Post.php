@@ -540,7 +540,7 @@ class Post
 
                             <div id='toggleComment". strip_tags($id) ."'
                                  style='display:none;'>
-                                <iframe src='comment_frame.php?post_id="
+                                <iframe src='comments.php?post_id="
                                              . strip_tags($id) ."'
                                         id='comment_iframe'
                                         frameborder='0'
