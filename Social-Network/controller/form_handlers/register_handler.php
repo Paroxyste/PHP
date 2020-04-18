@@ -172,8 +172,7 @@ if (
 
         $date        = date('Y.m.d');
         $profilePic  = './view/images/users/default.jpg';
-        $numPosts    = '0';
-        $numLikes    = '0';
+        $numPosts    = $numLikes = '0';
         $friendArray = ',';
         $userClosed  = 'no';
     
