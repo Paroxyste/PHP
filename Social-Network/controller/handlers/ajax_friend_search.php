@@ -78,7 +78,7 @@ if (
 
                         <span style='position: relative; top: -1.5vh'
                               class='text-primary ml-2'>"
-                            $row['first_name'] . " " . $row['last_name'] .
+                            . $row['first_name'] . " " . $row['last_name'] .
 
                             "<small class='text-muted'>
                                  - ". $row['username'] .
