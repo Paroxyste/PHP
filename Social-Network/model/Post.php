@@ -665,8 +665,7 @@ class Post
             $dateAdded  = date('Y-m-d H:i:s');
             $postedBy   = $this->userObj->GetUsername();
             $likes      = '0';
-            $removed    = 'no';
-            $userClosed = 'no';
+            $removed    = $userClosed = 'no';
 
             // Escape string and insert posts
             $postBody   = $this->con->real_escape_string($postBody);

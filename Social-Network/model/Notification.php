@@ -187,8 +187,7 @@ class Notification
         }
 
         $link   = 'post.php?id=' . $postId;
-        $viewed = 'no';
-        $opened = 'no';
+        $viewed = $opened = 'no';
 
         $userLoggedIn =  $this->con->real_escape_string($userLoggedIn);
         $userTo       =  $this->con->real_escape_string($userTo);

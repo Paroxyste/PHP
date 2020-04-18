@@ -374,14 +374,20 @@ class Message
         ) {
             $userLoggedIn = $this->userObj->GetUsername();
 
-            $userLoggedIn = real_escape_string($userLoggedIn);
-            $userTo       = real_escape_string($userTo);
-            $message      = real_escape_string($message);
-            $dateTime     = real_escape_string($dateTime);
+            $viewed = $opened = $deleted = 'no';
+
+            $userLoggedIn = $this->con->real_escape_string($userLoggedIn);
+            $userTo       = $this->con->real_escape_string($userTo);
+            $message      = $this->con->real_escape_string($message);
+            $dateTime     = $this->con->real_escape_string($dateTime);
+            $viewed       = $this->con->real_escape_string($viewed);
+            $opened       = $this->con->real_escape_string($opened);
+            $deleted      = $this->con->real_escape_string($deleted);
 
             $insMsgQuery = "INSERT INTO messages 
-                            VALUES('', '$userLoggedIn', '$userTo', '$message', 
-                                   '$dateTime', 'no', 'no', 'no')";
+                            VALUES(0, '$userLoggedIn', '$userTo', 
+                                   '$message', '$dateTime', '$viewed', 
+                                   '$opened', '$deleted')";
 
             $insMsg = $this->con->query($insMsgQuery);
         }
