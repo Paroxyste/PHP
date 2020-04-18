@@ -56,7 +56,7 @@ if (
         $postId       = $con->real_escape_string($postId);
 
         $insertPostQuery = "INSERT INTO comments
-                            VALUES ('', '$postBody', '$userLoggedIn',
+                            VALUES (0, '$postBody', '$userLoggedIn',
                                     '$postedTo', '$dateTimeNow',
                                     '$removed', '$postId')";
 
