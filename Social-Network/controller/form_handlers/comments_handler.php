@@ -46,17 +46,19 @@ if (
     ) {
 
         $dateTimeNow = date('Y-m-d H:i:s');
+        $removed     = 'no';
 
         $postBody     = $con->real_escape_string($postBody);
         $userLoggedIn = $con->real_escape_string($userLoggedIn);
         $postedTo     = $con->real_escape_string($postedTo);
         $dateTimeNow  = $con->real_escape_string($dateTimeNow);
+        $removed      = $con->real_escape_string($removed);
         $postId       = $con->real_escape_string($postId);
 
         $insertPostQuery = "INSERT INTO comments
                             VALUES ('', '$postBody', '$userLoggedIn',
-                                    '$postedTo', '$dateTimeNow', 'no',
-                                    '$postId')";
+                                    '$postedTo', '$dateTimeNow',
+                                    '$removed', '$postId')";
 
         $insertPost = $con->query($insertPostQuery);
 
