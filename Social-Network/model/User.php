@@ -304,7 +304,7 @@ class User
         $userTo   = $this->con->real_escape_string($userTo);
 
         $sendRequestQuery = "INSERT INTO friend_requests
-                             VALUES('', '$userFrom', '$userTo')";
+                             VALUES(0, '$userFrom', '$userTo')";
 
         $sendRequest = $this->con->query($sendRequestQuery);
 
