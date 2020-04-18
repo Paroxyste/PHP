@@ -146,7 +146,7 @@ if (
                               $_POST['posted_to'],
                               $imageName);
         }
-    
+
         echo "
             <script>
                 location.href='". strip_tags($username) ."';
