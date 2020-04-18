@@ -58,7 +58,7 @@ if (
     $id       = $con->real_escape_string($id);
 
     $insertUserQuery = "INSERT INTO likes
-                        VALUES('', '$userLoggedIn', '$id')";
+                        VALUES(0, '$userLoggedIn', '$id')";
 
     $insertUser = $con->query($insertUserQuery);
 
