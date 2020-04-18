@@ -186,17 +186,22 @@ class Notification
                 break;
         }
 
-        $link = 'post.php?id=' . $postId;
+        $link   = 'post.php?id=' . $postId;
+        $viewed = 'no';
+        $opened = 'no';
 
         $userLoggedIn =  $this->con->real_escape_string($userLoggedIn);
         $userTo       =  $this->con->real_escape_string($userTo);
         $msg          =  $this->con->real_escape_string($msg);
         $dateTime     =  $this->con->real_escape_string($dateTime);
         $link         =  $this->con->real_escape_string($link);
+        $viewed       =  $this->con->real_escape_string($viewed);
+        $opened       =  $this->con->real_escape_string($opened);
 
         $insNotifsQuery = "INSERT INTO notifications 
-                           VALUES('', '$userLoggedIn', '$userTo', '$msg', 
-                                  '$dateTime', '$link', 'no', 'no')";
+                           VALUES(0, '$userLoggedIn', '$userTo', 
+                                  '$msg', '$dateTime', '$link', 
+                                  '$viewed', '$opened')";
 
         $insNotifs = $this->con->query($insNotifsQuery);
     }
