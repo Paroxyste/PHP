@@ -661,21 +661,29 @@ class Post
                 }
             } // End foreach
 
-            $postBody  = implode(' ', $postBodyArray);
-            $dateAdded = date('Y-m-d H:i:s');
-            $postedBy  = $this->userObj->GetUsername();
+            $postBody   = implode(' ', $postBodyArray);
+            $dateAdded  = date('Y-m-d H:i:s');
+            $postedBy   = $this->userObj->GetUsername();
+            $likes      = '0';
+            $removed    = 'no';
+            $userClosed = 'no';
 
             // Escape string and insert posts
-            $postBody  = $this->con->real_escape_string($postBody);
-            $postedBy  = $this->con->real_escape_string($postedBy);
-            $postedTo  = $this->con->real_escape_string($postedTo);
-            $dateAdded = $this->con->real_escape_string($dateAdded);
-            $imageName = $this->con->real_escape_string($imageName);
+            $postBody   = $this->con->real_escape_string($postBody);
+            $postedBy   = $this->con->real_escape_string($postedBy);
+            $postedTo   = $this->con->real_escape_string($postedTo);
+            $dateAdded  = $this->con->real_escape_string($dateAdded);
+            $imageName  = $this->con->real_escape_string($imageName);
+            $likes      = $this->con->real_escape_string($likes);
+            $removed    = $this->con->real_escape_string($removed);
+            $imageName  = $this->con->real_escape_string($imageName);
+            $userClosed = $this->con->real_escape_string($userClosed);
 
             $insPostQuery = "INSERT INTO posts
-                             VALUES ('', '$postBody', '$postedBy',
+                             VALUES (0, '$postBody', '$postedBy',
                                      '$postedTo', '$dateAdded',
-                                     '$imageName', '0', 'no', 'no')";
+                                     '$imageName', '$likes', '$removed',
+                                     '$userClosed')";
 
             $insPost = $this->con->query($insPostQuery);
 
