@@ -7,7 +7,8 @@ require('../../config/config.php');
 if (
     isset($_GET['post_id'])
 ) {
-    $postId = $_GET['post_id'];
+    $postId  = $_GET['post_id'];
+    $removed = 'yes';
 }
 
 if (
@@ -17,10 +18,11 @@ if (
         $_POST['result'] == 'true'
     ) {
         // Delete Post
-        $postId = $con->real_escape_string($postId);
+        $postId  = $con->real_escape_string($postId);
+        $removed = $con->real_escape_string($removed);
 
         $delPostQuery = "UPDATE posts
-                         SET removed='yes'
+                         SET removed='$removed'
                          WHERE (id='$postId')";
 
         $delPost = $con->query($delPostQuery);
