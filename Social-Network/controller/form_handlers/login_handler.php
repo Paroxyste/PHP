@@ -78,7 +78,9 @@ if (
         $checkLogin == 1
         && $passwordVerify == 1
     ) {
-        $username = $row['username'];
+        $username   = $row['username'];
+        $userStatus = $row['user_closed'];
+
         $_SESSION['username'] = $username;
 
         // ------------------------------------------------- Check user account
@@ -86,16 +88,20 @@ if (
         $userClosedQuery = "SELECT *
                             FROM users
                             WHERE (email='$email')
-                            AND (user_closed='yes')";
+                            AND (user_closed='$userStatus')";
 
         $userClosed = $con->query($userClosedQuery);
 
         if (
             $userClosed->num_rows == 1
         ) {
+            $userStatus = 'no';
+
+            $userStatus = $con->real_escape_string($userStatus);
+
             $reOpenAccountQuery = "UPDATE users
-                                          SET user_closed='no'
-                                          WHERE (email='$email')";
+                                   SET user_closed='$userStatus'
+                                   WHERE (email='$email')";
 
             $reOpenAccount = $con->query($reOpenAccountQuery);
         }
