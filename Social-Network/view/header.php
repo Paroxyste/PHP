@@ -1,6 +1,8 @@
 <?php
 
 require('./config/config.php');
+require('./model/Message.php');
+require('./model/Notification.php');
 require('./model/Post.php');
 require('./model/User.php');
 
