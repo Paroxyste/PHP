@@ -96,51 +96,48 @@ class Notification
             include('../../controller/handlers/timeframe_notifs.php');
 
             $str .= "
-                <div class='slimscroll noti-scroll'>
+                <a href='" . $row['link'] . "'
+                   class='dropdown-item notify-item'>
+                    <div class='notify-icon'>
+                        <img src='" . $userRow['profile_pic'] . "'
+                             class='img-fluid rounded-circle'
+                             alt='Messages Icon' />
+                    </div>
 
-                    <a href='" . $row['link'] . "'
-                       class='dropdown-item notify-item'>
-                        <div class='notify-icon'>
-                            <img src='" . $userRow['profile_pic'] . "'
-                                 class='img-fluid rounded-circle'
-                                 alt='Messages Icon' />
-                        </div>
+                    <p class='notify-details'>"
+                        . $row['message'] .
+                    "</p>
 
-                        <p class='notify-details'>"
-                            . $row['message'] .
-                        "</p>
+                    <p class='text-muted mb-0 user-msg'>
+                        <small>"
+                            . $timeMsg .
+                        "</small>
+                    </p>
+                </a>
+            ";
+        } // End while($row = $getNotif->fetch_assoc())
 
-                        <p class='text-muted mb-0 user-msg'>
-                            <small>"
-                                . $timeMsg .
-                            "</small>
-                        </p>
-                    </a>
-                ";
-            } // End while($row = $getNotif->fetch_assoc())
+        // If post were loaded
+        if (
+            $count > $limit
+        ) {
+            $str .= "
+                <input type='hidden' 
+                       class='nextPageDropdownData' 
+                       value='" . ($page + 1) . "'/>
 
-            // If post were loaded
-            if (
-                $count > $limit
-            ) {
-                $str .= "
-                    <input type='hidden' 
-                        class='nextPageDropdownData' 
-                        value='" . ($page + 1) . "'/>
+                <input type='hidden' 
+                       class='noMoreDropdownData' 
+                       value='FALSE' />
+            ";
+        } else {
+            $str .= "
+                <input type='hidden' class='noMoreDropdownData' value='TRUE' />
 
-                    <input type='hidden' 
-                        class='noMoreDropdownData' 
-                        value='FALSE' />
-                ";
-            } else {
-                $str .= "
-                    <input type='hidden' class='noMoreDropdownData' value='TRUE' />
-
-                    <span class='dropdown-item text-center text-primary
-                                 notify-item notify-all'>
-                        No more notifications !
-                    </span>
-                </div>
+                <span class='dropdown-item text-center text-primary
+                             notify-item notify-all'>
+                    No more notifications !
+                </span>
             ";
         }
 

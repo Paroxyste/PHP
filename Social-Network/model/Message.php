@@ -122,6 +122,20 @@ class Message
 
         $getConversDropdown = $this->con->query($getConversDropdownQuery);
 
+        if (
+            $getConversDropdown->num_rows == 0
+        ) {
+            echo "
+                <span class='dropdown-item text-center text-primary
+                             notify-item notify-all'>
+                    You dont have messages !
+                </span>
+            ";
+
+            return;
+
+        }
+
         while ($row = $getConversDropdown->fetch_assoc()) {
             $userToPush = ($row['user_to'] != $userLoggedIn) ? $row['user_to'] : $row['user_from'];
 
@@ -176,56 +190,53 @@ class Message
 
             // Style of notification of received messages
             $str .= "
-                <div class='slimscroll noti-scroll'>
+                <a href='messages.php?u=$username'
+                   class='dropdown-item notify-item'>
+                    <div class='notify-icon'>
+                        <img src='" . $userFoundObj->GetProfilePic() . "'
+                             class='img-fluid rounded-circle'
+                             alt='Messages Icon' />
+                    </div>
 
-                    <a href='messages.php?u=$username'
-                       class='dropdown-item notify-item'>
-                        <div class='notify-icon'>
-                            <img src='" . $userFoundObj->GetProfilePic() . "'
-                                 class='img-fluid rounded-circle'
-                                 alt='Messages Icon' />
-                        </div>
+                    <p class='notify-details'>"
+                        . $userFoundObj->GetFullName() .
 
-                        <p class='notify-details'>"
-                            . $userFoundObj->GetFullName() .
+                        "<small class='text-muted'>
+                            <i>"
+                                . $latestMsgData[1] .
+                            "</i>
+                        </small>
+                    </p>
 
-                            "<small class='text-muted'>
-                                <i>"
-                                    . $latestMsgData[1] .
-                                "</i>
-                            </small>
-                        </p>
+                    <p class='text-muted mb-0 user-msg'>
+                        <small>"
+                            . $timeMsg .
+                        "</small>
+                    </p>
+                </a>
+            ";
+        }
 
-                        <p class='text-muted mb-0 user-msg'>
-                            <small>"
-                                . $timeMsg .
-                            "</small>
-                        </p>
-                    </a>
-                ";
-            }
+        // If post were loaded
+        if (
+            $count > $limit
+        ) {
+            $str .= "
+                <input type='hidden' class='nextPageDropdownData' 
+                       value='" . ($page + 1) . "'/>
 
-            // If post were loaded
-            if (
-                $count > $limit
-            ) {
-                $str .= "
-                    <input type='hidden' class='nextPageDropdownData' 
-                           value='" . ($page + 1) . "'/>
+                <input type='hidden' class='noMoreDropdownData' 
+                       value='FALSE' />
+            ";
+        } else {
+            $str .= "
+                <input type='hidden' class='noMoreDropdownData'
+                       value='TRUE' />
 
-                    <input type='hidden' class='noMoreDropdownData' 
-                           value='FALSE' />
-                ";
-            } else {
-                $str .= "
-                    <input type='hidden' class='noMoreDropdownData'
-                           value='TRUE' />
-
-                    <span class='dropdown-item text-center text-primary
-                                 notify-item notify-all'>
-                        No more messages !
-                    </span>
-                </div>
+                <span class='dropdown-item text-center text-primary
+                             notify-item notify-all'>
+                    No more messages !
+                </span>
             ";
         }
 
