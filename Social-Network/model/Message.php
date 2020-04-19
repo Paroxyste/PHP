@@ -173,58 +173,47 @@ class Message
 
             // Style of notification of received messages
             $str .= "
-                <a href='messages.php?u=$username' style='outline: none;'>
-                    <h3 class='heading-small'>
-                        <img src='" . $userFoundObj->GetProfilePic() . "' 
-                             class='avatar ml-1 mr-1' />
+                <div class='slimscroll noti-scroll'>
 
-                        <span style='position: relative; top: -2vh'
-                              class='text-primary mr-2'>"
-                            . $userFoundObj->getFullName() .
-                        "</span>
-
-                        <br />
-
-                        <div class='mt--3' 
-                            style='position: relative; left: 4vw;'>
-
-                            <small class='text-muted'>"
-                                . $latestMsgData[1] .
-                            "</small>
+                    <a href='messages.php?u=$username'
+                       class='dropdown-item notify-item'>
+                        <div class='notify-icon'>
+                            <img src='" . $userFoundObj->GetProfilePic() . "'
+                                 class='img-fluid rounded-circle'
+                                 alt='Messages Icon' />
                         </div>
 
-                        <div class='text-left ml-2 mt-3 mb--3'>
-                            <small>"
-                                . $split .
-                            "</small>
-                        </div>
-                    </h3>
+                        <p class='notify-details'>"
+                            . $userFoundObj->GetFullName() .
 
-                    <hr class='mt-4 mb-2' />
-                </a>
-            ";
-        }
+                            "<small class='text-muted'>
+                                <i>"
+                                    . $latestMsgData[1] .
+                                "</i>
+                            </small>
+                        </p>
+                    </a>
+                ";
+            }
 
-        // If post were loaded
-        if (
-            $count > $limit
-        ) {
-            $str .= "
-               <input type='hidden' class='nextPageDropdownData' 
-                      value='" . ($page + 1) . "'/>
+            // If post were loaded
+            if (
+                $count > $limit
+            ) {
+                $str .= "
+                    <input type='hidden' class='nextPageDropdownData' 
+                           value='" . ($page + 1) . "'/>
 
-               <input type='hidden' class='noMoreDropdownData' 
-                      value='FALSE' />
-            ";
-        } else {
-            $str .= "
-                <input type='hidden' class='noMoreDropdownData'
-                       value='TRUE' />
+                    <input type='hidden' class='noMoreDropdownData' 
+                           value='FALSE' />
+                ";
+            } else {
+                $str .= "
+                    <input type='hidden' class='noMoreDropdownData'
+                           value='TRUE' />
 
-                <div class='alert alert-primary mt--2 mb--2' 
-                     style='border-radius: 0; text-align: center;'>
-
-                    <span class='heading-small' style='font-weight:600;'>
+                    <span class='dropdown-item text-center text-primary
+                                 notify-item notify-all'>
                         No more messages !
                     </span>
                 </div>
