@@ -8,8 +8,7 @@ include('../../model/Message.php');
 
 $limit = 5;
 
-$posts = new Post($con, $_REQUEST['userLoggedIn']);
-$posts->LoadPostsFriends($_REQUEST, $limit);
+$message = new Message($con, $_REQUEST['userLoggedIn']);
+echo $message->GetConversDropdown($_REQUEST, $limit);
 
 ?>
-
