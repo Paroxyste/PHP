@@ -171,6 +171,9 @@ class Message
             $split = str_split($latestMsgData[0], 29);
             $split = $split[0] . $dots;
 
+            // Include Timeframe
+            include('../../controller/handlers/timeframe.php');
+
             // Style of notification of received messages
             $str .= "
                 <div class='slimscroll noti-scroll'>
@@ -191,6 +194,12 @@ class Message
                                     . $latestMsgData[1] .
                                 "</i>
                             </small>
+                        </p>
+
+                        <p class='text-muted mb-0 user-msg'>
+                            <small>"
+                                . $timeMsg .
+                            "</small>
                         </p>
                     </a>
                 ";
