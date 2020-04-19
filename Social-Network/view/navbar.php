@@ -81,51 +81,19 @@ $num_requests = $user_obj->GetFriendRequest();
                     </a>
 
                     <!-- Start messages dropdown-->
-                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg"
+                         aria-labelledby="notification_dropdown">
                         <div class="dropdown-item noti-title">
                             <h5 class="m-0">
                                 Messages
                             </h5>
                         </div>
 
-                        <!-- Messages dropdown item-->
-                        <div class="slimscroll noti-scroll">
+                        <div class="dropdown_data_window"></div>
 
-                            <!-- item-->
-                            <a href="javascript:void(0);"
-                               class="dropdown-item notify-item">
-                                <div class="notify-icon">
-                                    <img src="./view/images/users/default.jpg"
-                                         class="img-fluid rounded-circle"
-                                         alt="Messages Icon" />
-                                </div>
+                        <input type="hidden" value="" 
+                               id="dropdown_data_type" />
 
-                                <p class="notify-details">
-                                    Cristina Pride
-
-                                    <small class="text-muted">
-                                        <i>
-                                            Hi, How are you? What about our 
-                                            next meeting
-                                        </i>
-                                    </small>
-                                </p>
-
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>
-                                        1 min ago
-                                    </small>
-                                </p>
-                            </a>
-
-                            <!-- View all messages btn -->
-                            <a href="javascript:void(0);"
-                               class="dropdown-item text-center text-primary
-                                      notify-item notify-all">
-                                View all messages
-                            </a>
-                        </div>
-                        <!-- End messages item -->
                     </div>
                     <!-- End messages dropdown -->
                 </li>
@@ -170,44 +138,11 @@ $num_requests = $user_obj->GetFriendRequest();
                             </h5>
                         </div>
 
-                        <!-- Notification dropdown item-->
-                        <div class="slimscroll noti-scroll">
+                        <div class="dropdown_data_window"></div>
 
-                            <!-- item-->
-                            <a href="javascript:void(0);"
-                               class="dropdown-item notify-item active">
+                        <input type="hidden" value="" 
+                               id="dropdown_data_type" />
 
-                               <div class="notify-icon">
-                                    <img src="../../view/images/users/default.jpg"
-                                         class="img-fluid rounded-circle"
-                                         alt="Notification Icon" />
-                                </div>
-
-                                <p class="notify-details">
-                                    Cristina Pride
-
-                                    <small class="text-muted">
-                                        <i>
-                                            commented on Admin
-                                        </i>
-                                    </small>
-                                </p>
-
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>
-                                        1 min ago
-                                    </small>
-                                </p>
-                            </a>
-
-                            <!-- View all notification btn -->
-                            <a href="javascript:void(0);"
-                               class="dropdown-item text-center text-primary
-                                      notify-item notify-all">
-                                View all notifications
-                            </a>
-                        </div>
-                        <!-- End notifications item -->
                     </div>
                     <!-- End notifications dropdown -->
                 </li>
@@ -304,3 +239,68 @@ $num_requests = $user_obj->GetFriendRequest();
     <!-- end Topbar -->
 </header>
 <!-- End Navigation Bar-->
+
+<script>
+(function($, window, document) {
+
+  $(function() {
+    let userLoggedIn = '<?php echo strip_tags($userLoggedIn); ?>';
+    let dropdownInProgress = false;
+
+    $('.dropdown_data_window').scroll(function() {
+      let bottomElement = $('.dropdown_data_window a').last();
+      let noMoreData = $('.dropdown_data_window').find('.noMoreDropdownData').val();
+
+      if (isElementInView(bottomElement[0]) && noMoreData == 'false') {
+          loadPosts();
+        };
+    });
+
+    function loadPosts() {
+      if (dropdownInProgress) {
+        return;
+      };
+
+      dropdownInProgress = true;
+
+      let page = $('.dropdown_data_window').find('.nextPageDropdownData').val() || 1;
+      let pageName;
+      let type = $('#dropdown_data_type').val();
+
+      if (type == 'notification') {
+          pageName = "ajax_load_notifications.php";
+      } else if (type == 'message') {
+          pageName = "ajax_load_messages.php";
+      };
+
+      $.ajax({
+        url: 'controller/handlers/' + pageName,
+        type: 'POST',
+        data: 'page=' + page + '&userLoggedIn=' + userLoggedIn,
+        cache: false,
+
+        success: function(response) {
+          $('.dropdown_data_window').find('.nextPageDropdownData').remove();
+          $('.dropdown_data_window').find('.noMoreDropdownData').remove();
+          $('.dropdown_data_window').append(response);
+
+          dropdownInProgress = false;
+        }
+      });
+    };
+
+    function isElementInView (el) {
+      let rect = el.getBoundingClientRect();
+
+      return (
+        rect.top >= 0 
+        && rect.left >= 0 
+        && rect.bottom <= (window.innerHeight 
+        || document.documentElement.clientHeight) 
+        && rect.right <= (window.innerWidth 
+        || document.documentElement.clientWidth)
+      )
+    }
+  });
+}(window.jQuery, window, document));
+</script>
