@@ -19,7 +19,7 @@ class Notification
 
     // ------------------------------------------------------- GetNotifications
 
-    public function getNotifications($data, $limit) 
+    public function GetNotifications($data, $limit) 
     {
 
         $page = $data['page'];
@@ -54,13 +54,10 @@ class Notification
             $getNotif->num_rows == 0
         ) {
             echo "
-                <div class='alert alert-primary mb--2' 
-                     style='border-radius: 0; text-align: center;'>
-
-                    <span class='heading-small' style='font-weight:600;'>
-                        You have no notifications.
-                    </span>
-                </div>
+                <span class='dropdown-item text-center text-primary
+                             notify-item notify-all'>
+                    You dont have notifications !
+                </span>
             ";
 
             return;
@@ -89,69 +86,62 @@ class Notification
 
             $userDataQuery = "SELECT * 
                               FROM users 
-                              WHERE (username='$user_from')";
+                              WHERE (username='$userFrom')";
 
             $userData = $this->con->query($userDataQuery);
 
             $userRow = $userData->fetch_assoc();
 
             // Include Timeframe
-            include('../../controller/handlers/timeframe.php');
+            include('../../controller/handlers/timeframe_notifs.php');
 
             $str .= "
-                <a href='" . $row['link'] . "' style='outline: none;'>
-                    <h3 class='heading-small'>
-                        <img  src='" . $userRow['profile_pic'] . "'
-                              class='avatar ml-1 mr-1'/>
+                <div class='slimscroll noti-scroll'>
 
-                        <span style='position: relative; top: -2vh'
-                              class='text-primary mr-2'>"
+                    <a href='" . $row['link'] . "'
+                       class='dropdown-item notify-item'>
+                        <div class='notify-icon'>
+                            <img src='" . $userRow['profile_pic'] . "'
+                                 class='img-fluid rounded-circle'
+                                 alt='Messages Icon' />
+                        </div>
+
+                        <p class='notify-details'>"
                             . $row['message'] .
-                        "</span>
+                        "</p>
 
-                        <br />
-
-                        <div class='mt--3' 
-                             style='position: relative; left: 4vw;'>
-
-                            <small class='text-muted'>"
+                        <p class='text-muted mb-0 user-msg'>
+                            <small>"
                                 . $timeMsg .
                             "</small>
-                        </div>
-                    </h3>
+                        </p>
+                    </a>
+                ";
+            } // End while($row = $getNotif->fetch_assoc())
 
-                    <hr class='mt-4 mb-2' />
-                </a>
-            ";
+            // If post were loaded
+            if (
+                $count > $limit
+            ) {
+                $str .= "
+                    <input type='hidden' 
+                        class='nextPageDropdownData' 
+                        value='" . ($page + 1) . "'/>
 
-        } // End while($row = $getNotif->fetch_assoc())
+                    <input type='hidden' 
+                        class='noMoreDropdownData' 
+                        value='FALSE' />
+                ";
+            } else {
+                $str .= "
+                    <input type='hidden' class='noMoreDropdownData' value='TRUE' />
 
-        // If post were loaded
-        if (
-            $count > $limit
-        ) {
-            $str .= "
-                <input type='hidden' 
-                       class='nextPageDropdownData' 
-                       value='" . ($page + 1) . "'/>
-
-                <input type='hidden' 
-                       class='noMoreDropdownData' 
-                       value='FALSE' />
-            ";
-        } else {
-            $str .= "
-                <input type='hidden' class='noMoreDropdownData' value='TRUE' />
-
-                <div class='alert alert-primary mt--2 mb--2' 
-                     style='border-radius: 0; text-align:center;'>
-
-                    <span class='heading-small' style='font-weight:600;'>
+                    <span class='dropdown-item text-center text-primary
+                                 notify-item notify-all'>
                         No more notifications !
                     </span>
                 </div>
             ";
-
         }
 
         return $str;
