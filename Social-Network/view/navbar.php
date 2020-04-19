@@ -1,3 +1,19 @@
+<?php
+
+// Get the number of unread messages
+$msg     = new Message($con, $userLoggedIn);
+$num_msg = $msg->UnreadMsgNumber();
+
+// Get the number of unread notifications
+$notifs     = new Notification($con, $userLoggedIn);
+$num_notifs = $notifs->UnreadNotifsNumber();
+
+// Get the number of friends requests
+$user_obj     = new User($con, $userLoggedIn);
+$num_requests = $user_obj->GetFriendRequest();
+
+?>
+
 <header id="topnav">
     <div class="navbar-custom">
         <div class="container-fluid">
@@ -17,9 +33,9 @@
                                        name="user_search" 
                                        id="search_text_input" autocomplete="off" 
                                        onkeyup="getLiveSearchUsers(
-                                                    this.value, 
-                                                    '<?php echo $userLoggedIn; ?>'
-                                                )" />
+                                            this.value, 
+                                            '<?php echo strip_tags($userLoggedIn); ?>'
+                                        )" />
 
                                 <div class="input-group-append">
                                     <button class="btn" type="submit">
@@ -34,74 +50,85 @@
                     <div class="search_results"></div>
                 </li>
 
-<!-- Start messages -->
-<li class="dropdown notification-list">
-<a class="nav-link dropdown-toggle"
-data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<i class="ti-email noti-icon"></i>
-<span class="badge badge-danger rounded-circle
-noti-icon-badge">
-9
-</span>
-</a>
+                <!-- Start messages -->
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle"
+                       id="message_dropdown" href="javascript:void(0);"
+                       data-toggle="dropdown" role="button"
+                       onclick="getDropdownData(
+                            '<?php echo strip_tags($userLoggedIn); ?>', 
+                            'message'
+                        )"
+                       aria-haspopup="false" aria-expanded="false">
 
-<!-- Start messages dropdown-->
-<div class="dropdown-menu dropdown-menu-right dropdown-lg">
-<div class="dropdown-item noti-title">
-<h5 class="m-0">
-Messages
-</h5>
-</div>
+                        <i class="ti-email noti-icon"></i>
 
-<!-- Messages dropdown item-->
-<div class="slimscroll noti-scroll">
+                        <?php
 
-<!-- item-->
-<a href="javascript:void(0);"
-class="dropdown-item notify-item active">
-<div class="notify-icon">
-<img src="./view/images/users/user-1.jpg"
-class="img-fluid rounded-circle"
-alt="Messages Icon" />
-</div>
+                        if (
+                            $num_msg > 0
+                        ) {
+                            echo "
+                                <span class='badge badge-danger rounded-circle
+                                             noti-icon-badge'
+                                       id='unread_message'>"
+                                    . $num_msg . 
+                                "</span>
+                            ";
+                        }
 
-<p class="notify-details">
-Cristina Pride
-</p>
+                        ?>
+                    </a>
 
-<p class="text-muted mb-0 user-msg">
-<small>
-Hi, How are you? What about our next meeting
-</small>
-</p>
-</a>
+                    <!-- Start messages dropdown-->
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+                        <div class="dropdown-item noti-title">
+                            <h5 class="m-0">
+                                Messages
+                            </h5>
+                        </div>
 
-<!-- item-->
-<a href="javascript:void(0);"
-class="dropdown-item notify-item">
-<div class="notify-icon bg-primary">
-<i class="mdi mdi-comment-account-outline"></i>
-</div>
-<p class="notify-details">
-Caleb Flakelar commented on Admin
-<small class="text-muted">
-1 min ago
-</small>
-</p>
-</a>
+                        <!-- Messages dropdown item-->
+                        <div class="slimscroll noti-scroll">
 
-<!-- View all messages btn -->
-<a href="javascript:void(0);"
-class="dropdown-item text-center text-primary
-notify-item notify-all">
-View all messages
-<i class="fi-arrow-right"></i>
-</a>
-</div>
-<!-- End messages dropdown -->
-</li>
-<!-- End messages -->
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item">
+                                <div class="notify-icon">
+                                    <img src="./view/images/users/default.jpg"
+                                         class="img-fluid rounded-circle"
+                                         alt="Messages Icon" />
+                                </div>
+
+                                <p class="notify-details">
+                                    Cristina Pride
+                                    <small class="text-muted">
+                                        1 min ago
+                                    </small>
+                                </p>
+
+                                <p class="text-muted mb-0 user-msg">
+                                    <small>
+                                        Hi, How are you? What about our 
+                                        next meeting
+                                    </small>
+                                </p>
+                            </a>
+
+                            <!-- View all messages btn -->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item text-center text-primary
+                                      notify-item notify-all">
+                                View all messages
+
+                                <i class="fi-arrow-right"></i>
+                            </a>
+                        </div>
+                        <!-- End messages item -->
+                    </div>
+                    <!-- End messages dropdown -->
+                </li>
+                <!-- End messages -->
 
 <!-- Start notifications -->
 <li class="dropdown notification-list">
