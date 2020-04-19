@@ -55,11 +55,11 @@ $num_requests = $user_obj->GetFriendRequest();
                     <a class="nav-link dropdown-toggle"
                        id="message_dropdown" href="javascript:void(0);"
                        data-toggle="dropdown" role="button"
+                       aria-haspopup="false" aria-expanded="false"
                        onclick="getDropdownData(
                             '<?php echo strip_tags($userLoggedIn); ?>', 
                             'message'
-                        )"
-                       aria-haspopup="false" aria-expanded="false">
+                        )">
 
                         <i class="ti-email noti-icon"></i>
 
@@ -102,15 +102,18 @@ $num_requests = $user_obj->GetFriendRequest();
 
                                 <p class="notify-details">
                                     Cristina Pride
+
                                     <small class="text-muted">
-                                        1 min ago
+                                        <i>
+                                            Hi, How are you? What about our 
+                                            next meeting
+                                        </i>
                                     </small>
                                 </p>
 
                                 <p class="text-muted mb-0 user-msg">
                                     <small>
-                                        Hi, How are you? What about our 
-                                        next meeting
+                                        1 min ago
                                     </small>
                                 </p>
                             </a>
@@ -120,8 +123,6 @@ $num_requests = $user_obj->GetFriendRequest();
                                class="dropdown-item text-center text-primary
                                       notify-item notify-all">
                                 View all messages
-
-                                <i class="fi-arrow-right"></i>
                             </a>
                         </div>
                         <!-- End messages item -->
@@ -130,153 +131,176 @@ $num_requests = $user_obj->GetFriendRequest();
                 </li>
                 <!-- End messages -->
 
-<!-- Start notifications -->
-<li class="dropdown notification-list">
-<a class="nav-link dropdown-toggle"
-data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<i class="ti-bell noti-icon"></i>
-<span class="badge badge-danger rounded-circle
-noti-icon-badge">
-9
-</span>
-</a>
+                <!-- Start notifications -->
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" role="button"
+                       id="notification_dropdown" href="javascript:void(0);"
+                       aria-haspopup="false" aria-expanded="false"
+                       onclick="getDropdownData(
+                           '<?php echo strip_tags($userLoggedIn); ?>', 
+                           'notification')">
 
-<!-- Start notifications dropdown-->
-<div class="dropdown-menu dropdown-menu-right dropdown-lg">
-<div class="dropdown-item noti-title">
-<h5 class="m-0">
-Notification
-</h5>
-</div>
+                        <i class="ti-bell noti-icon"></i>
 
-<!-- Notification dropdown item-->
-<div class="slimscroll noti-scroll">
+                        <?php
 
-<!-- item-->
-<a href="javascript:void(0);"
-class="dropdown-item notify-item active">
-<div class="notify-icon">
-<img src="../../view/images/users/user-1.jpg"
-class="img-fluid rounded-circle"
-alt="Notification Icon" />
-</div>
+                        if (
+                            $num_notifs > 0
+                        ) {
+                            echo "
+                                <span class='badge badge-danger rounded-circle
+                                             noti-icon-badge'
+                                      id='unread_notification'>"
+                                      
+                                    . $num_notifs . 
+                                "</span>
+                            ";
+                        }
 
-<p class="notify-details">
-Cristina Pride
-</p>
+                        ?>
+                    </a>
 
-<p class="text-muted mb-0 user-msg">
-<small>
-Hi, How are you? What about our next meeting
-</small>
-</p>
-</a>
+                    <!-- Start notifications dropdown-->
+                    <div class="dropdown-menu dropdown-menu-right 
+                                dropdown-lg">
+                        <div class="dropdown-item noti-title">
+                            <h5 class="m-0">
+                                Notification
+                            </h5>
+                        </div>
 
-<!-- item-->
-<a href="javascript:void(0);"
-class="dropdown-item notify-item">
-<div class="notify-icon bg-primary">
-<i class="mdi mdi-comment-account-outline"></i>
-</div>
-<p class="notify-details">
-Caleb Flakelar commented on Admin
-<small class="text-muted">
-1 min ago
-</small>
-</p>
-</a>
+                        <!-- Notification dropdown item-->
+                        <div class="slimscroll noti-scroll">
 
-<!-- item-->
-<a href="javascript:void(0);"
-class="dropdown-item notify-item">
-<div class="notify-icon">
-<img src="../../view/images/users/user-4.jpg"
-class="img-fluid rounded-circle"
-alt="" />
-</div>
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item active">
 
-<p class="notify-details">
-Karen Robinson
-</p>
+                               <div class="notify-icon">
+                                    <img src="../../view/images/users/default.jpg"
+                                         class="img-fluid rounded-circle"
+                                         alt="Notification Icon" />
+                                </div>
 
-<p class="text-muted mb-0 user-msg">
-<small>
-Wow ! this admin looks good and awesome design
-</small>
-</p>
-</a>
+                                <p class="notify-details">
+                                    Cristina Pride
 
-<!-- View all notification btn -->
-<a href="javascript:void(0);"
-class="dropdown-item text-center text-primary
-notify-item notify-all">
-View all notifications
-<i class="fi-arrow-right"></i>
-</a>
-</div>
-<!-- End notifications dropdown -->
-</li>
-<!-- End notifications -->
+                                    <small class="text-muted">
+                                        <i>
+                                            commented on Admin
+                                        </i>
+                                    </small>
+                                </p>
 
-<li class="dropdown notification-list">
-<a href="javascript:void(0);"
-class="nav-link right-bar-toggle">
-<i class="ti-user noti-icon"></i>
-<span class="badge badge-danger rounded-circle
-noti-icon-badge">
-9
-</span>
-</a>
-</li>
+                                <p class="text-muted mb-0 user-msg">
+                                    <small>
+                                        1 min ago
+                                    </small>
+                                </p>
+                            </a>
 
-<!-- Start user -->
-<li class="dropdown notification-list">
-<a class="nav-link dropdown-toggle nav-user mr-0"
-data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<img src="<?php echo strip_tags($user['profile_pic']); ?>"
-class="rounded-circle"
-alt="user-image" />
+                            <!-- View all notification btn -->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item text-center text-primary
+                                      notify-item notify-all">
+                                View all notifications
+                            </a>
+                        </div>
+                        <!-- End notifications item -->
+                    </div>
+                    <!-- End notifications dropdown -->
+                </li>
+                <!-- End notifications -->
 
-<span class="pro-user-name ml-1">
+                <li class="dropdown notification-list">
+                    <a href="requests.php"
+                       class="nav-link right-bar-toggle">
 
-<?php
-echo strip_tags($user['first_name']);
-?>
+                        <i class="ti-user noti-icon"></i>
 
-<i class="ti-angle-down"
-style="font-size: 0.8695vh;"></i>
-</span>
-</a>
+                        <?php
 
-<!-- Start user dropdown -->
-<div class="dropdown-menu dropdown-menu-right profile-dropdown">
-<a href="./logout.php"
-class="dropdown-item notify-item">
-<i class="ti-power-off"></i>
-<span>Logout</span>
-</a>
-</div>
-<!-- End user dropdown -->
-</li>
-<!-- End user -->
-</ul>
+                        if (
+                            $num_requests > 0
+                        ) {
+                            echo "
+                                <span class='badge badge-danger rounded-circle
+                                             noti-icon-badge'
+                                      id='unread_request'>"
+                                    . $num_requests . 
+                                "</span>
+                            ";
+                        }
 
-<!-- LOGO -->
-<div class="logo-box">
-<a href="index.php"
-class="logo text-center">
-<span class="logo-lg">
-<span class="logo-lg-text-dark">
-My Social Network
-</span>
-</span>
-</a>
-</div>
-</div>
-<!-- end container-fluid-->
-</div>
-<!-- end Topbar -->
+                        ?>
+
+                    </a>
+                </li>
+
+                <!-- Start user -->
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle nav-user mr-0"
+                       data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+
+                        <img src="
+                                <?php 
+                                    echo strip_tags($user['profile_pic']);
+                                ?>"
+                             class="rounded-circle"
+                             alt="user-image" />
+
+                        <span class="pro-user-name ml-1">
+                            <?php
+                                echo strip_tags($user['first_name']);
+                            ?>
+
+                            <i class="ti-angle-down ml-1"
+                               style="font-size: 0.8695vh;"></i>
+                        </span>
+                    </a>
+
+                    <!-- Start user dropdown -->
+                    <div class="dropdown-menu dropdown-menu-right 
+                                profile-dropdown">
+                        <a href="./settings.php"
+                           class="dropdown-item notify-item">
+
+                            <i class="ti-settings"></i>
+                            <span>
+                                Settings
+                            </span>
+                        </a>
+                        <a href="./logout.php"
+                           class="dropdown-item notify-item">
+
+                            <i class="ti-power-off"></i>
+                            <span>
+                                Logout
+                            </span>
+                        </a>
+                    </div>
+                    <!-- End user dropdown -->
+                </li>
+                <!-- End user -->
+            </ul>
+
+            <!-- LOGO -->
+            <div class="logo-box">
+                <a href="index.php"
+                   class="logo text-center">
+
+                   <span class="logo-lg">
+                        <span class="logo-lg-text-dark">
+                            My Social Network
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!-- end container-fluid-->
+    </div>
+    <!-- end Topbar -->
 </header>
 <!-- End Navigation Bar-->
