@@ -134,7 +134,7 @@ class User
     }
 
     // ----------------------------------------------------------- GetFullName
-    public function getFullName()
+    public function GetFullName()
     {
 
         $username = $this->user['username'];
