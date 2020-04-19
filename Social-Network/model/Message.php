@@ -297,8 +297,8 @@ class Message
             $message  = $row['message'];
 
             // Style of the bubbles in the messages sent / received
-            $fromBubble = "<div class='bubble' id='green'>"
-            $toBubble   = "<div class='bubble' id='primary'>"
+            $fromBubble = "<div class='bubble' id='green'>";
+            $toBubble   = "<div class='bubble' id='primary'>";
 
             $divTop = ($userTo == $userLoggedIn) ? $toBubble : $fromBubble;
             $str    = $str . $divTop . $message . "</div>";
