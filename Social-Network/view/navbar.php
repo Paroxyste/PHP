@@ -89,11 +89,12 @@ $num_requests = $user_obj->GetFriendRequest();
                             </h5>
                         </div>
 
-                        <div class="dropdown_data_window"></div>
+                        <div class='slimscroll noti-scroll'>
+                            <div class="dropdown_data_window"></div>
 
-                        <input type="hidden" value="" 
-                               id="dropdown_data_type" />
-
+                            <input type="hidden" value="" 
+                                   id="dropdown_data_type" />
+                        </div>
                     </div>
                     <!-- End messages dropdown -->
                 </li>
@@ -137,12 +138,13 @@ $num_requests = $user_obj->GetFriendRequest();
                                 Notification
                             </h5>
                         </div>
+                        
+                        <div class='slimscroll noti-scroll'>
+                            <div class="dropdown_data_window"></div>
 
-                        <div class="dropdown_data_window"></div>
-
-                        <input type="hidden" value="" 
-                               id="dropdown_data_type" />
-
+                            <input type="hidden" value="" 
+                                   id="dropdown_data_type" />
+                        </div>
                     </div>
                     <!-- End notifications dropdown -->
                 </li>
