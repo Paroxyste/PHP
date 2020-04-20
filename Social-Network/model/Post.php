@@ -87,9 +87,14 @@ class Post
                     $userLoggedIn == $postedBy
                 ) {
                     $deleteBtn = "
-                        <button class='btn btn-danger'
-                                id='post". strip_tags($id) ."'>
-                            <i class='fas fa-trash'></i>
+                        <button id='post". strip_tags($id) ."'
+                                class='btn btn-sm btn-link text-danger 
+                                       btn-del'
+                                type='button' data-toggle='modal'
+                                data-target='.deletePostModal' >
+
+                            <i class='ti-trash mr-1'></i>
+                            Delete
                         </button>
                     ";
                 } else {
@@ -140,7 +145,7 @@ class Post
                 $getCommentsNum = $getComments->num_rows;
 
                 // Include Timeframe
-                include('../../controller/handlers/timeframe.php');
+                include('./controller/handlers/timeframe.php');
 
                 if (
                     $imagePath != ''
@@ -157,92 +162,66 @@ class Post
 
                 // Style of a post by opening it through notifications
                 $str .= "
-                    <div class='card-body border-0'>
-                        <div class='p-3'>
-                            <div class='row align-items-center'>
-                                <div class='col-lg-2 mr-1'>
-                                    <img class='img-fluid rounded-circle
-                                                shadow-lg'
-                                         src='". strip_tags($profilePic) ."' />
-                                </div>
+                    <div class='border border-light p-2 mb-3'>
+                        <div class='media'>
+                            <img src='". strip_tags($profilePic) ."'
+                                 class='mr-2 avatar-sm rounded-circle'
+                                 alt='Generic placeholder image' />
 
-                                <div class='col-lg-9'>
-                                    <h3 class='heading mb-0'>
-                                        <a href='".strip_tags($postedBy) ."'
-                                           style='outline: none;'>"
-                                            . strip_tags($firstName) .
-                                            ' ' . strip_tags($lastName) .
-                                        "</a>" . strip_tags($postedTo) ."
-                                    </h3>
+                            <div class='media-body'>
+                                <h5 class='m-0'>
+                                    <a href='". strip_tags($postedBy) ."'>"
+                                        . strip_tags($firstName) .
+                                        ' ' . strip_tags($lastName) .
+                                    "</a>
+                                </h5>
 
-                                    <p class='mb-0 mt-3'>
-                                        $postBody
-                                    </p>
-
-                                    $imageDiv
-
-                                </div>
+                                <p class='text-muted'>
+                                    <small>"
+                                        . strip_tags($timeMsg) .
+                                    "</small>
+                                </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div class='card-footer bg-secondary border-0'>
-                        <div class='row'>
-                            <div class='col-lg-6 text-left'>
-                                <button class='btn btn-primary btn-icon ml-1'
-                                        disabled>
+                        <p>
+                            $postBody
+                        </p>
 
-                                    <span class='btn-inner--icon'>
-                                        <i class='fas fa-calendar-day'
-                                           style='font-size: 20px;'></i>
-                                    </span>
+                        $imageDiv
 
-                                    <span class='btn-inner--text'>"
-                                        . strip_tags($TimeMsg) .
-                                    "</span>
-                                </button>
+                        <div id='like' class='mb-2'>
+                            <button onClick='javascript:toggle"
+                                        . strip_tags($id) . "()'
+                                    class='btn btn-sm btn-link text-muted 
+                                           btn-reply mr-1'>
 
-                                $deleteBtn
+                                <i class='ti-share-alt mr-1'></i>
+                                Reply ($getCommentsNum)
+                            </button>
 
-                                <br />
-                            </div>
+                            <iframe class='mt-2'
+                                    src='like.php?post_id="
+                                        . strip_tags($id) ."'>
+                            </iframe>
 
-                            <div class='col-lg-5 text-right mr--4'>
-                                <button onClick='javascript:toggle"
-                                                 . strip_tags($id) . "()'
-                                        class='btn btn-outline-info btn-icon'>
+                            $deleteBtn
 
-                                    <span class='btn-inner--icon'>
-                                        <i class='fas fa-comments'
-                                           style='font-size: 18px;'></i>
-                                    </span>
+                        </div>
 
-                                    <span class='btn-inner--text'>"
-                                        . $getCommentsNum .
-                                    "</span>
-                                </button>
-                            </div>
+                        <div id='toggleComment". strip_tags($id) ."'
+                             style='display:none;'>
 
- 
-                            <iframe style='width: 84px;
-                                           height: 43px;
-                                           margin-left: 10px;'
-                                    src='like.php?post_id=".strip_tags($id)."'>
+                            <iframe src='comments.php?post_id="
+                                        . strip_tags($id) ."'
+                                    id='comment_iframe'
+                                    frameborder='0'
+                                    style='width: 100%;'>
                             </iframe>
                         </div>
                     </div>
-
-                    <div id='toggleComment". strip_tags($id) ."'>
-
-                        <iframe src='comment_frame.php?post_id="
-                                    .strip_tags($id)."'
-                                id='comment_iframe'>
-                        </iframe>
-
-                    </div>
                 ";
-
-        ?>
+            ?>
 
         <script>
         (function($, window, document) {
@@ -281,35 +260,19 @@ class Post
             } else {
                 // Style of post opening errors by notifications
                 echo "
-                    <div class='tab-content mt-4 mb--2'>
-                        <div id='alerts-disimissible-component'
-                             class='fade show active'>
+                    <div class='text-center mt-2'>
+                        <img src='./view/images/errors/404-2.png' 
+                             alt='error 404' />
 
-                            <div class='alert alert-danger fade show'
-                                 style='font-size: 16px;'>
+                        <h3 class='mt-3 mb-2'>
+                            You cannot see this post because you are 
+                            not friend with this user.
+                        </h3>
 
-                                <span class='alert-inner--icon'>
-                                    <i class='fas fa-exclamation-triangle
-                                              mr-2'></i>
-                                </span>
-
-                                <span class='alert-inner--text'>
-                                    <strong>
-                                        Oops ! An error has occurred.
-                                    </strong>
-
-                                    <br />
-
-                                    You cannot see this post because you
-                                    are not friend with this user.
-
-                                    <a href='index.php' class='btn-link'
-                                       style='color: white; outline: none;'>
-                                       Click here to go back.
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
+                        <a href='". $userLoggedIn ."' 
+                           class='btn btn-success waves-effect waves-light mt-3 mb-2'>
+                            Back to my profile
+                        </a>
                     </div>
                 ";
 
@@ -318,35 +281,19 @@ class Post
             }
         } else {
             echo "
-                <div class='tab-content mt-4 mb--2'>
-                    <div id='alerts-disimissible-component'
-                         class='fade show active'>
+                <div class='text-center mt-2'>
+                    <img src='./view/images/errors/404-1.png' 
+                         alt='error 404' />
 
-                        <div class='alert alert-danger fade show'
-                             style='font-size: 16px;'>
+                    <h3 class='mt-0 mb-2'>
+                        No Post found ! If you clicked a link, it
+                        may be broken.
+                    </h3>
 
-                            <span class='alert-inner--icon'>
-                                <i class='fas fa-exclamation-triangle
-                                          mr-2'></i>
-                            </span>
-
-                            <span class='alert-inner--text'>
-                                <strong>
-                                    Oops ! An error has occurred.
-                                </strong>
-
-                                <br />
-
-                                No Post found ! If you clicked a link, it
-                                may be broken.
-
-                                <a href='index.php' class='btn-link'
-                                         style='color: white; outline: none;'>
-                                    Click here to go back.
-                                </a>
-                            </span>
-                        </div>
-                    </div>
+                    <a href='". $userLoggedIn ."' 
+                       class='btn btn-success waves-effect waves-light mt-3 mb-2'>
+                        Back to my profile
+                    </a>
                 </div>
             ";
 
