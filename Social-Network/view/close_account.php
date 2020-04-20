@@ -15,14 +15,7 @@ require('./controller/form_handlers/close_account_handler.php');
 
         <?php
 
-        if (
-            $userLoggedIn = $_SESSION['username']
-        ) {
-            require('./view/dashboard/user_details_upl.php');
-            require('./view/dashboard/message_box.php');
-        } else {
-            require('./view/dashboard/user_details.php');
-        }
+        require('./view/left-panel.php');
 
         ?>
 

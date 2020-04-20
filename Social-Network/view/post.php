@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require('./view/header.php');
 require('./view/navbar.php');
 require('./view/user_counter.php');
@@ -19,14 +21,7 @@ if (
 
         <?php
 
-        if (
-            $userLoggedIn = $_SESSION['username']
-        ) {
-            require('./view/dashboard/user_details_upl.php');
-            require('./view/dashboard/message_box.php');
-        } else {
-            require('./view/dashboard/user_details.php');
-        }
+        require('./view/left-panel.php');
 
         ?>
 
