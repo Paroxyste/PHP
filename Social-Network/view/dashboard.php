@@ -40,49 +40,11 @@ if (
         <div class="tab-content">
             <div class="card-box">
 
-            <?php
-
-            if (
-                $userLoggedIn != $username
-            ) {
-                echo "<div class='tab-content'>";
+                <?php
 
                 require('./view/dashboard/timeline.php');
-            } else {
-                echo "
-                    <ul class='nav nav-pills navtab-bg nav-justified'>
-                        <li class='nav-item'>
-                            <a href='#aboutme' data-toggle='tab'
-                               aria-expanded='false' class='nav-link'>
-                                About Me
-                            </a>
-                        </li>
 
-                        <li class='nav-item'>
-                            <a href='#timeline' data-toggle='tab'
-                               aria-expanded='true' class='nav-link active'>
-                                Timeline
-                            </a>
-                        </li>
-
-                        <li class='nav-item'>
-                            <a href='#settings' data-toggle='tab'
-                               aria-expanded='false' class='nav-link'>
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class='tab-content'>
-                ";
-
-                require('./view/dashboard/about_me.php');
-                require('./view/dashboard/timeline.php');
-                require('./view/dashboard/settings.php');
-
-            }
-
-            ?>
+                ?>
 
             </div>
         </div>
