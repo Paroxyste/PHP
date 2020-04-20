@@ -28,7 +28,7 @@ class Post
                               SET opened='yes'
                               WHERE (user_to='$userLoggedIn'
                               AND link
-                              LIKE '%=$post_id')";
+                              LIKE '%=$postId')";
 
         $updPostNotif = $this->con->query($updPostNotifQuery);
 
