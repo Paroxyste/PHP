@@ -19,24 +19,17 @@ if (
 ?>
 
 <div class="row">
-    <div class="col-lg-4 col-xl-4">
+    <div class="col-lg-3 col-xl-3">
 
         <?php
 
-        if (
-            $userLoggedIn != $username
-        ) {
-            require('./view/dashboard/user_details.php');
-        } else {
-            require('./view/dashboard/user_details.php');
-            require('./view/dashboard/message_box.php');
-        }
+        require('./view/dashboard/user_details.php');
 
         ?>
 
     </div>
 
-    <div class="col-lg-8 col-xl-8">
+    <div class="col-lg-6 col-xl-6">
         <div class="tab-content">
             <div class="card-box">
 
@@ -49,6 +42,22 @@ if (
             </div>
         </div>
     </div>
+
+    <div class="col-lg-3 col-xl-3">
+
+        <?php
+
+        if (
+            $userLoggedIn != $username
+        ) {
+            echo '</div>';
+        } else {
+            require('./view/dashboard/message_box.php');
+        }
+
+        ?>
+    </div>
+
 </div>
 </div>
 </div>
