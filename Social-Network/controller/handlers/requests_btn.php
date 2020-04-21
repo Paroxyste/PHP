@@ -1,10 +1,10 @@
 <?php
 
-$sendMsg = "<button type='button'
+$sendMsg = "<a href='messages.php?u=". strip_tags($username) ."'
                     class='btn btn-blue btn-xs mb-2
                            waves-effect waves-light'>
                 Send Message
-            </button>";
+            </a>";
 
 $userLoggedInObj = new User($con, $userLoggedIn);
 
