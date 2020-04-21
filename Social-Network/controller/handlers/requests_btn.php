@@ -1,7 +1,7 @@
 <?php
 
 $sendMsg = "<button type='button'
-                    class='btn btn-danger btn-xs mb-2
+                    class='btn btn-blue btn-xs mb-2
                            waves-effect waves-light'>
                 Send Message
             </button>";
