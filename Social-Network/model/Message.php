@@ -58,28 +58,28 @@ class Message
 
             // Style of the list of current conversations
             $str .= "
-                <a href='messages.php?u=$username' style='outline: none;'>
-                    <h3 class='heading'>
+                <div class='inbox-item'>
+                    <div class='inbox-item-img'>
                         <img src='" . $userFoundObj->GetProfilePic() . "'
-                             class='avatar' />
+                             class='rounded-circle'
+                             alt='' />
+                    </div>
 
-                        <span class='ml-3 text-primary'>"
-                            . $userFoundObj->GetFullName() .
-                        "</span>
+                    <p class='inbox-item-author'>"
+                        . $userFoundObj->GetFullName() .
+                    "</p>
 
-                        <small class='text-muted'> - "
-                            . $latestMsgData[1] .
-                        "</small>
+                    <p class='inbox-item-text'>"
+                        . $latestMsgData[1] . "' '" . $split .
+                    "</p>
 
-                        <div class='text-left ml-2 mt-4'>
-                           <small>"
-                               . $split .
-                           "</small>
-                        </div>
-                    </h3>
-
-                    <hr class='my-4' />
-                </a>
+                    <p class='inbox-item-date'>
+                        <a href='messages.php?u='". strip_tags($username) ."'
+                           class='btn btn-sm btn-link text-info font-13'>
+                            Reply
+                        </a>
+                    </p>
+                </div>
             ";
         }
 
@@ -190,30 +190,32 @@ class Message
 
             // Style of notification of received messages
             $str .= "
-                <a href='messages.php?u=$username'
-                   class='dropdown-item notify-item'>
-                    <div class='notify-icon'>
-                        <img src='" . $userFoundObj->GetProfilePic() . "'
-                             class='img-fluid rounded-circle'
-                             alt='Messages Icon' />
-                    </div>
+                <div class='slimscroll noti-scroll'>
+                    <a href='messages.php?u=$username'
+                       class='dropdown-item notify-item'>
+                        <div class='notify-icon'>
+                            <img src='" . $userFoundObj->GetProfilePic() . "'
+                                class='img-fluid rounded-circle'
+                                alt='Messages Icon' />
+                        </div>
 
-                    <p class='notify-details'>"
-                        . $userFoundObj->GetFullName() .
+                        <p class='notify-details'>"
+                            . $userFoundObj->GetFullName() .
 
-                        "<small class='text-muted'>
-                            <i>"
-                                . $latestMsgData[1] .
-                            "</i>
-                        </small>
-                    </p>
+                            "<small class='text-muted'>
+                                <i>"
+                                    . $latestMsgData[1] .
+                                "</i>
+                            </small>
+                        </p>
 
-                    <p class='text-muted mb-0 user-msg'>
-                        <small>"
-                            . $timeMsg .
-                        "</small>
-                    </p>
-                </a>
+                        <p class='text-muted mb-0 user-msg'>
+                            <small>"
+                                . $timeMsg .
+                            "</small>
+                        </p>
+                    </a>
+                </div>
             ";
         }
 
@@ -346,7 +348,7 @@ class Message
         $userTo   = $row['user_to'];
 
         if (
-            $user_to != $userLoggedIn
+            $userTo != $userLoggedIn
         ) {
             return $userTo;
         } else {
