@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require('./controller/form_handlers/settings_handler.php');
 
 $userDetailsQuery = "SELECT first_name, last_name, email, username 

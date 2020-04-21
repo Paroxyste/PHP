@@ -1,32 +1,11 @@
 <?php
 
-require('./view/header.php');
-require('./view/navbar.php');
-require('./view/user_counter.php');
-
 require('./controller/form_handlers/upload_handler.php');
 
 ?>
 
 <div class="row">
-    <div class="col-lg-4 col-xl-4">
-
-        <?php
-
-        if (
-            $userLoggedIn = $_SESSION['username']
-        ) {
-            require('./view/dashboard/user_details_upl.php');
-            require('./view/dashboard/message_box.php');
-        } else {
-            require('./view/dashboard/user_details.php');
-        }
-
-        ?>
-
-    </div>
-
-    <div class="col-lg-8 col-xl-8">
+    <div class="col-lg-12 col-xl-12">
         <div class="card-box card-details">
             <form action="upload.php" method="post" 
                   enctype="multipart/form-data">
@@ -55,10 +34,17 @@ require('./controller/form_handlers/upload_handler.php');
                                 </div>
 
                                 <div class="clearfix text-right">
-                                    <button class="btn btn-danger" type="submit"
+                                    <a class="btn btn-danger ml-1"
+                                       href="index.php">
+                                        Cancel
+                                    </a>
+
+                                    <button class="btn btn-success" type="submit"
                                             name="upl_submit">
                                         Submit
                                     </button>
+
+
                                 </div>
                             </div>
                         </div>
