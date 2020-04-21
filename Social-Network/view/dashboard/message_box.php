@@ -1,171 +1,57 @@
-            <!-- Start conversations card -->
-            <div class="card-box">
+<?php
+
+declare(strict_types=1);
+
+$msgObj = new Message($con, $userLoggedIn);
+
+?>
+
+<!-- Start conversations card -->
+            <div class="card-box card-details">
               <h4 class="header-title mb-3">
-                Inbox
+                Messages
               </h4>
 
               <div class="inbox-widget slimscroll"
                    style="max-height: 310px;">
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-2.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
 
-                  <p class="inbox-item-author">
-                    Tomaslau
-                  </p>
+                  <?php
 
-                  <p class="inbox-item-text">
-                    I've finished it! See you so...
-                  </p>
+                  if (
+                      $msgObj->getConvers() == 0
+                  ) {
+                      echo "
+                          <div class='alert alert-warning alert-dismissible fade show' 
+                               role='alert'>
 
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
+                              <button type='button' 
+                                      class='close' 
+                                      data-dismiss='alert' 
+                                      aria-label='Close'>
 
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-3.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
+                                  <span aria-hidden='true'>
+                                      &times;
+                                  </span>
+                              </button>
 
-                  <p class="inbox-item-author">
-                    Stillnotdavid
-                  </p>
+                              Oh, you haven't struck up a conversation with your 
+                              friends yet.
+                          </div>
 
-                  <p class="inbox-item-text">
-                    This theme is awesome!
-                  </p>
+                          <div class='text-center'>
+                              <a class='btn btn-blue waves-effect waves-light 
+                                        text-white mt-2'
+                                  href='messages.php?u=new'>
+                                  Start a conversation
+                              </a>
+                          </div>
+                      ";
+                  } else {
+                    echo $msgObj->getConvers();
+                  }
 
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
+                  ?>
 
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-4.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
-
-                  <p class="inbox-item-author">
-                    Kurafire
-                  </p>
-
-                  <p class="inbox-item-text">
-                    Nice to meet you
-                  </p>
-
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
-
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-5.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
-
-                  <p class="inbox-item-author">
-                    Shahedk
-                  </p>
-
-                  <p class="inbox-item-text">
-                    Hey! there I'm available...
-                  </p>
-
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
-
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-6.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
-
-                  <p class="inbox-item-author">
-                    Adhamdannaway
-                  </p>
-
-                  <p class="inbox-item-text">
-                    This theme is awesome!
-                  </p>
-
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
-
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-3.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
-
-                  <p class="inbox-item-author">
-                    Stillnotdavid
-                  </p>
-
-                  <p class="inbox-item-text">
-                    This theme is awesome!
-                  </p>
-
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
-
-                <div class="inbox-item">
-                  <div class="inbox-item-img">
-                    <img src="../../view/images/users/user-4.jpg"
-                         class="rounded-circle"
-                         alt="" />
-                  </div>
-
-                  <p class="inbox-item-author">
-                    Kurafire
-                  </p>
-
-                  <p class="inbox-item-text">
-                    Nice to meet you
-                  </p>
-
-                  <p class="inbox-item-date">
-                    <a href="javascript:(0);"
-                       class="btn btn-sm btn-link text-info font-13">
-                      Reply
-                    </a>
-                  </p>
-                </div>
               </div>
               <!-- end inbox-widget -->
             </div>
