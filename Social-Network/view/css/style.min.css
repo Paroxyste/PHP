@@ -25,6 +25,14 @@ a:focus {
       margin-top: 2.1vh;
   }
 
+  .tchat-box {
+    margin-top: -0.1vh;
+  }
+
+  .tchat-time {
+    font-size: 11px;
+  }
+
   .file-btn, .post-btn {
       margin-top: 0.05vh;
   }
@@ -32,11 +40,6 @@ a:focus {
   .loader {
       width: 100px;
       height: 100px;
-  }
-
-  .img-thumbnail {
-      width: 160px !important;
-      height: 160px !important;
   }
 
   #like iframe {
