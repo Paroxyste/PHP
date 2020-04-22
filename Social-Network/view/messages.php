@@ -7,21 +7,9 @@ require('./controller/form_handlers/messages_handler.php');
 ?>
 
 <div class="row">
-    <div class="col-lg-3 col-xl-3">
-
-        <?php
-
-        require('./view/dashboard/user_details.php');
-
-        ?>
-
-    </div>
-</div>
-</div>
-
-    <div class='col-lg-6 col-xl-6'>
+    <div class='col-lg-9 col-xl-9'>
         <div class="tab-content">
-            <div class="card-box">
+            <div class="card-box tchat-box">
 
                 <?php
                 
@@ -78,9 +66,11 @@ require('./controller/form_handlers/messages_handler.php');
                                     "</a>
                                 </h4>
 
+                                <hr class='mb-4'/>
+
                                 <div class='chat-conversation'>
                                     <ul class='conversation-list slimscroll' 
-                                        style='max-height: 255px;'>
+                                        style='max-height: 38vh;'>
                                         <div class='loaded_messages' 
                                             id='scroll_messages'>"
                                         . $msgObj->GetMessages($userTo) . "
