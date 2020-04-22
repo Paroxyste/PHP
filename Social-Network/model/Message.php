@@ -49,7 +49,7 @@ class Message
         foreach ($convers as $username) {
             $userFoundObj = new User($this->con, $username);
 
-            $latestMsgData = $this->GetLatestMessage($userLoggedIn, $username);
+            $latestMsgData = $this->GetLatestMsg($userLoggedIn, $username);
 
             // Add ... if the message preview is too long
             $dots  = (strlen($latestMsgData[0]) >= 50) ? ' ...' : '';
@@ -70,11 +70,11 @@ class Message
                     "</p>
 
                     <p class='inbox-item-text'>"
-                        . $latestMsgData[1] . "' '" . $split .
+                        . $split .
                     "</p>
 
                     <p class='inbox-item-date'>
-                        <a href='messages.php?u='". strip_tags($username) ."'
+                        <a href='messages.php?u=". strip_tags($username) ."'
                            class='btn btn-sm btn-link text-info font-13'>
                             Reply
                         </a>
@@ -177,8 +177,8 @@ class Message
 
             $userFoundObj = new User($this->con, $username);
 
-            $latestMsgData = $this->GetLatestMessage($userLoggedIn, 
-                                                     $username);
+            $latestMsgData = $this->GetLatestMsg($userLoggedIn, 
+                                                 $username);
 
             // Add ... if the message preview is too long
             $dots  = (strlen($latestMsgData[0]) >= 29) ? ' ...' : '';
@@ -248,12 +248,12 @@ class Message
 
     // ----------------------------------------------------------- GetLatestMsg
 
-    public function getLatestMessage($userLoggedIn, $user2)
+    public function GetLatestMsg($userLoggedIn, $user2)
     {
 
         $detailsArray = array();
 
-        $getLatestMsgQuery = "SELECT user_to, massage, datetime 
+        $getLatestMsgQuery = "SELECT user_to, message, datetime 
                               FROM messages 
                               WHERE (user_from='$user2' 
                               AND user_to='$userLoggedIn') 
@@ -268,7 +268,7 @@ class Message
         $row = $getLatestMsg->fetch_assoc();
 
         // Include Timeframe
-        include('../../controller/handlers/timeframe.php');
+        include('./controller/handlers/timeframe_notifs.php');
 
         array_push($detailsArray, $row['message']);
         array_push($detailsArray, $timeMsg);
@@ -381,7 +381,7 @@ class Message
     {
 
         if (
-            $message != ''
+            $message != NULL
         ) {
             $userLoggedIn = $this->userObj->GetUsername();
 
