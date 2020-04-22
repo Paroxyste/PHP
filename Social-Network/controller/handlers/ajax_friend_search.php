@@ -5,9 +5,34 @@ declare(strict_types=1);
 include('../../config/config.php');
 include('../../model/User.php');
 
-$query        = $_POST['query'];
-$userLoggedIn = $_POST['userLoggedIn'];
+// Filter query
+$query = filter_data(
+    filter_var($_POST['query'], FILTER_SANITIZE_STRING)
+ );
 
+$query = upper_lower($query);
+
+if (
+!preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
+) {
+return;
+}
+
+function filter_data($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+
+return $data;
+}
+
+function upper_lower($data) {
+$data = ucfirst(strtolower($data));
+
+return $data;
+}
+
+$userLoggedIn = $_POST['userLoggedIn'];
 $names = explode(' ', $query);
 
 if (
@@ -69,30 +94,29 @@ if (
             && ($row['username'] != $userLoggedIn)
         ) {
             echo "
-                <a href='messages.php?u=" . $row['username'] . "'
-                   style='outline: none;'>
+                <div class='row align-items-center p-2 mb-2' 
+                     style='background-color: #f7f7f7;'>
+                    <a href='messages.php?u=".strip_tags($row['username'])."'>
+                        <div class='media'>
+                            <img src='". strip_tags($row['profile_pic']) ."'
+                                class='d-flex align-self-center mr-3 
+                                        rounded-circle'
+                                alt='User Pics'
+                                height='64' />
 
-                    <h3 class='heading'>
-                        <img src='" . $row['profile_pic'] . "'
-                             class='avatar' />
+                            <div class='media-body'>
+                                <h4 class='mt-2 mb-2 font-16'>"
+                                    . strip_tags($row['first_name']) .
+                                    " " . strip_tags($row['last_name']) .
+                                "</h4>
 
-                        <span style='position: relative; top: -1.5vh'
-                              class='text-primary ml-2'>"
-                            . $row['first_name'] . " " . $row['last_name'] .
-
-                            "<small class='text-muted'>
-                                 - ". $row['username'] .
-                            "</small>
-                        </span>
-
-                        <div class='text-left mt--3'
-                             style='margin-left:3.9vw;'>
-                            <small>" . $mutualFriends . "</small>
+                                <p class='mb-1'>"
+                                    . strip_tags($row['username']) .
+                                "</p>
+                            </div>
                         </div>
-                    </h3>
-
-                    <hr class='my-4' />
-                </a>
+                    </a>
+                </div>
             ";
         }
     }
