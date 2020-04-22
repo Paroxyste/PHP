@@ -52,8 +52,8 @@ class Message
             $latestMsgData = $this->GetLatestMsg($userLoggedIn, $username);
 
             // Add ... if the message preview is too long
-            $dots  = (strlen($latestMsgData[0]) >= 50) ? ' ...' : '';
-            $split = str_split($latestMsgData[0], 50);
+            $dots  = (strlen($latestMsgData[0]) >= 35) ? ' ...' : '';
+            $split = str_split($latestMsgData[0], 35);
             $split = $split[0] . $dots;
 
             // Style of the list of current conversations
@@ -80,6 +80,8 @@ class Message
                         </a>
                     </p>
                 </div>
+
+                <hr />
             ";
         }
 
@@ -267,8 +269,10 @@ class Message
 
         $row = $getLatestMsg->fetch_assoc();
 
+        $dateTime = $row['datetime'];
+
         // Include Timeframe
-        include('./controller/handlers/timeframe_notifs.php');
+        include('./controller/handlers/timeframe.php');
 
         array_push($detailsArray, $row['message']);
         array_push($detailsArray, $timeMsg);
@@ -283,6 +287,7 @@ class Message
     {
 
         $userLoggedIn = $this->userObj->GetUsername();
+        $profilePic   = $this->userObj->GetProfilePic();
 
         $str = '';
 
@@ -306,13 +311,54 @@ class Message
             $userFrom = $row['user_from'];
             $userTo   = $row['user_to'];
             $message  = $row['message'];
+            $dateTime = $row['datetime'];
+
+            // Include Timeframe
+            include('./controller/handlers/timeframe.php');
 
             // Style of the bubbles in the messages sent / received
-            $fromBubble = "<div class='bubble' id='green'>";
-            $toBubble   = "<div class='bubble' id='primary'>";
+            $fromBubble = "
+                <li class='clearfix'>
+                    <div class='chat-avatar'>
+                        <img src='". $profilePic . "' alt='Pic'>
+                        <i style='font-size: 9px;'>"
+                            . $timeMsg .
+                        "</i>
+                    </div>
+
+                    <div class='conversation-text'>
+                        <div class='ctext-wrap'>
+                            <i>". $userFrom ."</i>
+                            <p style='font-size: 13px;'>"
+                                . $message .
+                            "</p>
+                        </div>
+                    </div>
+                </li>
+            ";
+
+            $toBubble   = "
+                <li class='clearfix odd'>
+                    <div class='chat-avatar'>
+                        <img src='". $profilePic . "' alt='Pic'>
+                        <i style='font-size: 9px;'>"
+                            . $timeMsg .
+                        "</i>
+                    </div>
+
+                    <div class='conversation-text'>
+                        <div class='ctext-wrap'>
+                            <i>". $userFrom ."</i>
+                            <p style='font-size: 13px;'>"
+                                . $message .
+                            "</p>
+                        </div>
+                    </div>
+                </li>
+            ";
 
             $divTop = ($userTo == $userLoggedIn) ? $toBubble : $fromBubble;
-            $str    = $str . $divTop . $message . "</div>";
+            $str    = $str . $divTop;
         }
 
         return $str;
