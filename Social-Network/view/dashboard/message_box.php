@@ -12,8 +12,10 @@ $msgObj = new Message($con, $userLoggedIn);
         Messages
     </h4>
 
+    <hr />
+
     <div class="inbox-widget slimscroll"
-         style="max-height: 310px;">
+         style="max-height: auto;">
 
         <?php
             if (
