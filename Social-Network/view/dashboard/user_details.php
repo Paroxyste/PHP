@@ -9,7 +9,7 @@ include('./controller/handlers/friends_requests.php');
     <a href="upload.php">
         <img src="<?php echo strip_tags($user['profile_pic']); ?>"
              class="rounded-circle img-thumbnail mb-2"
-             alt="profile-image" />
+             alt="profile-image" height="100px" width="100px"/>
     </a>
 
     <h4 class="mb-0">
@@ -92,11 +92,12 @@ include('./controller/handlers/friends_requests.php');
                         FRANCE - FR
                     </span>
                 </p>
-            ";
-        } else {
-            echo '';
-        }
+            </div>
+        ";
+    } else {
+        echo "</div>";
+    }
 
-        ?>
-    </div>
+    ?>
+
 </div>
