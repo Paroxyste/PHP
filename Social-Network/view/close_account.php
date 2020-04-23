@@ -11,17 +11,9 @@ require('./controller/form_handlers/close_account_handler.php');
 ?>
 
 <div class="row">
-    <div class="col-lg-4 col-xl-4">
 
-        <?php
 
-        require('./view/left-panel.php');
-
-        ?>
-
-    </div>
-
-    <div class="col-lg-8 col-xl-8">
+    <div class="col-lg-12 col-xl-12">
         <div class="card-box card-details">
 
             <h5 class="mb-3 text-uppercase bg-light p-2">
@@ -67,10 +59,9 @@ require('./controller/form_handlers/close_account_handler.php');
             </div>
         </div>
     </div>
-</div>
 
-<?php
+    <?php
 
-require('./view/footer.php');
+    require('./view/footer.php');
 
-?>
+    ?>
