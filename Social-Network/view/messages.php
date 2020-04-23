@@ -23,9 +23,7 @@ require('./controller/form_handlers/messages_handler.php');
                         </h4>
 
                         <div class='message_post'>
-                            <div class='input-group m-t-10'>
-
-                            ";
+                            <div class='input-group m-t-10'>";
 
                             ?>
 
@@ -91,8 +89,7 @@ require('./controller/form_handlers/messages_handler.php');
                                             <button type='submit' 
                                                     name='post_msg'
                                                     class='btn btn-blue 
-                                                           chat-send 
-                                                           btn-block 
+                                                           chat-send btn-block 
                                                            waves-effect 
                                                            waves-light'>
                                                 Send
@@ -118,7 +115,6 @@ require('./controller/form_handlers/messages_handler.php');
 
                 ?>
 
-
             </div>
         </div>
     </div>
@@ -136,6 +132,6 @@ require('./controller/form_handlers/messages_handler.php');
 </div>
 
 <script>
-    let div = document.getElementById("scroll_messages");
+    let div = document.getElementById('scroll_messages');
     div.scrollTop = div.scrollHeight;
 </script>
