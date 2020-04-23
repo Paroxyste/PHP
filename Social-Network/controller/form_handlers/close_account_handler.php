@@ -5,7 +5,11 @@ declare(strict_types=1);
 if (
     isset($_POST['cancel'])
 ) {
-    header('Location: index.php');
+    echo "
+        <script>
+            location.href='settings.php';
+        </script>
+    ";
 }
 
 if (
