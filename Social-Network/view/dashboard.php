@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (
     isset($_GET['profile_username'])
 ) {
@@ -29,7 +31,17 @@ if (
 
     </div>
 
-    <div class="col-lg-6 col-xl-6">
+    <?php
+
+    if (
+        $userLoggedIn != $username
+    ) {
+        echo "<div class='col-lg-9 col-xl-9'>";
+    } else {
+        echo "<div class='col-lg-6 col-xl-6'>";
+    }
+    
+    ?>
         <div class="tab-content">
             <div class="card-box">
 
