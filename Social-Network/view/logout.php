@@ -18,7 +18,7 @@ require('./controller/form_handlers/logout_handler.php');
             content="IE=edge" />
 
         <!-- Favicon -->
-        <link href="./images/favicon.ico"
+        <link href="./view/images/favicon.ico"
             rel="shortcut icon" />
 
         <!-- CSS Link -->
