@@ -179,20 +179,40 @@ if (
 (function($, window, document) {
 
     $(function() {
+
         let userLoggedIn    = '<?php echo strip_tags($userLoggedIn); ?>';
         let profileUsername = '<?php echo strip_tags($username); ?>';
         let inProgress      = false;
 
         loadPosts();
 
-        $(window).scroll(function() {
-            let bottomElement = $('.status_post').last();
-            let noMorePosts   = $('.posts_area').find('.noMorePosts').val();
-
-            if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
-                loadPosts();
+        function loadPosts() {
+            if (inProgress) {
+                return;
             };
-        });
+
+            inProgress = true;
+            $('#loading').show();
+
+            let page = $('.posts_area').find('.nextPage').val() || 1;
+
+            $.ajax({
+                url:  'controller/handlers/ajax_load_posts.php',
+                type: 'POST',
+                data: 'page=' + page + '&userLoggedIn=' + userLoggedIn +
+                      '&profileUsername=' + profileUsername,
+                cache: false,
+
+                success: function(response) {
+                    $('.posts_area').find('.nextPage').remove();
+                    $('.posts_area').find('.noMorePosts').remove();
+                    $('#loading').hide();
+                    $('.posts_area').append(response);
+
+                    inProgress = false;
+                }
+            });
+        };
     });
 
 }(window.jQuery, window, document));
