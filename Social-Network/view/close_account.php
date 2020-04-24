@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 require('./controller/form_handlers/close_account_handler.php');
 
 ?>

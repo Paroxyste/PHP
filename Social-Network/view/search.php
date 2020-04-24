@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 include('./controller/form_handlers/search_handler.php');
 
 ?>
@@ -93,7 +91,7 @@ include('./controller/form_handlers/search_handler.php');
 
 // Check if query is empty
 if (
-    strip_tags($query) == ''
+    strip_tags($query) == NULL
 ) {
     echo "
         <div class='row'>
@@ -138,7 +136,7 @@ elseif (
             $numFriends = substr_count($user['friend_array'], ',') - 1;
 
             echo"
-                <div class='col-lg-4'>
+                <div class='col-lg-3'>
                     <div class='text-center card-box'>
                         <div class='pt-2 pb-2'>
                             <img class='rounded-circle img-thumbnail avatar-xl'

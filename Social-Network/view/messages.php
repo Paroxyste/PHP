@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 require('./controller/form_handlers/messages_handler.php');
 
 ?>
