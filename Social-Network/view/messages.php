@@ -122,7 +122,7 @@ require('./controller/form_handlers/messages_handler.php');
 
         <?php
 
-        require('./view/dashboard/message_box.php');
+        include('./view/dashboard/message_box.php');
 
         ?>
 

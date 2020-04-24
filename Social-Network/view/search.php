@@ -1,6 +1,6 @@
 <?php
 
-include('./controller/form_handlers/search_handler.php');
+require('./controller/form_handlers/search_handler.php');
 
 ?>
 

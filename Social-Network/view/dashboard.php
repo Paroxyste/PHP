@@ -23,7 +23,7 @@ if (
 
         <?php
 
-        require('./view/dashboard/user_details.php');
+        include('./view/dashboard/user_details.php');
 
         ?>
 
@@ -45,7 +45,7 @@ if (
 
                 <?php
 
-                require('./view/dashboard/timeline.php');
+                include('./view/dashboard/timeline.php');
 
                 ?>
 
@@ -62,7 +62,7 @@ if (
         ) {
             echo '</div>';
         } else {
-            require('./view/dashboard/message_box.php');
+            include('./view/dashboard/message_box.php');
         }
 
         ?>

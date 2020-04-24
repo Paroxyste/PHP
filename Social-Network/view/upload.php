@@ -130,6 +130,6 @@ require('./controller/form_handlers/upload_handler.php');
 
 <?php
 
-require('./view/footer.php');
+include('./view/footer.php');
 
 ?>

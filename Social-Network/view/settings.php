@@ -22,7 +22,7 @@ $username  = $row['username'];
 
         <?php
 
-        require('./view/dashboard/user_details.php');
+        include('./view/dashboard/user_details.php');
 
         ?>
 
