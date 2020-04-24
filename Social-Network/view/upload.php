@@ -15,6 +15,7 @@ require('./controller/form_handlers/upload_handler.php');
                     Upload something
                 </h5>
 
+                <!-- Start step 1 : upload image -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -30,7 +31,8 @@ require('./controller/form_handlers/upload_handler.php');
                                     <input class="mt-3 mb-3" 
                                            type="file" 
                                            id="image"
-                                           name="image" />
+                                           name="image" 
+                                    />
                                 </div>
 
                                 <div class="clearfix text-right">
@@ -39,7 +41,8 @@ require('./controller/form_handlers/upload_handler.php');
                                         Cancel
                                     </a>
 
-                                    <button class="btn btn-success" type="submit"
+                                    <button class="btn btn-success" 
+                                            type="submit"
                                             name="upl_submit">
                                         Submit
                                     </button>
@@ -50,6 +53,7 @@ require('./controller/form_handlers/upload_handler.php');
                         </div>
                     </div>
                 </div>
+                <!-- End step 1 : upload image -->
 
                 <?php
 
@@ -67,12 +71,14 @@ require('./controller/form_handlers/upload_handler.php');
                     Crop your profile picture
                 </h5>
 
+                <!-- Start step 2 : crop files -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <img src="<?php echo strip_tags($imgSrc); ?>" 
-                                     id="jcrop_target" class="jcrop-img" />
+                                     id="jcrop_target" 
+                                     class="jcrop-img" />
                             </div>
                         </div>
 
@@ -81,13 +87,16 @@ require('./controller/form_handlers/upload_handler.php');
                                 <div class="btn-box">
 
                                     <form action="upload.php" method="POST">
-                                        <button type="submit" name="upl_cancel"
+                                        <button type="submit" 
+                                                name="upl_cancel"
                                                 class="btn btn-danger mr-2">
                                             Cancel
                                         </button>
                                     </form>
 
-                                    <form action="upload.php" method="post" 
+                                    <!-- Send image cropped value -->
+                                    <form action="upload.php" 
+                                          method="post" 
                                           onsubmit="return checkCoords();">
 
                                         <input type="hidden" id="x" name="x" />
@@ -110,10 +119,11 @@ require('./controller/form_handlers/upload_handler.php');
                         </div>
                     </div>
                 </div>
+                <!-- End step 2 : crop files -->
 
                 <?php } ?>
 
-            </div>
+            </form>
         </div>
     </div>
 </div>
