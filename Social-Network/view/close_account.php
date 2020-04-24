@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-require('./view/header.php');
-require('./view/navbar.php');
-require('./view/user_counter.php');
-
 require('./controller/form_handlers/close_account_handler.php');
 
 ?>
@@ -59,9 +55,3 @@ require('./controller/form_handlers/close_account_handler.php');
             </div>
         </div>
     </div>
-
-    <?php
-
-    require('./view/footer.php');
-
-    ?>
