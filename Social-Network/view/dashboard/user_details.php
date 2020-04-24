@@ -1,6 +1,6 @@
 <?php
 
-include('./controller/handlers/friends_requests.php');
+require('./controller/handlers/friends_requests.php');
 
 ?>
 
@@ -39,7 +39,7 @@ include('./controller/handlers/friends_requests.php');
 
         <?php
 
-        include('./controller/handlers/requests_btn.php');
+        require('./controller/handlers/requests_btn.php');
 
         ?>
 

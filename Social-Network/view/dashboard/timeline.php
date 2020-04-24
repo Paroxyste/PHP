@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-include('./controller/form_handlers/posts_handler.php');
+require('./controller/form_handlers/posts_handler.php');
 
 $loggedInUserObj = new User($con, $userLoggedIn);
 
