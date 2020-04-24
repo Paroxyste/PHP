@@ -42,7 +42,7 @@ require('./controller/form_handlers/logout_handler.php');
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card bg-pattern">
+                        <div class="card">
                             <div class="card-body p-4">
                                 <div class="text-center w-75 m-auto">
                                     <a href="index.php"
