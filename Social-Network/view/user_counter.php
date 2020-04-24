@@ -83,125 +83,139 @@ print($weather);
 */
 ?>
 
-    <div class="wrapper">
-      <div class="container-fluid">
+<div class="wrapper">
+    <div class="container-fluid">
         <div class="row">
 
-          <div class="col-md-6 col-xl-3">
-            <div class="widget-rounded-circle card-box">
-              <div class="row">
-                <div class="col-6">
-                  <div class="avatar-lg rounded-circle bg-soft-warning
-                              border-warning border">
-                    <i class="ti-user font-22 avatar-title
-                              text-warning"></i>
-                  </div>
-                </div>
+            <!-- Start number of friends counter -->
+            <div class="col-md-6 col-xl-3">
+                <div class="widget-rounded-circle card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle 
+                                        bg-soft-warning border-warning 
+                                        border">
+                                <i class="ti-user font-22 avatar-title
+                                          text-warning"></i>
+                            </div>
+                        </div>
 
-                <div class="col-6">
-                  <div class="text-right">
-                    <h3 class="text-dark mt-1">
-                      <span data-plugin="counterup">
-                        <?php
-                          echo strip_tags($numFriends);
-                        ?>
-                      </span>
-                    </h3>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="text-dark mt-1">
+                                    <span data-plugin="counterup">
+                                        <?php
+                                            echo strip_tags($numFriends);
+                                        ?>
+                                    </span>
+                                </h3>
 
-                    <p class="text-muted mb-1 text-truncate">
-                      Number of Friends
-                    </p>
-                  </div>
+                                <p class="text-muted mb-1 text-truncate">
+                                    Number of Friends
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+            <!-- End number of friends counter -->
 
-          <div class="col-md-6 col-xl-3">
-            <div class="widget-rounded-circle card-box">
-              <div class="row">
-                <div class="col-6">
-                  <div class="avatar-lg rounded-circle bg-soft-danger
-                              border-danger border">
-                    <i class="ti-heart font-22 avatar-title text-danger"></i>
-                  </div>
+            <!-- Start total likes counter -->
+            <div class="col-md-6 col-xl-3">
+                <div class="widget-rounded-circle card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle 
+                                        bg-soft-danger border-danger 
+                                        border">
+                                <i class="ti-heart font-22 avatar-title 
+                                          text-danger"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="text-dark mt-1">
+                                    <span data-plugin="counterup">
+                                        <?php
+                                            echo strip_tags($numLikes);
+                                        ?>
+                                    </span>
+                                </h3>
+
+                                <p class="text-muted mb-1 text-truncate">
+                                    Total Likes
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-6">
-                  <div class="text-right">
-                    <h3 class="text-dark mt-1">
-                      <span data-plugin="counterup">
-                        <?php
-                          echo strip_tags($numLikes);
-                        ?>
-                      </span>
-                    </h3>
-
-                    <p class="text-muted mb-1 text-truncate">
-                      Total Likes
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <!-- End total likes counter -->
 
-          <div class="col-md-6 col-xl-3">
-            <div class="widget-rounded-circle card-box">
-              <div class="row">
-                <div class="col-6">
-                  <div class="avatar-lg rounded-circle bg-soft-info
-                              border-info border">
-                    <i class="ti-comment-alt font-22 avatar-title
-                              text-info"></i>
-                  </div>
+            <!-- Start number of posts -->
+            <div class="col-md-6 col-xl-3">
+                <div class="widget-rounded-circle card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle 
+                                        bg-soft-info border-info 
+                                        border">
+                                <i class="ti-comment-alt font-22 
+                                          avatar-title text-info"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="text-dark mt-1">
+                                    <span data-plugin="counterup">
+                                        <?php
+                                            echo strip_tags($numPosts);
+                                        ?>
+                                    </span>
+                                </h3>
+
+                                <p class="text-muted mb-1 text-truncate">
+                                    Number of Posts
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-6">
-                  <div class="text-right">
-                    <h3 class="text-dark mt-1">
-                      <span data-plugin="counterup">
-                        <?php
-                          echo strip_tags($numPosts);
-                        ?>
-                      </span>
-                    </h3>
-
-                    <p class="text-muted mb-1 text-truncate">
-                      Number of Posts
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <!-- End number of posts -->
 
-          <div class="col-md-6 col-xl-3">
-            <div class="widget-rounded-circle card-box">
-              <div class="row">
-                <div class="col-6">
-                  <div class="avatar-lg rounded-circle bg-soft-light
-                              border-secondary border">
-                    <i class="ti-shine font-22 avatar-title text-secondary"></i>
-                  </div>
+            <!-- Start weather API -->
+            <div class="col-md-6 col-xl-3">
+                <div class="widget-rounded-circle card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle 
+                                        bg-soft-light border-secondary 
+                                        border">
+                                <i class="ti-shine font-22 avatar-title 
+                                          text-secondary"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="text-dark mt-1">
+                                    <span data-plugin="counterup">
+                                        18
+                                    </span>
+                                    &deg;C
+                                </h3>
+
+                                <p class="text-muted mb-1 text-truncate">
+                                    Temperature in City
+                                    <?php //strip_tags($city); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-6">
-                  <div class="text-right">
-                    <h3 class="text-dark mt-1">
-                      <span data-plugin="counterup">
-                        78
-                      </span>
-                      &deg;C
-                    </h3>
-
-                    <p class="text-muted mb-1 text-truncate">
-                      Temperature in <?php strip_tags($city); ?>
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <!-- End weather API -->
         </div>
-        <!-- end row-->
