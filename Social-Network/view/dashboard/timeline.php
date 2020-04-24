@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 include('./controller/form_handlers/posts_handler.php');
 
 $loggedInUserObj = new User($con, $userLoggedIn);
@@ -176,68 +178,22 @@ if (
 <script>
 (function($, window, document) {
 
-  $(function() {
+    $(function() {
+        let userLoggedIn    = '<?php echo strip_tags($userLoggedIn); ?>';
+        let profileUsername = '<?php echo strip_tags($username); ?>';
+        let inProgress      = false;
 
-    let userLoggedIn    = '<?php echo strip_tags($userLoggedIn); ?>';
-    let profileUsername = '<?php echo strip_tags($username); ?>';
-    let inProgress      = false;
+        loadPosts();
 
-    loadPosts();
+        $(window).scroll(function() {
+            let bottomElement = $('.status_post').last();
+            let noMorePosts   = $('.posts_area').find('.noMorePosts').val();
 
-    $(window).scroll(function() {
-      let bottomElement = $(".status_post").last();
-      let noMorePosts   = $('.posts_area').find('.noMorePosts').val();
-
-      if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
-          loadPosts();
-      };
+            if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
+                loadPosts();
+            };
+        });
     });
 
-    function loadPosts() {
-      if (inProgress) {
-          return;
-      };
-
-      inProgress = true;
-      $('#loading').show();
-
-      let page = $('.posts_area').find('.nextPage').val() || 1;
-
-      $.ajax({
-        url: "controller/handlers/ajax_load_posts.php",
-        type: "POST",
-        data: "page=" + page + "&userLoggedIn=" + userLoggedIn +
-              "&profileUsername=" + profileUsername,
-        cache: false,
-        success: function(response) {
-          $('.posts_area').find('.nextPage').remove();
-          $('.posts_area').find('.noMorePosts').remove();
-          $('.posts_area').find('.noMorePostsText').remove();
-          $('#loading').hide();
-          $(".posts_area").append(response);
-
-          inProgress = false;
-        }
-      });
-    };
-
-    // Check if the element is in view
-    function isElementInView(element) {
-      if (element == null) {
-          return;
-      };
-
-      let rect = element.getBoundingClientRect();
-
-      return (
-        rect.top >= 0
-        && rect.left >= 0
-        && rect.bottom <= (window.innerHeight
-        || document.documentElement.clientHeight)
-        && rect.right <= (window.innerWidth
-        || document.documentElement.clientWidth)
-      )
-    };
-  });
 }(window.jQuery, window, document));
 </script>
