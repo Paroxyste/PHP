@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require('./config/config.php');
 require('./model/Message.php');
 require('./model/Post.php');
