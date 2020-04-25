@@ -31,7 +31,7 @@ if (
     count($names) == 2
 ) {
     // Search by first name AND last name : John Doe
-    $usersReturnedQuery = "SELECT *
+    $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
                            AND last_name LIKE '%$names[1]'
@@ -41,7 +41,7 @@ if (
     $usersReturned = $con->query($usersReturnedQuery);
 } else {
     // Search by first name OR last name : John or Doe
-    $usersReturnedQuery = "SELECT *
+    $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
                            OR last_name LIKE '%$names[0]')

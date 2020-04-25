@@ -31,7 +31,7 @@ $fullName     = explode(' ', $query);
 if (
     strpos($query, '_') !== FALSE
 ) {
-    $usersReturnedQuery = "SELECT * 
+    $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic
                            FROM users 
                            WHERE (username LIKE '$query%' 
                            AND user_closed='$status')
@@ -45,7 +45,7 @@ if (
 elseif (
     count($fullName) == 2
 ) {
-    $usersReturnedQuery = "SELECT * 
+    $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic 
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
                            AND last_name LIKE '%$fullName[1]%' 
@@ -57,7 +57,7 @@ elseif (
 
 // Search by first name or last_name : John or Doe
 else {
-    $usersReturnedQuery = "SELECT * 
+    $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic 
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
                            OR last_name LIKE '%$fullName[0]%') 
