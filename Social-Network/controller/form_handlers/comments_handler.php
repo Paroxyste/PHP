@@ -8,7 +8,7 @@ if (
     $postId = $_GET['post_id'];
 }
 
-// -------------------------------------------------------------- Comments data 
+// ------------------------------------------------------------------ Post data
 
 $userQuery = "SELECT posted_by, posted_to
               FROM posts
@@ -50,20 +50,17 @@ if (
     if (
         empty($errPostBody)
     ) {
+        $dateTime = date('Y-m-d H:i:s');
 
-        $dateTimeNow = date('Y-m-d H:i:s');
-        $removed     = 'no';
-
-        $postBody    = $con->real_escape_string($postBody);
-        $postedBy    = $con->real_escape_string($postedBy);
-        $postedTo    = $con->real_escape_string($postedTo);
-        $dateTimeNow = $con->real_escape_string($dateTimeNow);
-        $removed     = $con->real_escape_string($removed);
-        $postId      = $con->real_escape_string($postId);
+        $postBody = $con->real_escape_string($postBody);
+        $postedBy = $con->real_escape_string($postedBy);
+        $postedTo = $con->real_escape_string($postedTo);
+        $dateTime = $con->real_escape_string($dateTime);
+        $postId   = $con->real_escape_string($postId);
 
         $insertPostQuery = "INSERT INTO comments
                             VALUES (0, '$postBody', '$postedBy', '$postedTo', 
-                                    '$dateTimeNow', '$removed', '$postId')";
+                                    '$dateTime', '$postId')";
 
         $insertPost = $con->query($insertPostQuery);
 
