@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 // Get ID of posts
 if (
     isset($_GET['post_id'])
@@ -9,6 +7,7 @@ if (
     $id = $_GET['post_id'];
 }
 
+// Get post liked + user who liked
 $getLikesQuery = "SELECT likes, posted_by
                   FROM posts
                   WHERE (id='$id')";
@@ -20,7 +19,8 @@ $row = $getLikes->fetch_assoc();
 $totalLikes = $row['likes'];
 $userLiked  = $row['posted_by'];
 
-$userDetailsQuery = "SELECT *
+// Get user data who liked
+$userDetailsQuery = "SELECT num_likes
                      FROM users
                      WHERE (username='$userLiked')";
 
@@ -38,6 +38,7 @@ if (
 
     $id = $con->real_escape_string($id);
 
+    // Update post likes counter
     $updLikesCounterQuery = "UPDATE posts
                              SET likes='$totalLikes'
                              WHERE (id='$id')";
@@ -48,6 +49,7 @@ if (
 
     $userLiked = $con->real_escape_string($userLiked);
 
+    // Update user likes counter
     $updUsersLikesCounterQuery = "UPDATE users
                                   SET num_likes='$totalUsersLikes'
                                   WHERE (username='$userLiked')";
@@ -57,18 +59,12 @@ if (
     $userLoggedIn = $con->real_escape_string($userLoggedIn);
     $id       = $con->real_escape_string($id);
 
+    // Add post liked
     $insertUserQuery = "INSERT INTO likes
                         VALUES(0, '$userLoggedIn', '$id')";
 
     $insertUser = $con->query($insertUserQuery);
 
-    // Create new notification
-    if (
-        $userLiked != $userLoggedIn
-    ) {
-        $notifs = new Notification($con, $userLoggedIn);
-        $notifs->InsNotifs($id, $userLiked, 'like');
-    }
 }
 
 // Unlike button
@@ -79,6 +75,7 @@ if (
 
     $id = $con->real_escape_string($id);
 
+    // Update post likes counter
     $updLikesCounterQuery = "UPDATE posts
                              SET likes='$totalLikes'
                              WHERE (id='$id')";
@@ -88,6 +85,7 @@ if (
 
     $userLiked = $con->real_escape_string($userLiked);
 
+    // Update user likes counter
     $updUsersLikesCounterQuery = "UPDATE users
                                   SET num_likes='$totalUsersLikes'
                                   WHERE (username='$userLiked')";
@@ -97,6 +95,7 @@ if (
     $userLoggedIn = $con->real_escape_string($userLoggedIn);
     $id           = $con->real_escape_string($id);
 
+    // Delete post liked
     $deleteUserQuery = "DELETE FROM likes
                         WHERE (user_from='$userLoggedIn'
                         AND post_id='$id')";
@@ -105,7 +104,7 @@ if (
 }
 
 // Check for previous like
-$checkIsLikedQuery = "SELECT *
+$checkIsLikedQuery = "SELECT user_from, post_id
                       FROM likes
                       WHERE (user_from='$userLoggedIn'
                       AND post_id='$id')";
@@ -128,7 +127,6 @@ if (
             </div>
         </form>
     ";
-
 } else {
     echo "
         <form action='like.php?post_id=" . strip_tags($id) . "'
