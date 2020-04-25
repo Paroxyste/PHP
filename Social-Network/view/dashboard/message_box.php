@@ -47,6 +47,16 @@ $msgObj = new Message($con, $userLoggedIn);
             ";
         } else {
             echo $msgObj->GetConvers();
+
+            echo "
+                <div class='text-center mt-1'>
+                    <a class='btn btn-blue waves-effect waves-light 
+                              text-white mt-2'
+                       href='messages.php?u=new'>
+                        Start a conversation
+                    </a>
+                </div>
+            ";
         }
 
         ?>
