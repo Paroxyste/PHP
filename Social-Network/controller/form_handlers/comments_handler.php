@@ -10,7 +10,7 @@ if (
 
 // ------------------------------------------------------------------ Post data
 
-$userQuery = "SELECT posted_by, posted_to
+$userQuery = "SELECT posted_to
               FROM posts
               WHERE (id='$postId')";
 
@@ -18,7 +18,6 @@ $user = $con->query($userQuery);
 
 $row = $user->fetch_assoc();
 
-$postedBy = $row['posted_by'];
 $postedTo = $row['posted_to'];
 
 // ---------------------------------------------------------------- Add comment
@@ -52,15 +51,15 @@ if (
     ) {
         $dateTime = date('Y-m-d H:i:s');
 
-        $postBody = $con->real_escape_string($postBody);
-        $postedBy = $con->real_escape_string($postedBy);
-        $postedTo = $con->real_escape_string($postedTo);
-        $dateTime = $con->real_escape_string($dateTime);
-        $postId   = $con->real_escape_string($postId);
+        $postBody     = $con->real_escape_string($postBody);
+        $userLoggedIn = $con->real_escape_string($userLoggedIn);
+        $postedTo     = $con->real_escape_string($postedTo);
+        $dateTime     = $con->real_escape_string($dateTime);
+        $postId       = $con->real_escape_string($postId);
 
         $insertPostQuery = "INSERT INTO comments
-                            VALUES (0, '$postBody', '$postedBy', '$postedTo', 
-                                    '$dateTime', '$postId')";
+                            VALUES (0, '$postBody', '$userLoggedIn', 
+                                   '$postedTo', '$dateTime', '$postId')";
 
         $insertPost = $con->query($insertPostQuery);
 
