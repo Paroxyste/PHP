@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 include('../../config/config.php');
-include('../../model/User.php');
 include('../../model/Message.php');
+include('../../model/User.php');
 
 $limit = 5;
+$msg   = new Message($con, strip_tags($_REQUEST['userLoggedIn']));
 
-$message = new Message($con, $_REQUEST['userLoggedIn']);
-echo $message->GetConversDropdown($_REQUEST, $limit);
+echo $msg->GetConversDropdown($_REQUEST, $limit);
 
 ?>
