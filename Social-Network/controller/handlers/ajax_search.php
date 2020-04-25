@@ -3,7 +3,8 @@
 require('../../config/config.php');
 require('../../model/User.php');
 
-// Filter query
+// --------------------------------------------------------------- Filter query
+
 $query = filter_data(
             filter_var($_POST['query'], FILTER_SANITIZE_STRING)
          );
@@ -27,10 +28,12 @@ $status       = 'no';
 $userLoggedIn = strip_tags($_POST['userLoggedIn']);
 $fullName     = explode(' ', $query);
 
-// Search by username : john_doe
+// ---------------------------------------------------------------- User search
+
 if (
     strpos($query, '_') !== FALSE
 ) {
+    // Search by username : john_doe
     $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic
                            FROM users 
                            WHERE (username LIKE '$query%' 
@@ -41,10 +44,10 @@ if (
 
 } 
 
-// Search by first name and last name : John Doe
 elseif (
     count($fullName) == 2
 ) {
+    // Search by first name and last name : John Doe
     $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic 
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
@@ -55,8 +58,8 @@ elseif (
     $usersReturned = $con->query($usersReturnedQuery);
 }
 
-// Search by first name or last_name : John or Doe
 else {
+    // Search by first name or last_name : John or Doe
     $usersReturnedQuery = "SELECT first_name, last_name, username, profile_pic 
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
@@ -66,6 +69,8 @@ else {
 
     $usersReturned = $con->query($usersReturnedQuery);
 }
+
+// ------------------------------------------------------- User search template
 
 if (
     strip_tags($query) != NULL

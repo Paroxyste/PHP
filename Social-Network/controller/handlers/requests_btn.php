@@ -1,12 +1,16 @@
 <?php
 
+$userLoggedInObj = new User($con, strip_tags($userLoggedIn));
+
+// ------------------------------------------------------------ Send msg button
+
 $sendMsg = "<a href='messages.php?u=". strip_tags($username) ."'
                     class='btn btn-blue btn-xs mb-2
                            waves-effect waves-light'>
                 Send Message
             </a>";
 
-$userLoggedInObj = new User($con, $userLoggedIn);
+// ------------------------------------------------------- Friend action button
 
 if (
     $userLoggedIn != $username

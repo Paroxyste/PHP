@@ -1,9 +1,11 @@
 <?php
 
+// -------------------------------------------------------------- Remove friend
+
 if (
     isset($_POST['remove_friend'])
 ) {
-    $user = new User($con, $userLoggedIn);
+    $user = new User($con, strip_tags($userLoggedIn));
 
     $user->RemoveFriend($username);
 
@@ -14,10 +16,12 @@ if (
     ";
 }
 
+// ----------------------------------------------------------------- Add friend
+
 if (
     isset($_POST['add_friend'])
 ) {
-    $user = new User($con, $userLoggedIn);
+    $user = new User($con, strip_tags($userLoggedIn));
 
     $user->SendRequest($username);
 
@@ -27,6 +31,8 @@ if (
         </script>
     ";
 }
+
+// -------------------------------------------------------------------- Request
 
 if (
     isset($_POST['respond_request'])

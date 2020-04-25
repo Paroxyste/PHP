@@ -3,7 +3,8 @@
 require('../../config/config.php');
 require('../../model/User.php');
 
-// Filter query
+// --------------------------------------------------------------- Filter query
+
 $query = filter_data(
             filter_var($_POST['query'], FILTER_SANITIZE_STRING)
         );
@@ -26,6 +27,8 @@ function filter_data($data) {
 $status = 'no';
 $userLoggedIn = strip_tags($_POST['userLoggedIn']);
 $names = explode(' ', $query);
+
+// ---------------------------------------------------------------- User search
 
 if (
     count($names) == 2
@@ -50,6 +53,8 @@ if (
 
     $usersReturned = $con->query($usersReturnedQuery);
 }
+
+// ------------------------------------------------------ Tchat search template
 
 if (
     $query != NULL

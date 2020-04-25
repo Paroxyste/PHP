@@ -1,13 +1,15 @@
 <?php
 
-// Get ID of posts
+// ------------------------------------------------------------------- Posts ID
+
 if (
     isset($_GET['post_id'])
 ) {
     $id = $_GET['post_id'];
 }
 
-// Get post liked + user who liked
+// ----------------------------------------------------------------- Posts Data
+
 $getLikesQuery = "SELECT likes, posted_by
                   FROM posts
                   WHERE (id='$id')";
@@ -19,7 +21,8 @@ $row = $getLikes->fetch_assoc();
 $totalLikes = $row['likes'];
 $userLiked  = $row['posted_by'];
 
-// Get user data who liked
+// ------------------------------------------------------------------ User Data
+
 $userDetailsQuery = "SELECT num_likes
                      FROM users
                      WHERE (username='$userLiked')";
@@ -30,7 +33,8 @@ $row = $userDetails->fetch_assoc();
 
 $totalUsersLikes = $row['num_likes'];
 
-// Like button
+// ---------------------------------------------------------------- Like button
+
 if (
     isset($_POST['like_btn'])
 ) {
@@ -67,7 +71,8 @@ if (
 
 }
 
-// Unlike button
+// -------------------------------------------------------------- Unlike button
+
 if (
     isset($_POST['unlike_btn'])
 ) {
@@ -112,6 +117,8 @@ $checkIsLikedQuery = "SELECT user_from, post_id
 $checkIsLiked = $con->query($checkIsLikedQuery);
 
 $isLiked = $checkIsLiked->num_rows;
+
+// ------------------------------------------------------- Like button template
 
 if (
     $isLiked > 0

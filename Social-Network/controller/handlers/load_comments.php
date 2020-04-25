@@ -1,6 +1,7 @@
 <?php
 
-// Load comments
+// -------------------------------------------------------------- Load comments
+
 $getCommentsQuery = "SELECT post_body, posted_by, date_added
                      FROM comments
                      WHERE (post_id='$postId')
@@ -10,6 +11,8 @@ $getCommentsQuery = "SELECT post_body, posted_by, date_added
 $getComments = $con->query($getCommentsQuery);
 
 $count = $getComments->num_rows;
+
+// ---------------------------------------------------------- Comments template
 
 if (
     $count > 0
