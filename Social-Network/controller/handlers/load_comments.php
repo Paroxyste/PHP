@@ -1,26 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 // Load comments
-$getCommentsQuery = "SELECT *
+$getCommentsQuery = "SELECT post_body, posted_by, date_added
                      FROM comments
                      WHERE (post_id='$postId')
                      ORDER BY id
                      DESC";
 
 $getComments = $con->query($getCommentsQuery);
+
 $count = $getComments->num_rows;
 
 if (
-    $count != 0
+    $count > 0
 ) {
-    while ($comment = $getComments->fetch_assoc()) {
-        $commentBody = $comment['post_body'];
-        $postedTo    = $comment['posted_to'];
-        $postedBy    = $comment['posted_by'];
-        $dateTime    = $comment['date_added'];
-        $removed     = $comment['removed'];
+    while ($row = $getComments->fetch_assoc()) {
+        $dateTime = $row['date_added'];
 
         // Insert Timeframe
         include('./controller/handlers/timeframe.php');
@@ -33,7 +28,7 @@ if (
 
                 <div class='media-body ml-2'>
                     <h5 class='mt-0'>
-                        <a href='". strip_tags($postedBy)."'>"
+                        <a href='". strip_tags($row['posted_by'])."'>"
                             . strip_tags($userObj->GetFullName()) .
                         "</a>
 
@@ -42,7 +37,7 @@ if (
                         "</small>
                     </h5>"
 
-                    . data_decode($commentBody) .
+                    . data_decode($row['post_body']) .
 
                     "</div>
                 </div>
@@ -67,10 +62,9 @@ function data_decode($data) {
     $data = html_entity_decode($data);
     $data = strip_tags($data);
     $data = str_replace('\r\n', '\n', $data);
-
     $data = nl2br($data);
+
     return $data;
 }
-
 
 ?>
