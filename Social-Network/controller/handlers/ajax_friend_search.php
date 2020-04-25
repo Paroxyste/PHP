@@ -1,35 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
-include('../../config/config.php');
-include('../../model/User.php');
+require('../../config/config.php');
+require('../../model/User.php');
 
 // Filter query
 $query = filter_data(
-    filter_var($_POST['query'], FILTER_SANITIZE_STRING)
- );
+            filter_var($_POST['query'], FILTER_SANITIZE_STRING)
+        );
 
 $query = upper_lower($query);
 
 if (
-!preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
+    !preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
 ) {
-return;
+    return;
 }
 
 function filter_data($data) {
-$data = trim($data);
-$data = stripslashes($data);
-$data = htmlspecialchars($data);
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
 
-return $data;
+    return $data;
 }
 
 function upper_lower($data) {
-$data = ucfirst(strtolower($data));
+    $data = ucfirst(strtolower($data));
 
-return $data;
+    return $data;
 }
 
 $userLoggedIn = $_POST['userLoggedIn'];
@@ -50,7 +48,7 @@ if (
 
 }
 
-elseif (
+if (
     count($names) == 2
 ) {
     // Search by first name and last name : John Doe
@@ -75,19 +73,10 @@ elseif (
 }
 
 if (
-    $query != ''
+    $query != NULL
 ) {
     while($row = mysqli_fetch_array($usersReturned)) {
         $user = new User($con, $userLoggedIn);
-
-        if (
-            $row['username'] != $userLoggedIn
-        ) {
-            $mutualFriends = $user->GetMutualFriends($row['username']) .
-                             ' friends in common';
-        } else {
-            $mutual_friends = '';
-        }
 
         if (
             $user->isFriend($row['username'])
