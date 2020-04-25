@@ -1,16 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-include('../../config/config.php');
-include('../../model/User.php');
+require('../../config/config.php');
+require('../../model/User.php');
 
 // Filter query
 $query = filter_data(
             filter_var($_POST['query'], FILTER_SANITIZE_STRING)
          );
-
-$query = upper_lower($query);
 
 if (
     !preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
@@ -22,16 +18,12 @@ function filter_data($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
-
-    return $data;
-}
-
-function upper_lower($data) {
     $data = ucfirst(strtolower($data));
 
     return $data;
 }
 
+$status       = 'no';
 $userLoggedIn = strip_tags($_POST['userLoggedIn']);
 $fullName     = explode(' ', $query);
 
@@ -42,7 +34,7 @@ if (
     $usersReturnedQuery = "SELECT * 
                            FROM users 
                            WHERE (username LIKE '$query%' 
-                           AND user_closed='no')
+                           AND user_closed='$status')
                            LIMIT 5";
 
     $usersReturned = $con->query($usersReturnedQuery);
@@ -57,7 +49,7 @@ elseif (
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
                            AND last_name LIKE '%$fullName[1]%' 
-                           AND user_closed='no')
+                           AND user_closed='$status')
                            LIMIT 5";
 
     $usersReturned = $con->query($usersReturnedQuery);
@@ -69,19 +61,19 @@ else {
                            FROM users 
                            WHERE (first_name LIKE '$fullName[0]%' 
                            OR last_name LIKE '%$fullName[0]%') 
-                           AND user_closed='no' 
+                           AND user_closed='$status' 
                            LIMIT 5";
 
     $usersReturned = $con->query($usersReturnedQuery);
 }
 
 if (
-    strip_tags($query) != ''
+    strip_tags($query) != NULL
 ) {
     echo "
         <div class='card-box shadow p-3 mb-0 bg-white rounded'>
             <h5 class='header-title m-0 mb-3' style='margin-top: -7px;'>"
-                . $usersReturned->num_rows . " Users Founds
+                . strip_tags($usersReturned->num_rows) . " Users Founds
             </h5>
         ";
 

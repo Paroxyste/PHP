@@ -22,6 +22,7 @@ function filter_data($data) {
 
     return $data;
 }
+
 $status = 'no';
 $userLoggedIn = strip_tags($_POST['userLoggedIn']);
 $names = explode(' ', $query);
