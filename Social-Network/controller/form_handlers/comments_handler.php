@@ -1,13 +1,16 @@
 <?php
 
-declare(strict_types=1);
 
-// Get id of post
+
+// -------------------------------------------------------------------- Post ID
+
 if (
     isset($_GET['post_id'])
 ) {
     $postId = $_GET['post_id'];
 }
+
+// -------------------------------------------------------------- Comments data 
 
 $userQuery = "SELECT posted_by, posted_to
               FROM posts
@@ -17,23 +20,27 @@ $user = $con->query($userQuery);
 
 $row = $user->fetch_assoc();
 
-$postedTo = $row['posted_by'];
-$userTo   = $row['posted_to'];
+$postedBy = $row['posted_by'];
+$postedTo = $row['posted_to'];
+
+// ---------------------------------------------------------------- Add comment
 
 if (
     isset($_POST['postComment' . $postId])
 ) {
-    // Filter and secure postbody input
+    // Filter postBody
     $postBody = filter_data(
                     filter_var($_POST['post_body'], FILTER_SANITIZE_STRING)
                 );
 
+    // Empty field
     if (
         empty($postBody)
     ) {
         $errPostBody = 'This field is required';
     }
 
+    // Width filed
     if (
         strlen($postBody) < 1
         || strlen($postBody) > 160
@@ -41,6 +48,7 @@ if (
         $errPostBody = 'Your comment must be between 1 and 160 characters';
     }
 
+    // Error check & insert to DB
     if (
         empty($errPostBody)
     ) {
@@ -48,57 +56,18 @@ if (
         $dateTimeNow = date('Y-m-d H:i:s');
         $removed     = 'no';
 
-        $postBody     = $con->real_escape_string($postBody);
-        $userLoggedIn = $con->real_escape_string($userLoggedIn);
-        $postedTo     = $con->real_escape_string($postedTo);
-        $dateTimeNow  = $con->real_escape_string($dateTimeNow);
-        $removed      = $con->real_escape_string($removed);
-        $postId       = $con->real_escape_string($postId);
+        $postBody    = $con->real_escape_string($postBody);
+        $postedBy    = $con->real_escape_string($postedBy);
+        $postedTo    = $con->real_escape_string($postedTo);
+        $dateTimeNow = $con->real_escape_string($dateTimeNow);
+        $removed     = $con->real_escape_string($removed);
+        $postId      = $con->real_escape_string($postId);
 
         $insertPostQuery = "INSERT INTO comments
-                            VALUES (0, '$postBody', '$userLoggedIn',
-                                    '$postedTo', '$dateTimeNow',
-                                    '$removed', '$postId')";
+                            VALUES (0, '$postBody', '$postedBy', '$postedTo', 
+                                    '$dateTimeNow', '$removed', '$postId')";
 
         $insertPost = $con->query($insertPostQuery);
-
-        if (
-            $postedTo != $userLoggedIn
-        ) {
-            $notifs = new Notification($con, $userLoggedIn);
-            $notifs->InsNotifs($postId, $postedTo, 'comment');
-        }
-
-        if (
-            $userTo != 'none'
-            && $userTo != $userLoggedIn
-        ) {
-           $notifs = new Notification($con, $userLoggedIn);
-           $notifs->InsNotifs($postId, $userTo, 'profile_comment');
-        }
-
-        $getCommentersQuery = "SELECT *
-                               FROM comments
-                               WHERE (post_id='$postId')";
-
-        $getCommenters = $con->query($getCommentersQuery);
-        $notifiedUsers = array();
-
-        while (
-            $row = mysqli_fetch_array($getCommenters)
-        ) {
-            if ($row['posted_by'] != $postedTo
-                && $row['posted_by'] != $userTo
-                && $row['posted_by'] != $userLoggedIn
-                && !in_array($row['posted_by'], $notifiedUsers)
-            ) {
-                $notifs = new Notification($con, $userLoggedIn);
-                $notifs->InsNotifs($postId, $row['posted_by'],
-                                            'comment_non_owner');
-
-                array_push($notifiedUsers, $row['posted_by']);
-            }
-        }
 
         echo "
             <div class='p-2 alert alert-success text-center' role='alert'>
@@ -114,29 +83,23 @@ if (
     }
 }
 
-function filter_data($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlentities($data);
-
-    return $data;
-}
-
 ?>
 
 <script>
 (function($, window, document) {
 
-  $(function() {
-    $('.alert-success').fadeOut(5000);
-  });
+    $(function() {
+        $('.alert-success').fadeOut(5000);
+    });
 
 }(window.jQuery, window, document));
 </script>
 
 <?php
 
-$userObj = new User($con, $userLoggedIn);
+$userObj = new User($con, strip_tags($userLoggedIn));
+
+// ------------------------------------------------------ Comment form template
 
 echo "
     <form action='comments.php?post_id=". strip_tags($postId) ."'
@@ -172,5 +135,15 @@ echo "
         </div>
     </form>
 ";
+
+// --------------------------------------------------------------------- Filter
+
+function filter_data($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlentities($data);
+
+    return $data;
+}
 
 ?>
