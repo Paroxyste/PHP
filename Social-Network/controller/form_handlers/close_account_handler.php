@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+// -------------------------------------------------------------- Cancel option
 
 if (
     isset($_POST['cancel'])
@@ -12,11 +12,15 @@ if (
     ";
 }
 
+// --------------------------------------------------------------- Close option
+
+$status = 'yes';
+
 if (
     isset($_POST['close_account'])
 ) {
     $closeAccountQuery = "UPDATE users
-                          SET user_closed='yes'
+                          SET user_closed='$status'
                           WHERE (username='$userLoggedIn')";
 
     $closeAccount = $con->query($closeAccountQuery);
