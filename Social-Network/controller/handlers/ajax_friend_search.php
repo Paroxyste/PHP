@@ -9,7 +9,7 @@ $query = filter_data(
         );
 
 if (
-    !preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
+    !preg_match("/^[a-zA-Z0-9 -]+$/", $query)
 ) {
     return;
 }
@@ -22,11 +22,9 @@ function filter_data($data) {
 
     return $data;
 }
-
-
-$userLoggedIn = $_POST['userLoggedIn'];
+$status = 'no';
+$userLoggedIn = strip_tags($_POST['userLoggedIn']);
 $names = explode(' ', $query);
-
 
 if (
     count($names) == 2
@@ -36,7 +34,7 @@ if (
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
                            AND last_name LIKE '%$names[1]'
-                           AND user_closed='no')
+                           AND user_closed='$status')
                            LIMIT 8";
 
     $usersReturned = $con->query($usersReturnedQuery);
@@ -46,7 +44,7 @@ if (
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
                            OR last_name LIKE '%$names[0]')
-                           AND user_closed='no'
+                           AND user_closed='$status'
                            LIMIT 8";
 
     $usersReturned = $con->query($usersReturnedQuery);
@@ -55,8 +53,8 @@ if (
 if (
     $query != NULL
 ) {
-    while($row = mysqli_fetch_array($usersReturned)) {
-        $user = new User($con, $userLoggedIn);
+    while($row = $usersReturned->fetch_assoc()) {
+        $user = new User($con, strip_tags($userLoggedIn));
 
         if (
             $user->isFriend($row['username'])
