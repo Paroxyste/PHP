@@ -8,8 +8,6 @@ $query = filter_data(
             filter_var($_POST['query'], FILTER_SANITIZE_STRING)
         );
 
-$query = upper_lower($query);
-
 if (
     !preg_match("/^[a-zA-Z0-9 -_]+$/", $query)
 ) {
@@ -20,38 +18,20 @@ function filter_data($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
-
-    return $data;
-}
-
-function upper_lower($data) {
     $data = ucfirst(strtolower($data));
 
     return $data;
 }
 
+
 $userLoggedIn = $_POST['userLoggedIn'];
 $names = explode(' ', $query);
 
-if (
-    strpos($query, '_') !== FALSE
-) {
-
-    // Search by username : john_doe
-    $usersReturnedQuery = "SELECT *
-                           FROM users
-                           WHERE (username LIKE '$query%'
-                           AND user_closed='no')
-                           LIMIT 8";
-
-    $usersReturned = $con->query($usersReturnedQuery);
-
-}
 
 if (
     count($names) == 2
 ) {
-    // Search by first name and last name : John Doe
+    // Search by first name AND last name : John Doe
     $usersReturnedQuery = "SELECT *
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
@@ -61,7 +41,7 @@ if (
 
     $usersReturned = $con->query($usersReturnedQuery);
 } else {
-    // Search by first name or last_name : John or Doe
+    // Search by first name OR last name : John or Doe
     $usersReturnedQuery = "SELECT *
                            FROM users
                            WHERE (first_name LIKE '%$names[0]%'
