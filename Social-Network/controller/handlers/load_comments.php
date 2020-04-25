@@ -19,6 +19,16 @@ if (
 ) {
     while ($row = $getComments->fetch_assoc()) {
         $dateTime = $row['date_added'];
+        $postedBy = $row['posted_by'];
+
+        // Get posted_by user data
+        $getUserDataQuery = "SELECT first_name, last_name, profile_pic
+                             FROM users
+                             WHERE (username='$postedBy')";
+
+        $getUserData = $con->query($getUserDataQuery);
+
+        $user = $getUserData->fetch_assoc();
 
         // Insert Timeframe
         include('./controller/handlers/timeframe.php');
@@ -26,16 +36,15 @@ if (
         echo "
             <div class='comment_section media'>
                 <img class='mr-2 ml-3 avatar-sm rounded-circle'
-                     src='".strip_tags($userObj->GetProfilePic())."'
+                     src='". strip_tags($user['profile_pic']) ."'
                      alt='User placeholder image' />
 
                 <div class='media-body ml-2'>
-                    <h5 class='mt-0'>
-                        <a href='". strip_tags($row['posted_by'])."'>"
-                            . strip_tags($userObj->GetFullName()) .
-                        "</a>
+                    <h5 class='mt-0 text-primary'>"
+                        . strip_tags($user['first_name']) .
+                        " " . strip_tags($user['last_name']) .
 
-                        <small class='text-muted ml-1'>"
+                        "<small class='text-muted ml-1'>"
                             . strip_tags($timeMsg) .
                         "</small>
                     </h5>"
