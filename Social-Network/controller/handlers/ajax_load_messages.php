@@ -1,8 +1,8 @@
 <?php
 
-include('../../config/config.php');
-include('../../model/Message.php');
-include('../../model/User.php');
+require('../../config/config.php');
+require('../../model/Message.php');
+require('../../model/User.php');
 
 $limit = 5;
 $msg   = new Message($con, strip_tags($_REQUEST['userLoggedIn']));

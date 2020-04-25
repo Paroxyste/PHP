@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-include('../../config/config.php');
-include('../../model/User.php');
-include('../../model/Post.php');
+require('../../config/config.php');
+require('../../model/Post.php');
+require('../../model/User.php');
 
 $limit = 10;
+$posts = new Post($con, strip_tags($_REQUEST['userLoggedIn']));
 
-$posts = new Post($con, $_REQUEST['userLoggedIn']);
 $posts->LoadPosts($_REQUEST, $limit);
 
 ?>
