@@ -116,7 +116,7 @@ echo "
                    minlength='1'
                    maxlength='160'
                    rows='1'
-                   required='yes'></textarea>
+                   required></textarea>
 
             <div class='media-body'>
                 <button type='submit'
