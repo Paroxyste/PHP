@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 session_start();
+
+$url = 'login.php';
 
 if (
     isset($_SESSION['username'])
@@ -12,6 +12,10 @@ if (
 
 session_destroy();
 
-header('refresh:5; url=login.php');
+echo "
+    <script>
+        location.href='". strip_tags($url) ."';
+    </script>
+";
 
 ?>
