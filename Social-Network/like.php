@@ -3,10 +3,8 @@
 declare(strict_types=1);
 
 require('./config/config.php');
-
-include('./model/User.php');
-include('./model/Post.php');
-include('./model/Notification.php');
+require('./model/Post.php');
+require('./model/User.php');
 
 if (
     isset($_SESSION['username'])
