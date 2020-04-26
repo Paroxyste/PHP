@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 require('./config/config.php');
 
 $errEmail      = '';
@@ -15,7 +13,9 @@ if (
 
     // ------------------------------------------------------------------ Email
 
-    $email = test_input(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
+    $email = test_input(
+                filter_var($_POST['email'], FILTER_SANITIZE_EMAIL)
+            );
 
     $_SESSION['email'] = $email;
 
@@ -59,79 +59,109 @@ if (
         $errPassword = 'Your password must have at least 8 characters';
     }
 
-    // -------------------------------------------------------------- Check BDD
-
-    $checkDatabaseQuery = "SELECT *
-                           FROM users
-                           WHERE (email='$email')";
-
-    $checkDatabase = $con->query($checkDatabaseQuery);
-
-    $checkLogin = $checkDatabase->num_rows;
-
-    $row = $checkDatabase->fetch_assoc();
-
-    $hashedPassword = $row['password'];
-    $passwordVerify = password_verify($password, $hashedPassword);
+    // ------------------------------------------------------ Check form errors
 
     if (
-        $checkLogin == 1
-        && $passwordVerify == 1
+        empty($errEmail)
+        && empty($errPassword)
     ) {
-        $username   = $row['username'];
-        $userStatus = $row['user_closed'];
+        // Check user data to BDD
+        $checkDatabaseQuery = "SELECT username, password, user_closed 
+                               FROM users
+                               WHERE (email='$email')";
 
-        $_SESSION['username'] = $username;
+        $checkDatabase = $con->query($checkDatabaseQuery);
 
-        // ------------------------------------------------- Check user account
+        $checkLogin = $checkDatabase->num_rows;
 
-        $userClosedQuery = "SELECT *
-                            FROM users
-                            WHERE (email='$email')
-                            AND (user_closed='$userStatus')";
+        $row = $checkDatabase->fetch_assoc();
 
-        $userClosed = $con->query($userClosedQuery);
-
+        //  Wrong email
         if (
-            $userClosed->num_rows == 1
+            $checkLogin == NULL
         ) {
-            $userStatus = 'no';
+            $loginMsg = "
+                <div class='alert alert-danger text-center'
+                    role='alert' style='margin-bottom: 3.804vh;'>
+                    <i class='ti-alert mr-2'></i>
 
-            $userStatus = $con->real_escape_string($userStatus);
+                    <strong>
+                        Oops, an error occurred ! This email address does not 
+                        exist ...
+                    </strong>
+                </div>
+            ";
 
-            $reOpenAccountQuery = "UPDATE users
-                                   SET user_closed='$userStatus'
-                                   WHERE (email='$email')";
-
-            $reOpenAccount = $con->query($reOpenAccountQuery);
+            return;
         }
 
-        header('refresh:3; url='. strip_tags($username));
+        //  Wrong password
+        $hashedPassword = $row['password'];
+        $passwordVerify = password_verify($password, $hashedPassword);
 
-        $loginMsg = "
-            <div class='alert alert-success text-center'
-                 role='alert' style='margin-bottom: 3.804vh;'>
-                <i class='ti-check mr-2'></i>
+        if (
+            $checkLogin == 1
+            && $passwordVerify == NULL
+        ) {
+            $loginMsg = "
+                <div class='alert alert-danger text-center'
+                    role='alert' style='margin-bottom: 3.804vh;'>
+                    <i class='ti-alert mr-2'></i>
 
-                <strong>
-                    Success ! You will be automatically redirected in 3s ...
-                </strong>
-            </div>
-        ";
-    } else {
-        $loginMsg = "
-            <div class='alert alert-danger text-center'
-                 role='alert' style='margin-bottom: 3.804vh;'>
-                <i class='ti-alert mr-2'></i>
+                    <strong>
+                        Oops, an error occurred ! Please check your email 
+                        address and password ...
+                    </strong>
+                </div>
+            ";
 
-                <strong>
-                    Oops, an error occurred ! Please check your email address
-                    and password ...
-                </strong>
-            </div>
-        ";
+            return;
+        }
+
+        // Add to BDD
+        if (
+            $checkLogin == 1
+            && $passwordVerify == 1
+        ) {
+            $username = $row['username'];
+            $status   = $row['user_closed'];
+
+            $_SESSION['username'] = $username;
+
+            //  Update user account status
+            if (
+                $status == 'yes'
+            ) {
+                $status = 'no';
+                $status = $con->real_escape_string($status);
+
+                $reOpenAccountQuery = "UPDATE users
+                                       SET user_closed='$status'
+                                       WHERE (email='$email')";
+
+                $reOpenAccount = $con->query($reOpenAccountQuery);
+            }
+
+            // Success message + redirect
+            $loginMsg = "
+                <div class='alert alert-success text-center'
+                    role='alert' style='margin-bottom: 3.804vh;'>
+                    <i class='ti-check mr-2'></i>
+
+                    <strong>
+                        Success ! You will be automatically redirected ...
+                    </strong>
+
+                    <script>
+                        location.href='". strip_tags($username) ."';
+                    </script>
+                </div>
+            ";
+        }
     }
 }
+
+// ---------------------------------------------------------------- Data filter
 
 function test_input($data) {
     $data = trim($data);
