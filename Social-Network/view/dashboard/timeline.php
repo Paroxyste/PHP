@@ -4,6 +4,12 @@ require('./controller/form_handlers/posts_handler.php');
 
 $loggedInUserObj = new User($con, $userLoggedIn);
 
+echo "
+    <div class='col-xl-12 col-lg-12'>"
+        . $uploadMsg .
+    "</div>
+";
+
 if (
     $loggedInUserObj->isFriend($username)
  ) {
@@ -14,6 +20,7 @@ if (
     
             <span class='input-icon'>
                 <textarea rows='4' class='form-control' name='post_text'
+                          minlength=1 maxlength=160 required
                           placeholder='Write something ...'></textarea>
             </span>
 
