@@ -68,7 +68,7 @@ if (
 
 <?php
 
-include('./controller/handlers/like_btn.php');
+require('./controller/handlers/like_btn.php');
 
 ?>
 
