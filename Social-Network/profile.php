@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-require('./view/header.php');
-require('./view/navbar.php');
-require('./view/user_counter.php');
-require('./view/dashboard.php');
-require('./view/footer.php');
+include('./view/header.php');
+include('./view/navbar.php');
+include('./view/user_counter.php');
+include('./view/dashboard.php');
+include('./view/footer.php');
 
 ?>

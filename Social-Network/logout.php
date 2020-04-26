@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-require('./view/logout.php');
+include('./view/logout.php');
 
 ?>

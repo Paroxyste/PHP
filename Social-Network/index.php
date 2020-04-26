@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require('./view/header.php');
+include('./view/header.php');
 
 echo "
     <script>

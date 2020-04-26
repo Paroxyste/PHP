@@ -20,7 +20,13 @@ if (
 
     $user = $sessionData->fetch_assoc();
 } else {
-    header('Location: login.php');
+    $redirect = 'login.php';
+
+    echo "
+        <script>
+            location.href='". strip_tags($redirect) ."'
+        </script>
+    ";
 }
 
 ?>

@@ -83,8 +83,8 @@ if (
 
 <?php
 
-include('./controller/form_handlers/comments_handler.php');
-include('./controller/handlers/load_comments.php');
+require('./controller/form_handlers/comments_handler.php');
+require('./controller/handlers/load_comments.php');
 
 ?>
 
