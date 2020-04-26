@@ -83,7 +83,6 @@ if (
             $loginMsg = "
                 <div class='alert alert-danger text-center'
                     role='alert' style='margin-bottom: 3.804vh;'>
-                    <i class='ti-alert mr-2'></i>
 
                     <strong>
                         Oops, an error occurred ! This email address does not 
@@ -106,7 +105,6 @@ if (
             $loginMsg = "
                 <div class='alert alert-danger text-center'
                     role='alert' style='margin-bottom: 3.804vh;'>
-                    <i class='ti-alert mr-2'></i>
 
                     <strong>
                         Oops, an error occurred ! Please check your email 
@@ -146,7 +144,6 @@ if (
             $loginMsg = "
                 <div class='alert alert-success text-center'
                     role='alert' style='margin-bottom: 3.804vh;'>
-                    <i class='ti-check mr-2'></i>
 
                     <strong>
                         Success ! You will be automatically redirected ...
