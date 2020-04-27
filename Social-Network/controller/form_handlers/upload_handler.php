@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 $profileId = $user['username'];
-$statusMsg = '';
-$imgSrc    = '';
+$statusMsg = NULL;
+$imgSrc    = NULL;
 
-// Step 1 : Upload image to server
+// -------------------------------------------- Step 1 : Upload image to server
 if (
     isset($_FILES['image']['name'])
 ) {
@@ -25,23 +23,25 @@ if (
         ";
     }
 
-    // Get temp name | File Extension
+    //  Get temp name | File Extension
     $imageTempName = $_FILES['image']['tmp_name'];
-    $imageType = explode('/', $_FILES['image']['type']);
-    $type = $imageType[1];
 
-    // Set upload directory
+    $imageType = explode('/', $_FILES['image']['type']);
+    $type      = $imageType[1];
+
+    //  Set upload directory
     $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/view/images/users';
 
-    // Set file name
+    //  Set file name
     $fileName = $profileId . '.' . $type;
     $fullPath = $uploadDir . '/' . $fileName;
 
-    // Move the file to correct location
+    //  Move the file to correct location
+
     $move = move_uploaded_file($imageTempName, $fullPath);
     chmod($fullPath, 0777);
 
-    // Check for valid upload
+    //  Check for valid upload
     if (
         !$move
     ) {
@@ -61,7 +61,8 @@ if (
         ";
     }
 
-    // Get image size
+    // --------------------------------------------------------- Get image size
+
     $originalSize = getimagesize($fullPath);
 
     $imgWidth  = $originalSize[0];
@@ -111,15 +112,14 @@ if (
     imagedestroy($resizedImg);
 }
 
-/*----------------------------------------------------------------------------*/
+// ---------------------------- Step 2 : Cropping & converting the image to JPG
 
-// Step 2 : Cropping & converting the image to JPG
 if (
     isset($_POST['x'])
 ) {
     $type = $_POST['type'];
 
-    // Set upload directory
+    //  Set upload directory
     $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/view/images/users';
 
     // Set file name
@@ -153,7 +153,7 @@ if (
         $src2 = imagecreatefromgif($currPath);
     }
 
-    // Retrieves the value of the position and converts into int
+    //  Retrieves the value of the position and converts into int
     $x = intval($_POST['x']);
     $y = intval($_POST['y']);
 
@@ -179,7 +179,8 @@ if (
     imagedestroy($src2);
     imagedestroy($cropImg);
 
-    // Step 2 : Cropping & converting the image to JPG
+    // ------------------------ Step 3 : Cropping & converting the image to JPG
+
     $resultPath = './view/images/users/' . $hashName;
 
     $resultPath = $con->real_escape_string($resultPath);
