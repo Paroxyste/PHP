@@ -1,10 +1,14 @@
 <?php
 
-$getRequestsQuery = "SELECT * 
+// ---------------------------------------------------------------- Get request
+
+$getRequestsQuery = "SELECT user_from, user_to
                      FROM friend_requests 
                      WHERE (user_to='$userLoggedIn')";
 
 $getRequests = $con->query($getRequestsQuery);
+
+// ----------------------------------------------------------------- No request
 
 if (
     $getRequests->num_rows == 0
@@ -41,17 +45,20 @@ if (
     while ($row = $getRequests->fetch_assoc()) {
         $userFrom = $row['user_from'];
 
-        $userFromObj = new User($con, $userFrom);
+        $userFromObj = new User($con, strip_tags($userFrom));
+
         $signup = substr($userFromObj->GetSignUp(), 0);
 
         $userFromFriendArray = $userFromObj->GetFriendArray();
 
-        $userFrom = $con->real_escape_string($userFrom);
+        $userFrom     = $con->real_escape_string($userFrom);
         $userLoggedIn = $con->real_escape_string($userLoggedIn);
 
         if (
             isset($_POST['accept_request' . $userFrom])
         ) {
+            // ---------------------------------------------- Add user to array
+
             $addFriendQuery = "UPDATE users 
                                SET friend_array=CONCAT(friend_array, 
                                                        '$userFrom,')
@@ -66,6 +73,8 @@ if (
 
             $addFriend = $con->query($addFriendQuery);
 
+            // ------------------------------------------------- Delete request
+
             $deleteReqQuery = "DELETE FROM friend_requests 
                                WHERE (user_to='$userLoggedIn' 
                                AND user_from='$userFrom')";
@@ -78,6 +87,8 @@ if (
                 </script>
             ";
         }
+
+        // --------------------------------------------- Dont add user to array
 
         if (
             isset($_POST['ignore_request' . $userFrom])
@@ -94,6 +105,8 @@ if (
                 </script>
             ";
         }
+
+        // --------------------------------------------- Request queue template
 
         echo "
             <div class='table-responsive'>
@@ -125,7 +138,7 @@ if (
                     <tbody>
                         <tr>
                             <th scope='row'>
-                                <img src='".$userFromObj->GetProfilePic()."' 
+                                <img src='" . strip_tags($userFromObj->GetProfilePic()) ."' 
                                      alt='profile_pic'
                                      title='contact-img'
                                      class='rounded-circle' 
@@ -134,18 +147,18 @@ if (
 
                             <td>
                                 <h5 class='m-0 font-weight-normal'>"
-                                    . $userFromObj->GetFullName() .
+                                    . strip_tags($userFromObj->GetFullName()) .
                                 "</h5>
 
                                 <p class='mb-0 text-muted'>
                                     <small>
-                                        Member Since " . $signup .
+                                        Member Since " . strip_tags($signup) .
                                     "</small>
                                 </p>
                             </td>
 
                             <td>"
-                                . $userFromObj->GetUsername() .
+                                . strip_tags($userFromObj->GetUsername()) .
                             "</td>
 
                             <td>
