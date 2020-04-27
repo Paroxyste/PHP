@@ -1,31 +1,24 @@
 <?php
 
-declare(strict_types=1);
+$errFirstName   = NULL;
+$errLastName    = NULL;
+$errEmail       = NULL;
+$errPassword    = NULL;
+$errNewPassword = NULL;
 
-$firstName   = '';
-$lastName    = '';
-$email       = '';
-$password    = '';
-$newPassword = '';
-
-$errFirstName   = '';
-$errLastName    = '';
-$errEmail       = '';
-$errPassword    = '';
-$errNewPassword = '';
-
-$successQuery  = '';
+$refresh = 'settings.php';
 
 // --------------------------------------------------------------- User details
 
 if (
     isset($_POST['set_user_details'])
 ) {
-    // Email
+    // Filter email
     $email = filter_data(
                 filter_var($_POST['set_email'], FILTER_SANITIZE_EMAIL)
-             );
+            );
 
+    // Empty email
     if (
         empty($email)
     ) {
@@ -35,6 +28,7 @@ if (
     if (
         filter_var($email, FILTER_VALIDATE_EMAIL)
     ) {
+        // Email length
         if (
             strlen($email) < 10
             || strlen($email) > 100
@@ -42,32 +36,34 @@ if (
             $errEmail = 'Your email must be between 10 & 100 characters';
         }
 
+        // Email Regex
         if (
-            !preg_match("/^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\.[a-z]{2,4}$/",
-            $email)
+            !preg_match(
+                "/^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\.[a-z]{2,4}$/", $email
+            )
         ) {
             $errEmail = 'The characters allowed are : [0-9 a-z A-Z ._-]';
         }
 
+        // Check if email already use
+        $emailCheckQuery = "SELECT email
+                            FROM users
+                            WHERE (email='$email')";
+
+        $emailCheck = $con->query($emailCheckQuery);
+
+        $numRows = $emailCheck->num_rows;
+
         if (
-            empty($_POST['set_password'])
-            && empty($_POST['set_newpassword'])
-            && empty($errEmail)
+            $numRows > 0
         ) {
-            $emailCheckQuery = "SELECT email
-                                FROM users
-                                WHERE (email='$email')";
+            $errEmail = 'Email already in use';
+        }
 
-            $emailCheck = $con->query($emailCheckQuery);
-
-            $numRows = $emailCheck->num_rows;
-
-            if (
-                $numRows > 0
-            ) {
-                $errEmail = 'Email already in use';
-            }
-
+        // Check error & add to DB
+        if (
+            empty($errEmail)
+        ) {
             $email = $con->real_escape_string($email);
 
             $bddUpdateQuery = "UPDATE users
@@ -75,101 +71,141 @@ if (
                                WHERE (username='$userLoggedIn')";
 
             $bddUpdate = $con->query($bddUpdateQuery);
+
+            echo "
+                <script>
+                    location.href='". strip_tags($refresh) ."';
+                </script>
+            ";
         }
-    } else {
-        // Password
-        $password = strip_tags($_POST['set_password']);
+    }
+} 
 
-        if (
-            empty($password)
-        ) {
-            $errPassword = 'This field is required';
-        }
+// ----------------------------------------------------------- Password details
 
-        if (
-            strlen($password) < 8
-        ) {
-            $errPassword = 'Your password must have at least 8 characters';
-        }
+if (
+    isset($_POST['set_pass_details'])
+) {
+    // Password & New Password
+    $password    = $_POST['set_password'];
+    $newPassword = $_POST['set_newpassword'];
 
-        $newPassword = strip_tags($_POST['set_newpassword']);
+    // Empty password
+    if (
+        empty($password)
+    ) {
+        $errPassword = 'This field is required';
+    }
 
-        if (
-            empty($newPassword)
-        ) {
-            $errNewPassword = 'This field is required';
-        }
+    // Empty new password
+    if (
+        empty($newPassword)
+    ) {
+        $errNewPassword = 'This field is required';
+    }
 
-        if (
-            strlen($newPassword) < 8
-        ) {
-            $errNewPassword = 'Your password must have at least 8 characters';
-        }
+    // Password length
+    if (
+        strlen($password) < 8
+    ) {
+        $errPassword = 'Your password must have at least 8 characters';
+    }
 
-        $checkDatabaseQuery = "SELECT *
-                               FROM users
-                               WHERE (email='$email')";
+    // New password legth
+    if (
+        strlen($newPassword) < 8
+    ) {
+        $errNewPassword = 'Your password must have at least 8 characters';
+    }
 
-        $checkDatabase = $con->query($checkDatabaseQuery);
+    // Check if password are identical
+    if (
+        $password == $newPassword
+    ) {
+        $errPassword    = 'Your passwords must not be identical';
+        $errNewPassword = 'Your passwords must not be identical';
+    }
 
-        $checkLogin = $checkDatabase->num_rows;
+    // Check DB password
+    $checkDatabaseQuery = "SELECT password
+                           FROM users
+                           WHERE (username='$userLoggedIn')";
 
-        $row = $checkDatabase->fetch_assoc();
+    $checkDatabase = $con->query($checkDatabaseQuery);
 
-        $hashedPassword = $row['password'];
-        $passwordVerify = password_verify($password, $hashedPassword);
+    $row = $checkDatabase->fetch_assoc();
 
-        if (
-            $password != $passwordVerify
-        ) {
-            $errPassword = 'The password is incorrect';
-        }
+    // Get password
+    $hashedPassword = $row['password'];
+    $passwordVerify = password_verify($password, $hashedPassword);
 
-        if (
-            $password = $passwordVerify
-            && $newPassword = $passwordVerify
-        ) {
-            $errNewPassword = 'The new password is identical to the old one';
-        }
+    // Check password with DB password
+    if (
+        $password != $passwordVerify
+    ) {
+        $errPassword = 'The password is incorrect';
+    }
 
-        if (
-            $password = $passwordVerify
-            && $newPassword != $passwordVerify
-        ) {
-            // Hash new password
-            $newPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Check error & add to DB
+    if (
+        empty($errPassword)
+        && empty($errNewPassword)
+    ) {
+        // Hash new password
+        $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-            // Update Bdd
-            $email = $con->real_escape_string($email);
-            $newPassword = $con->real_escape_string($newPassword);
+        // Update Bdd
+        $newPassword = $con->real_escape_string($newPassword);
 
-            $bddUpdateQuery = "UPDATE users
-                               SET email='$email', password='$newPassword'
-                               WHERE (username='$userLoggedIn')";
+        $bddUpdateQuery = "UPDATE users
+                           SET password='$newPassword'
+                           WHERE (username='$userLoggedIn')";
 
-            $bddUpdate = $con->query($bddUpdateQuery);
+        $bddUpdate = $con->query($bddUpdateQuery);
 
-        }
-    } // else { password }
-} // End User Details
+        echo "
+            <script>
+                location.href='". strip_tags($refresh) ."';
+            </script>
+        ";
+    }
+}
 
 // ---------------------------------------------------------- Personnal Details
 
 if (
     isset($_POST['set_perso_details'])
 ) {
+    // Get firstName
     $firstName = filter_data(
                     filter_var($_POST['set_firstname'], FILTER_SANITIZE_STRING)
                 );
 
     $firstName = upper_lower($firstName);
 
+    // Get lastName
+    $lastName = filter_data(
+                    filter_var($_POST['set_lastname'], FILTER_SANITIZE_STRING)
+                );
+    
+    $lastName = upper_lower($lastName);    
+
+    // Empty firstName
     if (
         empty($firstName)
     ) {
         $errFirstName = 'This field is required';
     }
 
+    // Empty last name
+    if (
+        empty($lastName)
+    ) {
+        $errLastName = 'This field is required';
+    }
+
+
+    // First name length
     if (
         strlen($firstName) < 2
         || strlen($firstName) > 20
@@ -177,24 +213,7 @@ if (
         $errFirstName = 'Your first name must be between 2 & 20 characters';
     }
 
-    if (
-        !preg_match("/^[a-zA-Z -]+$/", $firstName)
-    ) {
-        $errFirstName = 'The characters allowed are : [a-z A-Z -]';
-    }
-
-    $lastName = filter_input(
-                    filter_var($_POST['set_lastname'], FILTER_SANITIZE_STRING)
-                );
-    
-    $lastName = upper_lower($lastName);
-
-    if (
-        empty($lastName)
-    ) {
-        $errLastName = 'This field is required';
-    }
-
+    // Last name length
     if (
         strlen($lastName) < 2
         || strlen($lastName) > 20
@@ -202,12 +221,21 @@ if (
         $errLastName = 'Your last name must be between 2 & 20 characters';
     }
 
+    // First name regex
+    if (
+        !preg_match("/^[a-zA-Z -]+$/", $firstName)
+    ) {
+        $errFirstName = 'The characters allowed are : [a-z A-Z -]';
+    }
+
+    // Last name regex
     if (
         !preg_match("/^[a-zA-Z -]+$/", $lastName)
     ) {
         $errLastName = 'The characters allowed are : [a-z A-Z -]';
     }
 
+    // Check DB users
     $bddCheckQuery = "SELECT username
                       FROM users
                       WHERE (username='$userLoggedIn')";
@@ -218,8 +246,9 @@ if (
 
     $matchedUser = $row['username'];
 
+    // Check error & add to DB
     if (
-        $matchedUser == ''
+        $matchedUser == NULL
         || $matchedUser == $userLoggedIn
         && empty($errFirstName)
         && empty($errLastName)
@@ -232,8 +261,16 @@ if (
                            WHERE (username='$userLoggedIn')";
 
         $bddUpdate = $con->query($bddUpdateQuery);
+
+        echo "
+            <script>
+                location.href='". strip_tags($refresh) ."';
+            </script>
+        ";
     }
-} // End Personnal Details
+}
+
+// ---------------------------------------------------------------- Data filter
 
 function filter_data($data) {
     $data = trim($data);
