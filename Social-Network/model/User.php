@@ -39,8 +39,11 @@ class User
 
         $row = $closedAccount->fetch_assoc();
 
+        $userClosed = $row['user_closed'];
+        $status     = 'yes';
+
         if (
-            $row['user_closed'] == 'yes'
+            $userClosed == $status
         ) {
             return TRUE;
         } else {
@@ -112,7 +115,9 @@ class User
 
         $row = $getFriendArray->fetch_assoc();
 
-        return $row['friend_array'];
+        $friendArray = $row['friend_array'];
+
+        return $friendArray;
 
     }
 
@@ -123,7 +128,7 @@ class User
 
         $username = $this->user['username'];
 
-        $getFriendReqQuery = "SELECT *
+        $getFriendReqQuery = "SELECT user_from, user_to
                               FROM friend_requests
                               WHERE (user_to='$username')";
 
@@ -147,7 +152,10 @@ class User
 
         $row = $getFullName->fetch_assoc();
 
-        return $row['first_name'] . ' ' . $row['last_name'];
+        $firstName = $row['first_name'];
+        $lastName  = $row['last_name'];
+
+        return $firstName . ' ' . $lastName;
 
     }
 
@@ -202,7 +210,9 @@ class User
 
         $row = $getNumPosts->fetch_assoc();
 
-        return $row['num_posts'];
+        $numPosts = $row['num_posts'];
+
+        return $numPosts;
 
     }
 
