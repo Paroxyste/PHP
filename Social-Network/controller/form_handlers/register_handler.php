@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 require('./config/config.php');
 
-$firstName = '';
-$lastName  = '';
-$email     = '';
-$password  = '';
+$firstName = NULL;
+$lastName  = NULL;
+$email     = NULL;
+$password  = NULL;
 
-$errFirstName = '';
-$errLastName  = '';
-$errEmail     = '';
-$errPassword  = '';
+$errFirstName = NULL;
+$errLastName  = NULL;
+$errEmail     = NULL;
+$errPassword  = NULL;
 
-$successQuery  = '';
+$successQuery  = NULL;
 
 if (
     isset($_POST['reg_btn'])
@@ -216,9 +214,9 @@ if (
             </div>
         ";
 
-        $_SESSION['first_name'] = '';
-        $_SESSION['last_name']  = '';
-        $_SESSION['email']      = '';
+        $_SESSION['first_name'] = NULL;
+        $_SESSION['last_name']  = NULL;
+        $_SESSION['email']      = NULL;
     }
 }
 
