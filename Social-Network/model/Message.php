@@ -24,7 +24,7 @@ class Message
 
         $userLoggedIn = $this->userObj->getUsername();
 
-        $str     = '';
+        $str     = NULL;
         $convers = array();
 
         $getConversQuery = "SELECT user_from, user_to 
@@ -60,17 +60,17 @@ class Message
             $str .= "
                 <div class='inbox-item'>
                     <div class='inbox-item-img'>
-                        <img src='" . $userFoundObj->GetProfilePic() . "'
+                        <img src='" . strip_tags($userFoundObj->GetProfilePic()) . "'
                              class='rounded-circle'
                              alt='' />
                     </div>
 
                     <p class='inbox-item-author'>"
-                        . $userFoundObj->GetFullName() .
+                        . strip_tags($userFoundObj->GetFullName()) .
                     "</p>
 
                     <p class='inbox-item-text'>"
-                        . $split .
+                        . strip_tags($split) .
                     "</p>
 
                     <p class='inbox-item-date'>
@@ -98,8 +98,9 @@ class Message
 
         $userLoggedIn = $this->userObj->GetUsername();
 
-        $str     = '';
+        $str     = NULL;
         $convers = array();
+        $status  = 'yes';
 
         if (
             $page == 1
@@ -110,7 +111,7 @@ class Message
         }
 
         $updViewedMsgQuery = "UPDATE messages 
-                              SET viewed='yes' 
+                              SET viewed='$status' 
                               WHERE (user_to='$userLoggedIn')";
 
         $updViewedMsg = $this->con->query($updViewedMsgQuery);
@@ -118,7 +119,7 @@ class Message
         $getConversDropdownQuery = "SELECT user_from, user_to 
                                     FROM messages 
                                     WHERE (user_from='$userLoggedIn' 
-                                    OR user_to='$userLoggedIn') 
+                                    OR user_to='$userLoggedIn')
                                     ORDER BY id 
                                     DESC";
 
@@ -129,7 +130,7 @@ class Message
         ) {
             echo "
                 <span class='dropdown-item text-center text-primary
-                             notify-item notify-all'>
+                             notify-item notify-all alert-primary'>
                     You dont have messages !
                 </span>
             ";
@@ -187,37 +188,30 @@ class Message
             $split = str_split($latestMsgData[0], 29);
             $split = $split[0] . $dots;
 
-            // Include Timeframe
-            include('../../controller/handlers/timeframe.php');
-
             // Style of notification of received messages
             $str .= "
                 <div class='slimscroll noti-scroll'>
-                    <a href='messages.php?u=$username'
+                    <a href='messages.php?u=". strip_tags($username) ."'
                        class='dropdown-item notify-item'>
                         <div class='notify-icon'>
-                            <img src='" . $userFoundObj->GetProfilePic() . "'
+                            <img src='" . strip_tags($userFoundObj->GetProfilePic()) . "'
                                 class='img-fluid rounded-circle'
                                 alt='Messages Icon' />
                         </div>
 
                         <p class='notify-details'>"
-                            . $userFoundObj->GetFullName() .
+                            . strip_tags($userFoundObj->GetFullName()) .
 
                             "<small class='text-muted'>
                                 <i>"
-                                    . $latestMsgData[1] .
+                                    . strip_tags($split) .
                                 "</i>
                             </small>
                         </p>
-
-                        <p class='text-muted mb-0 user-msg'>
-                            <small>"
-                                . $timeMsg .
-                            "</small>
-                        </p>
                     </a>
                 </div>
+            </div>
+
             ";
         }
 
@@ -238,7 +232,7 @@ class Message
                        value='TRUE' />
 
                 <span class='dropdown-item text-center text-primary
-                             notify-item notify-all'>
+                             notify-item notify-all alert-primary'>
                     No more messages !
                 </span>
             ";
@@ -269,13 +263,7 @@ class Message
 
         $row = $getLatestMsg->fetch_assoc();
 
-        $dateTime = $row['datetime'];
-
-        // Include Timeframe
-        include('./controller/handlers/timeframe.php');
-
         array_push($detailsArray, $row['message']);
-        array_push($detailsArray, $timeMsg);
 
         return $detailsArray;
 
@@ -287,23 +275,24 @@ class Message
     {
 
         $userLoggedIn = $this->userObj->GetUsername();
-        $profilePic   = $this->userObj->GetProfilePic();
 
-        $str = '';
+        $str = NULL;
+        $status = 'yes';
 
         $updOpenedMsgQuery = "UPDATE messages 
-                              SET opened='yes' 
+                              SET opened='$status'
                               WHERE (user_from='$otherUser' 
                               AND user_to='$userLoggedIn')";
 
         $updOpenedMsg = $this->con->query($updOpenedMsgQuery);
 
-        $getMsgQuery = "SELECT * 
+        $getMsgQuery = "SELECT user_from, user_to, message, datetime 
                         FROM messages 
                         WHERE (user_from='$otherUser' 
                         AND user_to='$userLoggedIn') 
                         OR (user_from='$userLoggedIn' 
                         AND user_to='$otherUser')";
+                        
 
         $getMsg = $this->con->query($getMsgQuery);
 
@@ -313,6 +302,19 @@ class Message
             $message  = $row['message'];
             $dateTime = $row['datetime'];
 
+            // Get user datas
+            $getUserDatasQuery = "SELECT first_name, last_name, profile_pic
+                                  FROM users
+                                  WHERE (username='$userFrom')";
+
+            $getUserDatas = $this->con->query($getUserDatasQuery);
+
+            $user = $getUserDatas->fetch_assoc();
+
+            $firstName  = $user['first_name'];
+            $lastName   = $user['last_name'];
+            $profilePic = $user['profile_pic'];
+
             // Include Timeframe
             include('./controller/handlers/timeframe.php');
 
@@ -320,17 +322,21 @@ class Message
             $fromBubble = "
                 <li class='clearfix'>
                     <div class='chat-avatar'>
-                        <img src='". $profilePic . "' alt='Pic'>
+                        <img src='". strip_tags($profilePic) . "' alt='Pic'>
                         <i style='font-size: 9px;'>"
-                            . $timeMsg .
+                            . strip_tags($timeMsg) .
                         "</i>
                     </div>
 
                     <div class='conversation-text'>
                         <div class='ctext-wrap'>
-                            <i>". $userFrom ."</i>
+                            <i>"
+                                . strip_tags($firstName) .
+                                " " . strip_tags($lastName) .
+                            "</i>
+    
                             <p style='font-size: 13px;'>"
-                                . $message .
+                                . strip_tags($message) .
                             "</p>
                         </div>
                     </div>
@@ -340,17 +346,21 @@ class Message
             $toBubble   = "
                 <li class='clearfix odd'>
                     <div class='chat-avatar'>
-                        <img src='". $profilePic . "' alt='Pic'>
+                        <img src='". strip_tags($profilePic) ."' alt='Pic'>
                         <i style='font-size: 9px;'>"
-                            . $timeMsg .
+                            . strip_tags($timeMsg) .
                         "</i>
                     </div>
 
                     <div class='conversation-text'>
                         <div class='ctext-wrap'>
-                            <i>". $userFrom ."</i>
+                            <i>"
+                                . strip_tags($firstName) .
+                                " " . strip_tags($lastName) .
+                            "</i>
+
                             <p style='font-size: 13px;'>"
-                                . $message .
+                                . strip_tags($message) .
                             "</p>
                         </div>
                     </div>
@@ -410,9 +420,11 @@ class Message
 
         $userLoggedIn = $this->userObj->GetUsername();
 
+        $status = 'no';
+
         $getUnreadMsgQuery = "SELECT * 
                               FROM messages 
-                              WHERE (viewed='no' 
+                              WHERE (viewed='$status' 
                               AND user_to='$userLoggedIn')";
 
         $getUnreadMsg = $this->con->query($getUnreadMsgQuery);
