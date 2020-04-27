@@ -26,52 +26,52 @@ require('./controller/form_handlers/search_handler.php');
                             <?php
 
                             if (
-                                strip_tags($link_check) 
-                                == strip_tags($link_username)
+                                strip_tags($linkCheck) 
+                                == strip_tags($linkUserName)
                             ) {
                                 echo "
                                     <a class='btn btn-link mr-1' 
-                                       href='".strip_tags($link_fullname)."'>
+                                       href='".strip_tags($linkFullName)."'>
                                         Name
                                     </a>
 
                                     <a class='btn btn-outline-primary disabled'
-                                       href='".strip_tags($link_username)."'>
+                                       href='".strip_tags($linkUserName)."'>
                                         Username
                                     </a>
                                 ";
                             }
 
                             if (
-                                strip_tags($link_check)
-                                == strip_tags($link_fullname)
+                                strip_tags($linkCheck)
+                                == strip_tags($linkFullName)
                             ) {
                                 echo "
                                     <a class='btn btn-outline-primary disabled 
                                               mr-1' 
-                                       href='".strip_tags($link_fullname)."'>
+                                       href='".strip_tags($linkFullName)."'>
                                         Name
                                     </a>
 
                                     <a class='btn btn-link' 
-                                       href='".strip_tags($link_username)."'>
+                                       href='".strip_tags($linkUserName)."'>
                                         Username
                                     </a>
                                 ";
                             }
  
                             if (
-                                strip_tags($link_check)
-                                == strip_tags($link_base)
+                                strip_tags($linkCheck)
+                                == strip_tags($linkBase)
                             ) {
                                 echo "
                                     <a class='btn btn-link mr-1' 
-                                       href='".strip_tags($link_fullname)."'>
+                                       href='".strip_tags($linkFullName)."'>
                                         Name
                                     </a>
 
                                     <a class='btn btn-link' 
-                                       href='".strip_tags($link_username)."'>
+                                       href='".strip_tags($linkUserName)."'>
                                         Username
                                     </a>
                                 ";
