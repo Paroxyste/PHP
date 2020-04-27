@@ -72,7 +72,6 @@ $username  = $row['username'];
                                    minlength="10" 
                                    maxlength="100"
                                    placeholder="<?php echo strip_tags($email); ?>"
-                                   required 
                             />
 
                             <p class="text-danger mt-1">
@@ -84,6 +83,22 @@ $username  = $row['username'];
                     </div>
                     <!-- End email form -->
                 </div>
+
+                <div class="text-right">
+                    <button type="submit"
+                            name="set_user_details"
+                            class="btn btn-success mt-2 mb-3 waves-effect
+                                   waves-light ">
+                        Save
+                    </button>
+                </div>
+            </form>
+
+            <form action="settings.php" method="POST">
+                <h5 class="mb-3 text-uppercase bg-light p-2">
+                    <i class="ti-lock mr-1"></i>
+                    Password
+                </h5>
 
                 <div class="row">
 
@@ -130,7 +145,6 @@ $username  = $row['username'];
                                     echo strip_tags($errNewPassword); 
                                 ?>
                             </p>
-
                         </div>
                     </div>
                     <!-- End new password form -->
@@ -138,7 +152,7 @@ $username  = $row['username'];
 
                 <div class="text-right">
                     <button type="submit"
-                            name="set_user_details"
+                            name="set_pass_details"
                             class="btn btn-success mt-2 mb-3 waves-effect
                                    waves-light ">
                         Save
@@ -219,7 +233,7 @@ $username  = $row['username'];
 
             <form action="close_account.php" method="POST">
                 <h5 class="mb-3 text-uppercase bg-light p-2">
-                    <i class="ti-lock mr-1"></i>
+                    <i class="ti-na mr-1"></i>
                     Close Account
                 </h5>
 
