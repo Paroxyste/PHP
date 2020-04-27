@@ -1,14 +1,16 @@
 <?php
 
-declare(strict_types=1);
+// --------------------------------------------------------------- Query result
 
 if (
     isset($_GET['user_search'])
 ) {
     $query = $_GET['user_search'];
 } else {
-    $query = '';
+    $query = NULL;
 }
+
+// ------------------------------------------------------- Query result by type
 
 if (
     isset($_GET['type'])
@@ -18,19 +20,25 @@ if (
     $type = 'name';
 }
 
-$link_check =  "{$_SERVER['REQUEST_URI']}";
-$link_base  = '/search.php?user_search=' . strip_tags($query);
+$status   = 'no';
+$username = 'username';
 
-$link_username = strip_tags($link_base) . '&type=username';
-$link_fullname = strip_tags($link_base) . '&type=name';
+$linkCheck =  "{$_SERVER['REQUEST_URI']}";
+$linkBase  = '/search.php?user_search=' . strip_tags($query);
+
+$userType = '&type=username';
+$nameType = '&type=name';
+
+$linkUserName = strip_tags($linkBase) . strip_tags($userType);
+$linkFullName = strip_tags($linkBase) . strip_tags($nameType);
 
 if (
-    $type == 'username'
+    $type == strip_tags($username)
 ) {
     $usersReturnedQuery = "SELECT *
                            FROM users
                            WHERE (username LIKE '$query%'
-                           AND user_closed='no')
+                           AND user_closed='$status')
                            LIMIT 8";
 
     $usersReturned = $con->query($usersReturnedQuery);
@@ -44,7 +52,7 @@ if (
                                FROM users
                                WHERE ((first_name LIKE '$names[0]%'
                                AND last_name LIKE '%$names[2]%')
-                               AND user_closed='no')";
+                               AND user_closed='$status')";
 
         $usersReturned = $con->query($usersReturnedQuery);
     }
@@ -56,7 +64,7 @@ if (
                                FROM users
                                WHERE ((first_name LIKE '$names[0]%'
                                AND last_name LIKE '%$names[1]%')
-                               AND user_closed='no')";
+                               AND user_closed='$status')";
 
         $usersReturned = $con->query($usersReturnedQuery);
     } else {
@@ -64,7 +72,7 @@ if (
                                FROM users 
                                WHERE ((first_name LIKE '$names[0]%' 
                                OR last_name LIKE '%$names[0]%')
-                               AND user_closed='no')";
+                               AND user_closed='$status')";
 
         $usersReturned = $con->query($usersReturnedQuery);
     }
