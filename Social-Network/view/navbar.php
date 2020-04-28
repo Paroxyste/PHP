@@ -47,6 +47,74 @@ $numReq  = $userObj->GetFriendRequest();
                     <div class="search_results"></div>
                 </li>
 
+                <!-- Start games -->
+                <li class="dropdown notification-list">
+
+                    <!-- Start num messages badge -->
+                    <a class="nav-link dropdown-toggle"
+                       id="message_dropdown" href="javascript:void(0);"
+                       data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+
+                        <i class="ti-game noti-icon"></i>
+                    </a>
+                    <!-- End num games badge -->
+
+                    <!-- Start games dropdown-->
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg"
+                         aria-labelledby="message_dropdown">
+                        <div class="dropdown-item noti-title ">
+                            <h5 class="m-0">
+                                Games
+                            </h5>
+                        </div>
+                        
+                        <!-- Start flappy bird game -->
+                        <a href="./flappy.php"
+                           class="dropdown-item notify-item">
+                            <div class="notify-icon">
+                                <img src="./view/images/games/flappy_bird.png"
+                                      class="img-fluid rounded-circle"
+                                      alt="Flappy Bird" />
+                            </div>
+
+                            <p class="notify-details">
+                                Flappy Bird
+
+                                <small class="text-muted">
+                                    <i>
+                                        Jeu d'arcade
+                                    </i>
+                                </small>
+                            </p>
+                        </a>
+                        <!-- End flappy bird -->
+
+                        <!-- Start breakout game -->
+                        <a href="./breakout.php"
+                           class="dropdown-item notify-item">
+                            <div class="notify-icon">
+                                <img src="./view/images/games/breakout.jpeg"
+                                     class="img-fluid rounded-circle"
+                                     alt="Breakout" />
+                            </div>
+
+                            <p class="notify-details">
+                                Breakout
+
+                                <small class="text-muted">
+                                    <i>
+                                        Jeu d'arcade
+                                    </i>
+                                </small>
+                            </p>
+                        </a>
+                        <!-- End flappy bird -->
+                    </div>
+                    <!-- End games dropdown -->
+                </li>
+                <!-- End games -->
+
                 <!-- Start messages -->
                 <li class="dropdown notification-list">
 
@@ -150,6 +218,16 @@ $numReq  = $userObj->GetFriendRequest();
                     <!-- Start user dropdown -->
                     <div class="dropdown-menu dropdown-menu-right 
                                 profile-dropdown">
+
+                        <a href="./index.php"
+                           class="dropdown-item notify-item">
+
+                            <i class="ti-home"></i>
+                            <span>
+                                Home
+                            </span>
+                        </a>
+
                         <a href="./settings.php"
                            class="dropdown-item notify-item">
 
@@ -158,6 +236,7 @@ $numReq  = $userObj->GetFriendRequest();
                                 Settings
                             </span>
                         </a>
+
                         <a href="./logout.php"
                            class="dropdown-item notify-item">
 
