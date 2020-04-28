@@ -14,6 +14,12 @@ if (
     $userData = $con->query($userDataQuery);
 
     $user = $userData->fetch_assoc();
+} else {
+    echo "
+        <script>
+            location.href='". strip_tags($userLoggedIn) ."'
+        </script>
+    ";
 }
 
 ?>
