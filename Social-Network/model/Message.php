@@ -395,7 +395,11 @@ class Message
         if (
             $getMostRecentUser->num_rows == 0
         ) {
-            return FALSE;
+            echo "
+                <script>
+                    location.href='". strip_tags($userLoggedIn) ."';
+                </script>
+            ";
         }
 
         $row = $getMostRecentUser->fetch_assoc();
