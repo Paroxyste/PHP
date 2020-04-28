@@ -1,3 +1,20 @@
 # Social-Network-v2 #
 
-16-janv-19 -> Update Syntaxe to PSR-12
+### Database Info ###
+
+---
+
+### .htaccess ###
+```
+RewriteEngine On
+
+RewriteRule ^([a-zA-Z0-9_-]+)$ profile.php?profile_username=$1
+RewriteRule ^([a-zA-Z0-9_-]+)/$ profile.php?profile_username=$1
+
+RewriteBase /
+
+RewriteRule ^index\$ – [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+```
