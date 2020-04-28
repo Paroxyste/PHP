@@ -6,6 +6,12 @@ if (
     isset($_GET['post_id'])
 ) {
     $postId = $_GET['post_id'];
+} else {
+    echo "
+        <script>
+            location.href='". strip_tags($userLoggedIn) ."';
+        </script>
+    ";
 }
 
 // ------------------------------------------------------------------ Post data
