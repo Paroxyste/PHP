@@ -6,6 +6,7 @@
 
 ### .htaccess ###
 ```
+Options All -Indexes
 RewriteEngine On
 
 RewriteRule ^([a-zA-Z0-9_-]+)$ profile.php?profile_username=$1
