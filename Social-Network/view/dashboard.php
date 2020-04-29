@@ -3,9 +3,7 @@
 if (
     isset($_GET['profile_username'])
 ) {
-    $username = $_GET['profile_username'];
-
-    $username = $con->real_escape_string($username);
+    $username = strip_tags($_GET['profile_username']);
 
     $userDataQuery = "SELECT *
                       FROM users
@@ -13,7 +11,19 @@ if (
 
     $userData = $con->query($userDataQuery);
 
-    $user = $userData->fetch_assoc();
+    $usernameCheck = $userData->num_rows;
+
+    if (
+        $usernameCheck == NULL
+    ) {
+        echo "
+            <script>
+                location.href='". strip_tags($userLoggedIn) ."'
+            </script>
+        ";
+    } else {
+        $user = $userData->fetch_assoc();
+    }
 } else {
     echo "
         <script>
