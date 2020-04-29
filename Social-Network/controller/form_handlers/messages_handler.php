@@ -10,7 +10,26 @@ $userNew = 'new';
 if (
     isset($_GET['u'])
 ) {
-    $userTo = $_GET['u'];
+    $userTo = strip_tags($_GET['u']);
+
+    $userToCheckQuery = "SELECT username
+                         FROM users
+                         WHERE (username='$userTo')";
+
+    $userToCheck = $con->query($userToCheckQuery);
+
+    $row = $userToCheck->num_rows;
+
+    if (
+        $userTo != $userNew
+        && $row == NULL
+    ) {
+        echo "
+            <script>
+                location.href='" . strip_tags($userLoggedIn) ."';
+            </script>
+        ";
+    }
 } else {
     $userTo = $msgObj->GetMostRecentUser();
 
