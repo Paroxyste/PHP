@@ -283,6 +283,7 @@ class User
 
         $newFriendArray = $this->con->real_escape_string($newFriendArray);
 
+        // Delete userX for userLoggedIn
         $updFriendArrayQuery = "UPDATE users
                                 SET friend_array='$newFriendArray'
                                 WHERE (username='$userLogged')";
@@ -295,11 +296,21 @@ class User
 
         $newFriendArray = $this->con->real_escape_string($newFriendArray);
 
+        // Delete userLoggedIn for userX
         $updFriendArrayQuery = "UPDATE users
                                 SET friend_array='$newFriendArray'
                                 WHERE (username='$userToRemove')";
-
+        
         $updFriendArray = $this->con->query($updFriendArrayQuery);
+
+        // Delete msg for userX & userLoggedIn OR userLoggedIn & userX
+        $updFriendMsgQuery = "DELETE FROM messages
+                              WHERE (user_from='$userLogged'
+                              AND user_to='$userToRemove')
+                              OR (user_from='$userToRemove'
+                              AND user_to='$userLogged')";
+        
+        $updFriendMsg = $this->con->query($updFriendMsgQuery);
 
     }
 
