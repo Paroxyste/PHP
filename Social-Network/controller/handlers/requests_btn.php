@@ -37,7 +37,7 @@ if (
                            waves-effect waves-light mr-1'
                     disabled>
                 Respond to Request
-            </button>" . $sendMsg;
+            </button>";
     }
 
     elseif (
@@ -49,7 +49,7 @@ if (
                            waves-effect waves-light mr-1'
                     disabled>
                 Request Sent
-            </button>" . $sendMsg;
+            </button>";
     } else {
         // Add Friend
         echo "
@@ -57,7 +57,7 @@ if (
                     class='btn btn-success btn-xs mb-2
                            waves-effect waves-light mr-1'>
                 Add Friend
-            </button>" . $sendMsg;
+            </button>";
     }
 }
 
