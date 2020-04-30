@@ -5,6 +5,8 @@
 ---
 
 ### .htaccess ###
+
+> Root
 ```
 Options All -Indexes
 RewriteEngine On
@@ -18,4 +20,14 @@ RewriteRule ^index\$ – [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
+```
+#### Add in : #### 
+> /config
+> /model
+> /view/games/
+> view/dashboard
+```
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
 ```
