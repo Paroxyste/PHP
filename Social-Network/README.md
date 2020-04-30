@@ -1,6 +1,83 @@
 # Social-Network-v2 #
 
-### Database Info ###
+### DATABASE INFO ###
+
+#### FORMAT ####
+> utf8mb4_general_ci 
+
+##### STORAGE ENGINE #####
+> InnoDB 
+
+##### COMMENTS : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+post_body | text(160) | utf8mb4_general_ci |
+posted_by | VARCHAR(45) | utf8mb4_general_ci |
+posted_to | VARCHAR(45) | utf8mb4_general_ci |
+date_added | datetime |  |
+post_id | int(10) |  |
+
+##### FRIEND_REQUESTS : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+user_from | VARCHAR(45) | utf8mb4_general_ci |
+user_to | VARCHAR(45) | utf8mb4_general_ci |
+
+##### LIKES : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+user_from | VARCHAR(45) | utf8mb4_general_ci |
+post_id | int(10) |  | 
+
+##### MESSAGES : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+user_from | VARCHAR(45) | utf8mb4_general_ci |
+user_to | VARCHAR(45) | utf8mb4_general_ci |
+message | text(160) | utf8mb4_general_ci |
+datetime | datetime |  |
+viewed | ENUM('no', 'yes') | utf8mb4_general_ci |
+opened | ENUM('no', 'yes') | utf8mb4_general_ci |
+deleted | ENUM('no', 'yes') | utf8mb4_general_ci |
+
+##### POSTS : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+post_body | text(160) | utf8mb4_general_ci |
+posted_by | VARCHAR(45) | utf8mb4_general_ci |
+posted_to | VARCHAR(45) | utf8mb4_general_ci |
+date_added | datetime |  |
+image | VARCHAR(500) | utf8mb4_general_ci |
+likes | int(10) |  |
+removed | ENUM('no', 'yes') |  |
+user_closed | ENUM('no', 'yes') | utf8mb4_general_ci |
+
+##### USERS : #####
+
+Nom | Type | Interclassement | Extra
+------------- | ------------- | ------------- | -------------
+id | int(10) |  | AUTO_INCREMENT
+first_name | VARCHAR(20) | utf8mb4_general_ci |
+last_name | VARCHAR(20) | utf8mb4_general_ci |
+email | VARCHAR(100) | utf8mb4_general_ci |
+username | VARCHAR(45) | utf8mb4_general_ci |
+password | VARCHAR(255) | utf8mb4_general_ci |
+signup_date | date |  |
+profile_pic | VARCHAR(255) | utf8mb4_general_ci |
+num_posts | int(10) |  |
+num_likes | int(10) |  |
+friend_array | text | utf8mb4_general_ci |
+user_closed | ('no', 'yes') | utf8mb4_general_ci |
 
 ---
 
