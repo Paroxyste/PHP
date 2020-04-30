@@ -43,33 +43,36 @@
                 <div id="breakout">
                     <div id="ball"></div>
                     <div id="paddle"></div>
+
                     <div id="gameover">
-                    <div class="alert alert-primary text-center">
-                        <h2 class="text-uppercase mb-4">
-                            Welcome to Breakout Game !
-                        </h2>
+                        <div class="alert alert-primary text-center">
+                            <h2 class="text-uppercase mb-4">
+                                Welcome to Breakout Game !
+                            </h2>
 
-                        <h5 class="text-uppercase mb-4">
-                            To play use the <b>arrows</b> on your 
-                            <b>keyboard</b> :
+                            <h5 class="text-uppercase mb-4">
+                                To play use the <b>arrows</b> on your 
+                                <b>keyboard</b> :
 
-                            <br /><br />
+                                <br /><br />
 
-                            Throw the ball :
-                            <i class="ti-arrow-up ml-1 mr-3"></i>
+                                Throw the ball :
+                                <i class="ti-arrow-up ml-1 mr-3"></i>
 
-                            Move the cursor : 
-                            <i class="ti-arrow-left ml-1 mr-2"></i>
-                            <i class="ti-arrow-right"></i>
-                        </h5>
+                                Move the cursor : 
+                                <i class="ti-arrow-left ml-1 mr-2"></i>
+                                <i class="ti-arrow-right"></i>
+                            </h5>
 
-                        <h5 class="text-uppercase">Click <b>Start Game Button</b> to begin !</h5>
+                            <h5 class="text-uppercase">
+                                Click <b>Start Game Button</b> to begin !
+                            </h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div></div></div>
-            <br />
-
+            </div><
+        </div>
+    </div>
 
     <div class="col-lg-3 col-xl-3">
 

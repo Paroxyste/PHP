@@ -22,21 +22,14 @@
                     </p>
                 </div>
 
-                <div class="col-4">
-                    <p class="text-muted font-15 mb-1 text-uppercase">
-                        <i class="mr-1 ti-heart"></i>
-                        Lives :
-
-                        <span class="lives"> 
-                            0
-                        </span>
-                    </p>
+                <div class="offset-md-4">
+                    <a href="tetris.php">
+                        <p class="font-15 mb-1 text-uppercase btn 
+                                  btn-outline-primary">
+                            Start Game
+                        </p>
+                    </a>
                 </div>
-
-                <p id="startBtn" 
-                   class="font-15 mb-1 text-uppercase btn btn-outline-primary">
-                    Start Game
-                </p>
             </div>
 
             <div class="row justify-content-md-center">
