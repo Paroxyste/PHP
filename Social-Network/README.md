@@ -22,10 +22,10 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 ```
 #### Add in : #### 
-> /config
-> /model
-> /view/games/
-> view/dashboard
+> - /config/
+> - /model/
+> - /view/games/
+> - /view/dashboard/
 ```
 <FilesMatch "\.php$">
     Require all denied
