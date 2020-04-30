@@ -28,7 +28,10 @@ $numReq  = $userObj->GetFriendRequest();
                                        placeholder="Search Friends ..."
                                        name="user_search" 
                                        id="search_text_input" 
-                                       autocomplete="off" 
+                                       autocomplete="off"
+                                       minlength="1"
+                                       maxlength="45"
+
                                        onkeyup="getLiveSearchUsers(
                                             this.value, 
                                             '<?php echo strip_tags($userLoggedIn); ?>'
@@ -83,7 +86,7 @@ $numReq  = $userObj->GetFriendRequest();
 
                                 <small class="text-muted">
                                     <i>
-                                        Jeu d'arcade
+                                        Arcade game
                                     </i>
                                 </small>
                             </p>
@@ -104,12 +107,33 @@ $numReq  = $userObj->GetFriendRequest();
 
                                 <small class="text-muted">
                                     <i>
-                                        Jeu d'arcade
+                                        Arcade game
                                     </i>
                                 </small>
                             </p>
                         </a>
-                        <!-- End flappy bird -->
+                        <!-- End breakout -->
+
+                        <!-- Start tetris game -->
+                        <a href="./tetris.php"
+                           class="dropdown-item notify-item">
+                            <div class="notify-icon">
+                                <img src="./view/images/games/tetris.png"
+                                     class="img-fluid rounded-circle"
+                                     alt="Tetris" />
+                            </div>
+
+                            <p class="notify-details">
+                                Tetris
+
+                                <small class="text-muted">
+                                    <i>
+                                        Arcade game
+                                    </i>
+                                </small>
+                            </p>
+                        </a>
+                        <!-- End tetris -->
                     </div>
                     <!-- End games dropdown -->
                 </li>

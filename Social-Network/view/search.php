@@ -15,7 +15,9 @@ require('./controller/form_handlers/search_handler.php');
                                class='form-control'
                                name='user_search'
                                id='search_text_input'
-                               placeholder='Search Friends ...' />
+                               placeholder='Search Friends ...' 
+                               minlength='1'
+                               maxlength='20' />
 
                         <div class='form-group mx-sm-3'>
 
