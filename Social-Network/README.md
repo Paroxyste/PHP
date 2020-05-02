@@ -5,16 +5,22 @@
 #### DB SERVER ####
 
 > **FORMAT :** utf8mb4_general_ci 
+>
 > **STORAGE ENGINE :** InnoDB 
-> **SERVER :** MariaDB 10.4.11
+
+>> **SERVER :** MariaDB 10.4.11
 
 #### WEB SERVER ####
 
-> Apache/2.4.43 (Unix) 
-> OpenSSL/1.1.1f 
-> PHP/7.4.4 
-> mod_perl/2.0.8-dev 
-> Perl/v5.16.3 
+> **APACHE :** 2.4.43 (Unix) 
+>
+> **OpenSSL :** 1.1.1f 
+>
+> **PHP :** 7.4.4 
+>
+> **MOD_PERL :** 2.0.8-dev 
+>
+> **PERL :** v5.16.3 
 
 ### DATABASE ###
 
