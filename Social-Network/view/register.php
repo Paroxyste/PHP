@@ -79,14 +79,6 @@ require('./controller/form_handlers/register_handler.php');
                                                placeholder="Enter your first name"
                                                minlength="2" 
                                                maxlength="20"
-                                               value="
-                                                    <?php
-                                                        if (
-                                                            isset($_SESSION['first_name'])
-                                                        ) {
-                                                            echo strip_tags($_SESSION['first_name']);
-                                                        }
-                                                    ?>"
                                                required 
                                         />
 
@@ -111,14 +103,6 @@ require('./controller/form_handlers/register_handler.php');
                                                placeholder="Enter your last name"
                                                minlength="2" 
                                                maxlength="20" 
-                                               value="
-                                                    <?php
-                                                        if (
-                                                            isset($_SESSION['last_name'])
-                                                        ) {
-                                                            echo strip_tags($_SESSION['last_name']);
-                                                        }
-                                                    ?>"
                                                required 
                                         />
 
@@ -144,14 +128,6 @@ require('./controller/form_handlers/register_handler.php');
                                                placeholder="Enter your email"
                                                minlength="10" 
                                                maxlength="100"
-                                               value="
-                                                    <?php
-                                                        if (
-                                                            isset($_SESSION['email'])
-                                                        ) {
-                                                            echo strip_tags($_SESSION['email']);
-                                                        }
-                                                    ?>"
                                                required 
                                         />
 
