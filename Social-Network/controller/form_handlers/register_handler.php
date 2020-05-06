@@ -213,10 +213,6 @@ if (
                 </strong>
             </div>
         ";
-
-        $_SESSION['first_name'] = NULL;
-        $_SESSION['last_name']  = NULL;
-        $_SESSION['email']      = NULL;
     }
 }
 
