@@ -17,6 +17,7 @@ $fnum = count($frag);
 unset($frag[intval(0)]);
 unset($frag[intval($fnum - 1)]);
 
+// No config file -> redir to install
 if (
     filesize(ROOT_PATH . 'config.php' === 0)
     && !defined('IN_INSTALL')
@@ -25,10 +26,10 @@ if (
     die();
 }
 
+// Delete /admin/ path
 if (
     defined('IN_ADMIN')
 ) {
-    // Delete /admin/ path
     if (
         $_SERVER['HTTP_HOST'] == '127.0.0.1'
         || $_SERVER['HTTP_HOST'] == 'localhost'
@@ -50,10 +51,10 @@ if (
     define('WEB_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . $baseURL . '');
 }
 
-$gameConfig = array();
-$userConfig = array();
-$langConfig = array();
-$IsUserVerf = FALSE;
+$gameConfig  = array();
+$userConfig  = array();
+$langConfig  = array();
+$isUserVerif = FALSE;
 
 define('DEFAULT_DESIGN', realpath(ROOT_PATH . '/design/'));
 define('TEMPLATES_DIR' , realpath(ROOT_PATH . '/templates/'));
@@ -84,9 +85,9 @@ while (
 if (
     !defined('DISABLE_IDENTITY_CHECK')
 ) {
-    $results    = CheckTheUser($IsUserVerf);
-    $IsUserVerf = $results['state'];
-    $userConfig = $results['record'];
+    $results     = CheckTheUser($isUserVerif);
+    $isUserVerif = $results['state'];
+    $userConfig  = $results['record'];
 } 
 
 elseif (
