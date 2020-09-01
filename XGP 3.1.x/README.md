@@ -1,0 +1,19 @@
+# .HTACCESS
+
+Create the htaccess file at this location, with the following code :
+
+```
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # define RewriteBase and store it
+    RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+    RewriteRule ^(.*)$ - [E=BASE:%1]
+
+    # redirect requests to public folder
+    RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+    RewriteRule ^ %1 [L,NE,R=302]
+
+    RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
+</IfModule>
+```
