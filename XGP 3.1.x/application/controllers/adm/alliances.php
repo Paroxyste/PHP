@@ -154,7 +154,9 @@ class Alliances extends Controller
     private function checkAlliance($alliance)
     {
         if (
-            $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag($alliance)
+            $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag(
+                $alliance
+            )
         ) {
             $this->_id = $alliance_query['alliance_id'];
 
@@ -450,7 +452,8 @@ class Alliances extends Controller
         ) {
 
             if (
-                $alliance_owner <= 0 or $this->Alliances_Model->checkAllianceFounder($alliance_owner)
+                $alliance_owner <= 0 
+                || $this->Alliances_Model->checkAllianceFounder($alliance_owner)
             ) {
                 $errors .= $this->langs->line('al_error_founder') 
                         . '<br />';
