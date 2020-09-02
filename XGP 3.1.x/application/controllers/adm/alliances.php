@@ -48,16 +48,16 @@ class Alliances extends Controller
     {
         parent::__construct();
 
-        // check if session is active
+        // Check if session is active
         Administration::checkSession();
 
-        // load model + language
+        // Load model + language
         parent::loadModel('adm/alliances');
         parent::loadLang(['adm/global', 'adm/alliances']);
 
         $this->_current_user = parent::$users->getUserData();
 
-        // check if the user is allowed to access
+        // Check if the user is allowed to access
         if (
             !Administration::authorization(
                 __CLASS__, 
@@ -103,7 +103,7 @@ class Alliances extends Controller
                 if (
                     $_POST
                 ) {
-                    // save the data
+                    // Save the data
                     $this->saveData($type);
                 }
             }
@@ -165,7 +165,7 @@ class Alliances extends Controller
                 break;
 
             case '':
-                // no break
+                // No break
 
             case 'ranks':
                 $this->getDataRanks();
@@ -328,7 +328,7 @@ class Alliances extends Controller
                 break;
 
             case '':
-                // no break
+                // No break
 
             case 'ranks':
                 $this->saveRanks();
@@ -337,7 +337,7 @@ class Alliances extends Controller
                 return $this->saveMembers();
             
             default:
-                // save the data
+                // Save the data
                 if (
                     isset($_POST['send_data']) 
                     && $_POST['send_data']
@@ -525,7 +525,7 @@ class Alliances extends Controller
 
         }
 
-        // edit rights for each rank
+        // Edit rights for each rank
         if (
             isset($_POST['save_ranks'])
         ) {
@@ -555,7 +555,7 @@ class Alliances extends Controller
             $this->_alert_type = 'ok';
         }
 
-        // delete a rank
+        // Delete a rank
         if (
             isset($_POST['delete_ranks'])
         ) {
