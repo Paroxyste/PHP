@@ -35,10 +35,8 @@ class Ban extends Controller
         // Check if session is active
         Administration::checkSession();
 
-        // load Model
+        // Load Model + Language
         parent::loadModel('adm/ban');
-
-        // load Language
         parent::loadLang(['adm/global', 'adm/ban']);
 
         $this->_current_user = parent::$users->getUserData();

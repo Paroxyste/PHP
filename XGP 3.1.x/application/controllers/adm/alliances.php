@@ -98,8 +98,13 @@ class Alliances extends Controller
 
                 $alliance = '';
             } else {
-                $this->_alliance_query = $this->Alliances_Model->getAllAllianceDataById($this->_id);
-                $this->ranks = new Ranks($this->_alliance_query['alliance_ranks']);
+                $this->_alliance_query = $this->Alliances_Model->getAllAllianceDataById(
+                    $this->_id
+                );
+
+                $this->ranks = new Ranks(
+                    $this->_alliance_query['alliance_ranks']
+                );
 
                 if (
                     $_POST
@@ -134,9 +139,11 @@ class Alliances extends Controller
 
         foreach ($users as $users_row) {
             $combo_rows .= 
-                '<option value="' . $users_row['user_id'] . '"' 
-                . ($users_row['user_id'] == $user_id ? ' selected' : '') . '>' 
-                . $users_row['user_name'] . '</option>';
+                '<option value="' 
+                    . $users_row['user_id'] . '"' 
+                    . $users_row['user_id'] == $user_id ? ' selected' : '' . '>' 
+                    . $users_row['user_name'] . 
+                '</option>';
         }
 
         return $combo_rows;
@@ -197,7 +204,11 @@ class Alliances extends Controller
         $ally_reg_time = $this->_alliance_query['alliance_register_time'];
         $ally_owner    = $this->_alliance_query['alliance_owner'];
 
-        $parse['alliance_register_time'] = $ally_reg_time == 0 ? '-' : date(FunctionsLib::readConfig('date_format_extended'), $ally_reg_time);
+        $parse['alliance_register_time'] = $ally_reg_time == 0 ? '-' : date(
+            FunctionsLib::readConfig('date_format_extended'), 
+            $ally_reg_time
+        );
+
         $parse['alliance_owner_picker']  = $this->buildUsersCombo($ally_owner);
 
         $ally_req_na = $this->_alliance_query['alliance_request_notallow'];
@@ -205,7 +216,10 @@ class Alliances extends Controller
         $parse['sel1'] = $ally_req_na == 1 ? 'selected' : '';
         $parse['sel0'] = $ally_req_na == 0 ? 'selected' : '';
 
-        $parse['alert_info'] = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
+        $alert_type = $this->_alert_type;
+        $alert_info = $this->_alert_info;
+
+        $parse['alert_info'] = $this->_alert_type != '' ? Administration::saveMessage($alert_type, $alert_info) : '';
 
         return $this->getTemplate()->set('adm/alliances_information_view', 
                                          $parse);
@@ -239,7 +253,10 @@ class Alliances extends Controller
                 $member['alliance_request']  = $member['user_ally_request']      ? $al_req_yes : $al_req_no;
                 $member['ally_request_text'] = $member['user_ally_request_text'] ? $al_req_txt : '-';
 
-                $member['alliance_register_time'] = date(FunctionsLib::readConfig('date_format_extended'), $member['user_ally_register_time']);
+                $member['alliance_register_time'] = date(
+                    FunctionsLib::readConfig('date_format_extended'), 
+                    $member['user_ally_register_time']
+                );
 
                 if (
                     $member['user_id'] == $member['alliance_owner']
@@ -250,14 +267,19 @@ class Alliances extends Controller
                     if (
                         isset($member['user_ally_rank_id'])
                     ) {
-                        $member['ally_rank'] = $this->ranks->getUserRankById($member['user_ally_rank_id'])['rank'];
+                        $member['ally_rank'] = $this->ranks->getUserRankById(
+                            $member['user_ally_rank_id']
+                        )['rank'];
                     } else {
-                        $member['ally_rank'] = $this->langs->line('al_rank_not_defined');
+                        $al_rank_nd = $this->langs->line('al_rank_not_defined');
+                        $member['ally_rank'] = $al_rank_nd;
                     }
 
                 }
 
-                $members .= $this->getTemplate()->set('adm/alliances_members_row_view', $member);
+                $members .= $this->getTemplate()->set(
+                    'adm/alliances_members_row_view', 
+                    $member);
             }
         }
 
@@ -403,7 +425,8 @@ class Alliances extends Controller
                 $alliance_name == NULL 
                 || !$this->Alliances_Model->checkAllianceName($alliance_name)
             ) {
-                $errors .= $this->langs->line('al_error_alliance_name') . '<br />';
+                $errors .= $this->langs->line('al_error_alliance_name') 
+                        . '<br />';
             }
 
         }
@@ -416,7 +439,8 @@ class Alliances extends Controller
                 $alliance_tag == NULL 
                 || !$this->Alliances_Model->checkAllianceTag($alliance_tag)
             ) {
-                $errors .= $this->langs->line('al_error_alliance_tag') . '<br />';
+                $errors .= $this->langs->line('al_error_alliance_tag') 
+                        . '<br />';
             }
 
         }
@@ -428,7 +452,8 @@ class Alliances extends Controller
             if (
                 $alliance_owner <= 0 or $this->Alliances_Model->checkAllianceFounder($alliance_owner)
             ) {
-                $errors .= $this->langs->line('al_error_founder') . '<br />';
+                $errors .= $this->langs->line('al_error_founder') 
+                        . '<br />';
             }
 
         }
@@ -470,9 +495,9 @@ class Alliances extends Controller
             if (
                 isset($_POST['delete_message'])
             ) {
-                foreach ($_POST['delete_message'] as $user_id => $delete_status) {
+                foreach ($_POST['delete_message'] as $user_id => $del_status) {
                     if (
-                        $delete_status == 'on' 
+                        $del_status == 'on' 
                         && $user_id > 0 
                         && is_numeric($user_id)
                     ) {
@@ -480,19 +505,29 @@ class Alliances extends Controller
                     }
                 }
 
-                $amount = $this->Alliances_Model->countAllianceMembers($this->_id);
+                $amount = $this->Alliances_Model->countAllianceMembers(
+                    $this->_id
+                );
 
                 if (
                     $amount['Amount'] > 1
                 ) {
-                    $this->Alliances_Model->removeAllianceMembers($ids_string);
+                    $this->Alliances_Model->removeAllianceMembers(
+                        $ids_string
+                    );
 
                     // Return the alert
-                    $this->_alert_info = $this->langs->line('us_all_ok_message');
+                    $this->_alert_info = $this->langs->line(
+                        'us_all_ok_message'
+                    );
+
                     $this->_alert_type = 'ok';
                 } else {
                     // Return the alert
-                    $this->_alert_info = $this->langs->line('al_cant_delete_last_one');
+                    $this->_alert_info = $this->langs->line(
+                        'al_cant_delete_last_one'
+                    );
+
                     $this->_alert_type = 'warning';
                 }
             }
