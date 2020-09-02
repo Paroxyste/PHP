@@ -25,6 +25,23 @@ class Alliances extends Controller
 
     private $ranks = NULL;
 
+    /* SUMMARY
+     *
+     * constructor
+     * buildPage
+     * buildUsersCombo
+     * checkAlliance
+     * getData
+     * getDataInfo
+     * getDataMembers
+     * getDataRanks
+     * saveData
+     * saveInfo
+     * saveMembers
+     * saveRanks
+     *
+     */
+
     // ------------------------------------------------------------ constructor
 
     public function __construct()
@@ -107,6 +124,38 @@ class Alliances extends Controller
         );
     }
 
+    // -------------------------------------------------------- buildUsersCombo
+
+    private function buildUsersCombo($user_id)
+    {
+        $combo_rows = '';
+        $users = $this->Alliances_Model->getAllUsers();
+
+        foreach ($users as $users_row) {
+            $combo_rows .= 
+                '<option value="' . $users_row['user_id'] . '"' 
+                . ($users_row['user_id'] == $user_id ? ' selected' : '') . '>' 
+                . $users_row['user_name'] . '</option>';
+        }
+
+        return $combo_rows;
+    }
+
+    // ---------------------------------------------------------- checkAlliance
+
+    private function checkAlliance($alliance)
+    {
+        if (
+            $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag($alliance)
+        ) {
+            $this->_id = $alliance_query['alliance_id'];
+
+            return true;
+        }
+
+        return false;
+    }
+
     // ---------------------------------------------------------------- getData
 
     private function getData($type)
@@ -126,36 +175,6 @@ class Alliances extends Controller
 
             default:
                 return $this->getDataInfo();
-                break;
-        }
-    }
-
-    // --------------------------------------------------------------- saveData
-
-    private function saveData($type)
-    {
-        switch ($type) {
-            case 'info':
-                break;
-
-            case '':
-                // no break
-
-            case 'ranks':
-                $this->saveRanks();
-
-            case 'members':
-                return $this->saveMembers();
-            
-            default:
-                // save the data
-                if (
-                    isset($_POST['send_data']) 
-                    && $_POST['send_data']
-                ) {
-                    $this->saveInfo();
-                }
-
                 break;
         }
     }
@@ -189,57 +208,6 @@ class Alliances extends Controller
 
         return $this->getTemplate()->set('adm/alliances_information_view', 
                                          $parse);
-    }
-
-    // ----------------------------------------------------------- getDataRanks
-
-    private function getDataRanks()
-    {
-        $parse = $this->langs->language;
-
-        $ally_name = $this->_alliance_query['alliance_name'];
-        $ally_info = $this->langs->line('al_alliance_information');
-
-        $parse['al_alliance_ranks'] = str_replace('%s', 
-                                                  $ally_name, 
-                                                  $ally_info);
-
-        $parse['image_path'] = DEFAULT_SKINPATH;
-
-        $alliance_ranks = $this->ranks->getAllRanksAsArray();
-        $i = 0;
-
-        $rank_row  = '';
-        $rank_data = [];
-
-        if (
-            is_array($alliance_ranks)
-        ) {
-            foreach ($alliance_ranks as $rank_id => $r_id) {
-                $rank_data['name']                  = $r_id['rank'];
-                $rank_data['delete']                = $r_id['rights'][AllianceRanks::delete]                 == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['kick']                  = $r_id['rights'][AllianceRanks::kick]                   == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['bewerbungen']           = $r_id['rights'][AllianceRanks::applications]           == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['memberlist']            = $r_id['rights'][AllianceRanks::view_member_list]       == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['administrieren']        = $r_id['rights'][AllianceRanks::administration]         == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['onlinestatus']          = $r_id['rights'][AllianceRanks::online_status]          == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['mails']                 = $r_id['rights'][AllianceRanks::send_circular]          == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['rechtehand']            = $r_id['rights'][AllianceRanks::right_hand]             == SwitchInt::on ? ' checked="checked"' : '';
-                $rank_data['bewerbungenbearbeiten'] = $r_id['rights'][AllianceRanks::application_management] == SwitchInt::on ? ' checked="checked"' : '';
-
-                $rank_data['i'] = $i++;
-
-                $rank_row .= $this->getTemplate()->set('adm/alliances_ranks_row_view', 
-                                                       $rank_data);
-            }
-        }
-
-        $ally_no_ranks = $this->langs->line('al_no_ranks');
-
-        $parse['ranks_table'] = empty($rank_row) ? $ally_no_ranks : $rank_row;
-        $parse['alert_info']  = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
-
-        return $this->getTemplate()->set('adm/alliances_ranks_view', $parse);
     }
 
     // --------------------------------------------------------- getDataMembers
@@ -298,6 +266,87 @@ class Alliances extends Controller
         $parse['alert_info']    = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
 
         return $this->getTemplate()->set('adm/alliances_members_view', $parse);
+    }
+
+    // ----------------------------------------------------------- getDataRanks
+
+    private function getDataRanks()
+    {
+        $parse = $this->langs->language;
+
+        $ally_name = $this->_alliance_query['alliance_name'];
+        $ally_info = $this->langs->line('al_alliance_information');
+
+        $parse['al_alliance_ranks'] = str_replace('%s', 
+                                                  $ally_name, 
+                                                  $ally_info);
+
+        $parse['image_path'] = DEFAULT_SKINPATH;
+
+        $alliance_ranks = $this->ranks->getAllRanksAsArray();
+        $i = 0;
+
+        $rank_row  = '';
+        $rank_data = [];
+
+        if (
+            is_array($alliance_ranks)
+        ) {
+            foreach ($alliance_ranks as $rank_id => $r_id) {
+                $rank_data['name']                  = $r_id['rank'];
+                $rank_data['delete']                = $r_id['rights'][AllianceRanks::delete]                 == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['kick']                  = $r_id['rights'][AllianceRanks::kick]                   == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['bewerbungen']           = $r_id['rights'][AllianceRanks::applications]           == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['memberlist']            = $r_id['rights'][AllianceRanks::view_member_list]       == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['administrieren']        = $r_id['rights'][AllianceRanks::administration]         == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['onlinestatus']          = $r_id['rights'][AllianceRanks::online_status]          == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['mails']                 = $r_id['rights'][AllianceRanks::send_circular]          == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['rechtehand']            = $r_id['rights'][AllianceRanks::right_hand]             == SwitchInt::on ? ' checked="checked"' : '';
+                $rank_data['bewerbungenbearbeiten'] = $r_id['rights'][AllianceRanks::application_management] == SwitchInt::on ? ' checked="checked"' : '';
+
+                $rank_data['i'] = $i++;
+
+                $rank_row .= $this->getTemplate()->set('adm/alliances_ranks_row_view', 
+                                                       $rank_data);
+            }
+        }
+
+        $ally_no_ranks = $this->langs->line('al_no_ranks');
+
+        $parse['ranks_table'] = empty($rank_row) ? $ally_no_ranks : $rank_row;
+        $parse['alert_info']  = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
+
+        return $this->getTemplate()->set('adm/alliances_ranks_view', $parse);
+    }
+
+    // --------------------------------------------------------------- saveData
+
+    private function saveData($type)
+    {
+        switch ($type) {
+            case 'info':
+                break;
+
+            case '':
+                // no break
+
+            case 'ranks':
+                $this->saveRanks();
+
+            case 'members':
+                return $this->saveMembers();
+            
+            default:
+                // save the data
+                if (
+                    isset($_POST['send_data']) 
+                    && $_POST['send_data']
+                ) {
+                    $this->saveInfo();
+                }
+
+                break;
+        }
     }
 
     // --------------------------------------------------------------- saveInfo
@@ -408,6 +457,47 @@ class Alliances extends Controller
         }
     }
 
+    // ------------------------------------------------------------ saveMembers
+
+    private function saveMembers()
+    {
+        if (
+            isset($_POST['delete_members'])
+        ) {
+            $ids_string = '';
+
+            if (
+                isset($_POST['delete_message'])
+            ) {
+                foreach ($_POST['delete_message'] as $user_id => $delete_status) {
+                    if (
+                        $delete_status == 'on' 
+                        && $user_id > 0 
+                        && is_numeric($user_id)
+                    ) {
+                        $ids_string .= $user_id . ',';
+                    }
+                }
+
+                $amount = $this->Alliances_Model->countAllianceMembers($this->_id);
+
+                if (
+                    $amount['Amount'] > 1
+                ) {
+                    $this->Alliances_Model->removeAllianceMembers($ids_string);
+
+                    // Return the alert
+                    $this->_alert_info = $this->langs->line('us_all_ok_message');
+                    $this->_alert_type = 'ok';
+                } else {
+                    // Return the alert
+                    $this->_alert_info = $this->langs->line('al_cant_delete_last_one');
+                    $this->_alert_type = 'warning';
+                }
+            }
+        }
+    }
+
     // -------------------------------------------------------------- saveRanks
 
     private function saveRanks()
@@ -485,76 +575,4 @@ class Alliances extends Controller
         FunctionsLib::redirect('admin.php?' . $_SERVER['QUERY_STRING']);
     }
 
-    // ------------------------------------------------------------ saveMembers
-
-    private function saveMembers()
-    {
-        if (
-            isset($_POST['delete_members'])
-        ) {
-            $ids_string = '';
-
-            if (
-                isset($_POST['delete_message'])
-            ) {
-                foreach ($_POST['delete_message'] as $user_id => $delete_status) {
-                    if (
-                        $delete_status == 'on' 
-                        && $user_id > 0 
-                        && is_numeric($user_id)
-                    ) {
-                        $ids_string .= $user_id . ',';
-                    }
-                }
-
-                $amount = $this->Alliances_Model->countAllianceMembers($this->_id);
-
-                if (
-                    $amount['Amount'] > 1
-                ) {
-                    $this->Alliances_Model->removeAllianceMembers($ids_string);
-
-                    // Return the alert
-                    $this->_alert_info = $this->langs->line('us_all_ok_message');
-                    $this->_alert_type = 'ok';
-                } else {
-                    // Return the alert
-                    $this->_alert_info = $this->langs->line('al_cant_delete_last_one');
-                    $this->_alert_type = 'warning';
-                }
-            }
-        }
-    }
-
-    // -------------------------------------------------------- buildUsersCombo
-
-    private function buildUsersCombo($user_id)
-    {
-        $combo_rows = '';
-        $users = $this->Alliances_Model->getAllUsers();
-
-        foreach ($users as $users_row) {
-            $combo_rows .= 
-                '<option value="' . $users_row['user_id'] . '"' 
-                . ($users_row['user_id'] == $user_id ? ' selected' : '') . '>' 
-                . $users_row['user_name'] . '</option>';
-        }
-
-        return $combo_rows;
-    }
-    
-    // ---------------------------------------------------------- checkAlliance
-
-    private function checkAlliance($alliance)
-    {
-        if (
-            $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag($alliance)
-        ) {
-            $this->_id = $alliance_query['alliance_id'];
-
-            return true;
-        }
-
-        return false;
-    }
 }
