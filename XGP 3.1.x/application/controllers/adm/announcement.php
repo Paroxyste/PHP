@@ -17,8 +17,8 @@ use JS_PATH;
 class Announcement extends Controller
 {
 
-    private $alerts = [];
-    private $user;
+    private array $alerts;
+    private array $user;
 
     /* SUMMARY
      *
@@ -39,13 +39,13 @@ class Announcement extends Controller
     {
         parent::__construct();
 
-        //Ccheck if session is active
+        //Check if session is active
         Administration::checkSession();
 
-        // load Model
+        // Load Model
         parent::loadModel('adm/announcement');
 
-        // load Language
+        // Load Language
         parent::loadLang(['adm/global', 'adm/announcement']);
 
         // Set data
@@ -89,9 +89,7 @@ class Announcement extends Controller
         parent::$page->displayAdmin(
             $this->getTemplate()->set(
                 'adm/announcement_view',
-                array_merge(
-                    $this->langs->language,
-                    $this->buildColorPicker(),
+                array_merge($this->langs->language, $this->buildColorPicker(),
                     [
                         'js_path' => JS_PATH,
                         'alert' => $this->alerts ? join('', $this->alerts) : '',
@@ -147,9 +145,10 @@ class Announcement extends Controller
 
         $this->alerts[] = Administration::saveMessage(
             'info',
-            strtr(
-                $this->langs->line('an_delivery_result'),
-                ['%s' => join('<br>', $results)]
+            strtr($this->langs->line('an_delivery_result'), 
+                [
+                    '%s' => join('<br>', $results)
+                ]
             )
         );
     }
@@ -186,7 +185,9 @@ class Announcement extends Controller
                 $from,
                 $subject,
                 strtr($message, 
-                      ['%player%' => Format::strongText($player['user_name'])]
+                    [
+                        '%player%' => Format::strongText($player['user_name'])
+                    ]
                 ),
                 TRUE
             );
@@ -227,14 +228,15 @@ class Announcement extends Controller
         $action = filter_input_array(
             INPUT_POST,
             [
-                'subject'      => FILTER_SANITIZE_STRING,
+                'subject' => FILTER_SANITIZE_STRING,
+                'message' => FILTER_SANITIZE_STRING,
+                'mail'    => FILTER_SANITIZE_STRING,
+
                 'color-picker' => [
                     'filter'  => FILTER_CALLBACK,
                     'options' => [$this, 'isValidColor'],
                 ],
 
-                'message' => FILTER_SANITIZE_STRING,
-                'mail'    => FILTER_SANITIZE_STRING,
                 'text' => [
                     'filter'  => FILTER_SANITIZE_STRING,
                     'options' => ['min_range' => 1, 'max_range' => 5000],
