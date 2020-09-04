@@ -74,16 +74,20 @@ class Alliances extends Controller
         $this->buidPage();
     }
 
-    // ---------------------------------------------------------------buildPage
+    // -------------------------------------------------------------- buildPage
 
     private function buidPage()
     {
         $parse = $this->langs->language;
         $parse['alert'] = '';
 
-        $alliance    = isset($_GET['alliance']) ? trim($_GET['alliance']) : null;
-        $type        = isset($_GET['type'])     ? trim($_GET['type'])     : null;
-        $this->_edit = isset($_GET['edit'])     ? trim($_GET['edit'])     : null;
+        $g_alli = $_GET['alliance'];
+        $g_type = $_GET['type'];
+        $g_edit = $_GET['edit'];
+
+        $alliance    = isset($g_alli) ? trim($g_alli) : NULL;
+        $type        = isset($g_type) ? trim($g_type) : NULL;
+        $this->_edit = isset($g_edit) ? trim($g_edit) : NULL;
 
         if (
             $alliance != ''
@@ -123,7 +127,8 @@ class Alliances extends Controller
         $parse['status_box']   = ($alliance != '') ? ''        : 'disabled';
         $parse['tag']          = ($alliance != '') ? 'a'       : 'button';
     
-        $parse['content'] = ($alliance != '' && $type != '') ? $this->getData($type) : '';
+        $parse['content'] = 
+            ($alliance != '' && $type != '') ? $this->getData($type) : '';
 
         parent::$page->displayAdmin(
             $this->getTemplate()->set('adm/alliances_view', $parse)
@@ -160,10 +165,10 @@ class Alliances extends Controller
         ) {
             $this->_id = $alliance_query['alliance_id'];
 
-            return true;
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     // ---------------------------------------------------------------- getData
@@ -221,7 +226,8 @@ class Alliances extends Controller
         $alert_type = $this->_alert_type;
         $alert_info = $this->_alert_info;
 
-        $parse['alert_info'] = $this->_alert_type != '' ? Administration::saveMessage($alert_type, $alert_info) : '';
+        $parse['alert_info'] = 
+            $this->_alert_type != '' ? Administration::saveMessage($alert_type, $alert_info) : '';
 
         return $this->getTemplate()->set('adm/alliances_information_view', 
                                          $parse);
