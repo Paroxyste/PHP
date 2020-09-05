@@ -229,8 +229,10 @@ class Alliances extends Controller
         $parse['alert_info'] = 
             $this->_alert_type != '' ? Administration::saveMessage($alert_type, $alert_info) : '';
 
-        return $this->getTemplate()->set('adm/alliances_information_view', 
-                                         $parse);
+        return $this->getTemplate()->set(
+            'adm/alliances_information_view', 
+            $parse
+        );
     }
 
     // --------------------------------------------------------- getDataMembers
@@ -296,7 +298,10 @@ class Alliances extends Controller
         $parse['members_table'] = empty($members) ? '<tr><td colspan="6" class="align_center text-error">' . $ally_lang_no_ranks . '</td></tr>' : $members;
         $parse['alert_info']    = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
 
-        return $this->getTemplate()->set('adm/alliances_members_view', $parse);
+        return $this->getTemplate()->set(
+            'adm/alliances_members_view', 
+            $parse
+        );
     }
 
     // ----------------------------------------------------------- getDataRanks
@@ -337,8 +342,10 @@ class Alliances extends Controller
 
                 $rank_data['i'] = $i++;
 
-                $rank_row .= $this->getTemplate()->set('adm/alliances_ranks_row_view', 
-                                                       $rank_data);
+                $rank_row .= $this->getTemplate()->set(
+                    'adm/alliances_ranks_row_view', 
+                    $rank_data
+                );
             }
         }
 
@@ -347,7 +354,10 @@ class Alliances extends Controller
         $parse['ranks_table'] = empty($rank_row) ? $ally_no_ranks : $rank_row;
         $parse['alert_info']  = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
 
-        return $this->getTemplate()->set('adm/alliances_ranks_view', $parse);
+        return $this->getTemplate()->set(
+            'adm/alliances_ranks_view', 
+            $parse
+        );
     }
 
     // --------------------------------------------------------------- saveData
