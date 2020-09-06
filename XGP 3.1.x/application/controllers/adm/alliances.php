@@ -76,7 +76,7 @@ class Alliances extends Controller
 
     // -------------------------------------------------------------- buildPage
 
-    private function buidPage()
+    private function buidPage(): void
     {
         $parse = $this->langs->language;
         $parse['alert'] = '';
@@ -137,7 +137,7 @@ class Alliances extends Controller
 
     // -------------------------------------------------------- buildUsersCombo
 
-    private function buildUsersCombo($user_id)
+    private function buildUsersCombo($user_id): string
     {
         $combo_rows = '';
         $users = $this->Alliances_Model->getAllUsers();
@@ -156,7 +156,7 @@ class Alliances extends Controller
 
     // ---------------------------------------------------------- checkAlliance
 
-    private function checkAlliance($alliance)
+    private function checkAlliance($alliance): bool
     {
         if (
             $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag(
@@ -196,7 +196,7 @@ class Alliances extends Controller
 
     // ------------------------------------------------------------ getDataInfo
 
-    private function getDataInfo()
+    private function getDataInfo(): string
     {
         $parse  = $this->langs->language;
         $parse += (array) $this->_alliance_query;
@@ -237,7 +237,7 @@ class Alliances extends Controller
 
     // --------------------------------------------------------- getDataMembers
 
-    private function getDataMembers()
+    private function getDataMembers(): string
     {
         $parse = $this->langs->language;
 
@@ -306,7 +306,7 @@ class Alliances extends Controller
 
     // ----------------------------------------------------------- getDataRanks
 
-    private function getDataRanks()
+    private function getDataRanks(): string
     {
         $parse = $this->langs->language;
 
@@ -362,7 +362,7 @@ class Alliances extends Controller
 
     // --------------------------------------------------------------- saveData
 
-    private function saveData($type)
+    private function saveData($type): void
     {
         switch ($type) {
             case 'info':
@@ -392,7 +392,7 @@ class Alliances extends Controller
 
     // --------------------------------------------------------------- saveInfo
 
-    private function saveInfo()
+    private function saveInfo(): void
     {
         $ally_name      = $_POST['alliance_name'];
         $ally_name_orig = $_POST['alliance_name_orig'];
@@ -504,7 +504,7 @@ class Alliances extends Controller
 
     // ------------------------------------------------------------ saveMembers
 
-    private function saveMembers()
+    private function saveMembers(): void
     {
         if (
             isset($_POST['delete_members'])
@@ -555,7 +555,7 @@ class Alliances extends Controller
 
     // -------------------------------------------------------------- saveRanks
 
-    private function saveRanks()
+    private function saveRanks():void
     {
         if (
             isset($_POST['create_rank'])

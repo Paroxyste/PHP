@@ -57,7 +57,7 @@ class Ban extends Controller
 
     // -------------------------------------------------------------- buildPage
 
-    private function buildPage()
+    private function buildPage(): void
     {
         $mode = $_GET['mode'];
 
@@ -79,7 +79,7 @@ class Ban extends Controller
 
     // ---------------------------------------------------------- getBannedList
 
-    private function getBannedList()
+    private function getBannedList(): string
     {
         $g_ord2 = $_GET['order2'];
  
@@ -109,7 +109,7 @@ class Ban extends Controller
 
     // ----------------------------------------------------------- getUsersList
 
-    private function getUsersList()
+    private function getUsersList(): string
     {
         $order = $_GET['order'];
 
@@ -179,7 +179,7 @@ class Ban extends Controller
 
     // ---------------------------------------------------------------- showBan
 
-    private function showBan()
+    private function showBan(): string
     {
         $parse = $this->langs->language;
 
@@ -306,7 +306,7 @@ class Ban extends Controller
 
     // ------------------------------------------------------------ showDefault
 
-    private function showDefault()
+    private function showDefault(): string
     {
         $parse = $this->langs->language;
 
