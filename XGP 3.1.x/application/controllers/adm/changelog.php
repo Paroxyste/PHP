@@ -148,12 +148,10 @@ class Changelog extends Controller
         $changelog_date        = date('Y-m-d');
         $changelog_description = '';
 
-        if (
-            $action == 'edit'
-        ) {
+        if ($action == 'edit') {
 
-            if (
-                $result = $this->Changelog_Model->getSingleEntry($changelog_id)
+            if ($result = 
+                $this->Changelog_Model->getSingleEntry($changelog_id)
             ) {
                 $changelog_lang_id     = $result->getChangelogLangId();
                 $changelog_version     = $result->getChangelogVersion();
@@ -193,9 +191,7 @@ class Changelog extends Controller
         $action_type = filter_input(INPUT_GET, 'success');
         $alert = '';
 
-        if (
-            $action_type
-        ) {
+        if ($action_type) {
             $alert = Administration::saveMessage(
                 'ok',
                 $this->langs->line('ch_action_' . $action_type . '_done')
@@ -228,9 +224,7 @@ class Changelog extends Controller
 
     private function isValidAction(?string $action): ?string
     {
-        if (
-            in_array($action, ['add', 'edit'])
-        ) {
+        if (in_array($action, ['add', 'edit'])) {
             return $action;
         }
 
@@ -258,9 +252,7 @@ class Changelog extends Controller
             $matches
         );
 
-        if (
-            isset($matches[0][0])
-        ) {
+        if (isset($matches[0][0])) {
             return $matches[0][0];
         }
 
@@ -333,14 +325,11 @@ class Changelog extends Controller
             ],
         ]);
 
-        if (
-            $data
-        ) {
+        if ($data) {
             $valid = TRUE;
 
-            foreach (
-                $data as $field => $value
-            ) {
+            foreach ($data as $field => $value) {
+
                 if (
                     $value === FALSE 
                     || $value === NULL
@@ -348,21 +337,16 @@ class Changelog extends Controller
                     $valid = FALSE;
                     break;
                 }
+
             }
 
-            if (
-                $valid
-            ) {
+            if ($valid) {
 
-                if (
-                    $data['action'] == 'add'
-                ) {
+                if ($data['action'] == 'add') {
                     $this->Changelog_Model->addEntry($data);
                 }
 
-                if (
-                    $data['action'] == 'edit'
-                ) {
+                if ($data['action'] == 'edit') {
                     $this->Changelog_Model->updateEntry($data);
                 }
 

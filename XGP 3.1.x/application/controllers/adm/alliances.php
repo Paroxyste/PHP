@@ -89,13 +89,9 @@ class Alliances extends Controller
         $type        = isset($g_type) ? trim($g_type) : NULL;
         $this->_edit = isset($g_edit) ? trim($g_edit) : NULL;
 
-        if (
-            $alliance != ''
-        ) {
+        if ($alliance != NULL) {
 
-            if (
-                !$this->checkAlliance($alliance)
-            ) {
+            if (!$this->checkAlliance($alliance)) {
                 $parse['alert'] = Administration::saveMessage(
                     'error', $this->langs->line('al_nothing_found')
                 );
@@ -110,9 +106,7 @@ class Alliances extends Controller
                     $this->_alliance_query['alliance_ranks']
                 );
 
-                if (
-                    $_POST
-                ) {
+                if ($_POST) {
                     // Save the data
                     $this->saveData($type);
                 }
@@ -158,10 +152,8 @@ class Alliances extends Controller
 
     private function checkAlliance($alliance): bool
     {
-        if (
-            $alliance_query = $this->Alliances_Model->checkAllianceByNameOrTag(
-                $alliance
-            )
+        if ($alliance_query = 
+            $this->Alliances_Model->checkAllianceByNameOrTag($alliance)
         ) {
             $this->_id = $alliance_query['alliance_id'];
 
@@ -256,9 +248,8 @@ class Alliances extends Controller
         $al_req_yes = $this->langs->line('al_request_no');
         $al_req_txt = $this->langs->line('ally_request_text');
 
-        if (
-            !empty($all_members)
-        ) {
+        if (!empty($all_members)) {
+
             foreach ($all_members as $member) {
                 $member['alliance_request']  = $member['user_ally_request']      ? $al_req_yes : $al_req_no;
                 $member['ally_request_text'] = $member['user_ally_request_text'] ? $al_req_txt : '-';
@@ -268,15 +259,11 @@ class Alliances extends Controller
                     $member['user_ally_register_time']
                 );
 
-                if (
-                    $member['user_id'] == $member['alliance_owner']
-                ) {
+                if ($member['user_id'] == $member['alliance_owner']) {
                     $member['ally_rank'] = $member['alliance_owner_range'];
                 } else {
 
-                    if (
-                        isset($member['user_ally_rank_id'])
-                    ) {
+                    if (isset($member['user_ally_rank_id'])) {
                         $member['ally_rank'] = $this->ranks->getUserRankById(
                             $member['user_ally_rank_id']
                         )['rank'];
@@ -291,6 +278,7 @@ class Alliances extends Controller
                     'adm/alliances_members_row_view', 
                     $member);
             }
+
         }
 
         $ally_lang_no_ranks = $this->langs->line('al_no_ranks');
@@ -325,9 +313,8 @@ class Alliances extends Controller
         $rank_row  = '';
         $rank_data = [];
 
-        if (
-            is_array($alliance_ranks)
-        ) {
+        if (is_array($alliance_ranks)) {
+
             foreach ($alliance_ranks as $rank_id => $r_id) {
                 $rank_data['name']                  = $r_id['rank'];
                 $rank_data['delete']                = $r_id['rights'][AllianceRanks::delete]                 == SwitchInt::on ? ' checked="checked"' : '';
@@ -347,6 +334,7 @@ class Alliances extends Controller
                     $rank_data
                 );
             }
+
         }
 
         $ally_no_ranks = $this->langs->line('al_no_ranks');
@@ -435,9 +423,7 @@ class Alliances extends Controller
 
         $errors = '';
 
-        if (
-            $alliance_name != $alliance_name_orig
-        ) {
+        if ($alliance_name != $alliance_name_orig) {
 
             if (
                 $alliance_name == NULL 
@@ -449,9 +435,7 @@ class Alliances extends Controller
 
         }
 
-        if (
-            $alliance_tag != $alliance_tag_orig
-        ) {
+        if ($alliance_tag != $alliance_tag_orig) {
 
             if (
                 $alliance_tag == NULL 
@@ -463,9 +447,7 @@ class Alliances extends Controller
 
         }
 
-        if (
-            $alliance_owner != $alliance_owner_orig
-        ) {
+        if ($alliance_owner != $alliance_owner_orig) {
 
             if (
                 $alliance_owner <= 0 
@@ -477,9 +459,7 @@ class Alliances extends Controller
 
         }
 
-        if (
-            $errors != ''
-        ) {
+        if ($errors != NULL) {
             $this->_alert_info = $errors;
             $this->_alert_type = 'warning';
         } else {
@@ -506,15 +486,12 @@ class Alliances extends Controller
 
     private function saveMembers(): void
     {
-        if (
-            isset($_POST['delete_members'])
-        ) {
+        if (isset($_POST['delete_members'])) {
             $ids_string = '';
 
-            if (
-                isset($_POST['delete_message'])
-            ) {
+            if (isset($_POST['delete_message'])) {
                 foreach ($_POST['delete_message'] as $user_id => $del_status) {
+
                     if (
                         $del_status == 'on' 
                         && $user_id > 0 
@@ -522,15 +499,14 @@ class Alliances extends Controller
                     ) {
                         $ids_string .= $user_id . ',';
                     }
+
                 }
 
                 $amount = $this->Alliances_Model->countAllianceMembers(
                     $this->_id
                 );
 
-                if (
-                    $amount['Amount'] > 1
-                ) {
+                if ($amount['Amount'] > 1) {
                     $this->Alliances_Model->removeAllianceMembers(
                         $ids_string
                     );
@@ -557,13 +533,9 @@ class Alliances extends Controller
 
     private function saveRanks():void
     {
-        if (
-            isset($_POST['create_rank'])
-        ) {
+        if (isset($_POST['create_rank'])) {
 
-            if (
-                !empty($_POST['rank_name'])
-            ) {
+            if (!empty($_POST['rank_name'])) {
                 $this->ranks->addNew($_POST['rank_name']);
 
                 $this->Alliances_Model->updateAllianceRanks(
@@ -581,9 +553,8 @@ class Alliances extends Controller
         }
 
         // Edit rights for each rank
-        if (
-            isset($_POST['save_ranks'])
-        ) {
+        if (isset($_POST['save_ranks'])) {
+
             foreach ($_POST['id'] as $id) {
                 $this->ranks->editRankById(
                     $id,
@@ -611,9 +582,8 @@ class Alliances extends Controller
         }
 
         // Delete a rank
-        if (
-            isset($_POST['delete_ranks'])
-        ) {
+        if (isset($_POST['delete_ranks'])) {
+
             foreach ($_POST['id'] as $rank_id) {
                 $this->ranks->deleteRankById($rank_id);
             }

@@ -42,11 +42,11 @@ class Login extends Controller
 
     // -------------------------------------------------------------- buildPage
 
-    private function buildPage()
+    private function buildPage(): void
     {
         parent::$page->displayAdmin(
             $this->getTemplate()->set(
-            'adm/login_view',
+                'adm/login_view',
                 array_merge(
                     $this->langs->language,
                     [
@@ -82,23 +82,19 @@ class Login extends Controller
 
     // -------------------------------------------------------------- runAction
 
-    private function runAction()
+    private function runAction(): void
     {
         $login_data = filter_input_array(INPUT_POST, [
             'inputEmail'    => FILTER_VALIDATE_EMAIL,
             'inputPassword' => FILTER_SANITIZE_STRING,
         ]);
 
-        if (
-            $login_data
-        ) {
+        if ($login_data) {
             $login = $this->Login_Model->getLoginData(
                 $login_data['inputEmail']
             );
 
-            if (
-                $login
-            ) {
+            if ($login) {
 
                 if (
                     password_verify(
@@ -115,9 +111,7 @@ class Login extends Controller
                         'redirect', 
                         FILTER_SANITIZE_STRING) ?? 'home';
 
-                    if (
-                        $redirect == NULL
-                    ) {
+                    if ($redirect == NULL) {
                         $redirect = 'home';
                     }
 

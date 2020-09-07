@@ -60,9 +60,7 @@ class Home extends Controller
     {
         $alert = [];
 
-        if (
-            $this->user['user_authlevel'] >= 3
-        ) {
+        if ($this->user['user_authlevel'] >= 3) {
 
             if (
                 (bool) (@fileperms(XGP_ROOT . CONFIGS_PATH . 'config.php') 
@@ -71,21 +69,15 @@ class Home extends Controller
                 $alert[] = $this->langs->line('hm_config_file_writable');
             }
 
-            if (
-                $this->checkUpdates()
-            ) {
+            if ($this->checkUpdates()) {
                 $alert[] = $this->langs->line('hm_old_version');
             }
 
-            if (
-                Administration::installDirExists()
-            ) {
+            if (Administration::installDirExists()) {
                 $alert[] = $this->langs->line('hm_install_file_detected');
             }
 
-            if (
-                FunctionsLib::readConfig('version') != SYSTEM_VERSION
-            ) {
+            if (FunctionsLib::readConfig('version') != SYSTEM_VERSION) {
                 $alert[] = $this->langs->line('hm_update_required');
             }
 
@@ -95,17 +87,13 @@ class Home extends Controller
 
         $messages = $second_style = $error_type = NULL;
 
-        if (
-            $alerts_count > 1
-        ) {
+        if ($alerts_count > 1) {
             $messages     = join('<br>', $alert);
             $second_style = 'alert-danger';
             $error_type   = $this->langs->line('hm_error');
         }
 
-        if (
-            $alerts_count == 1
-        ) {
+        if ($alerts_count == 1) {
             $messages     = join('<br>', $alert);
             $second_style = 'alert-warning';
             $error_type   = $this->langs->line('hm_warning');
@@ -158,9 +146,8 @@ class Home extends Controller
     private function checkUpdates(): bool
     {
         try {
-            if (
-                function_exists('file_get_contents')
-            ) {
+
+            if (function_exists('file_get_contents')) {
                 $url = 'https://updates.xgproyect.org/latest.php';
 
                 $file_data = @file_get_contents(
@@ -174,9 +161,7 @@ class Home extends Controller
                     )
                 );
 
-                if (
-                    $file_data
-                ) {
+                if ($file_data) {
                     $system_v = FunctionsLib::readConfig('version');
                     $last_v   = 
                         @json_decode(
@@ -191,6 +176,7 @@ class Home extends Controller
             }
 
             return FALSE;
+
         } catch (JsonException $e) {
             return FALSE;
         }

@@ -119,9 +119,7 @@ class Ban extends Controller
         $where_banned    = '';
         $users_list      = '';
 
-        if (
-            $this->_current_user['user_authlevel'] != 3
-        ) {
+        if ($this->_current_user['user_authlevel'] != 3) {
             $where_authlevel = "
                 WHERE `user_authlevel` < '" 
                 . $this->_current_user['user_authlevel'] . "'
@@ -135,9 +133,7 @@ class Ban extends Controller
             && $view == 'user_banned'
         ) {
 
-            if (
-                $this->_current_user['user_authlevel'] == 3
-            ) {
+            if ($this->_current_user['user_authlevel'] == 3) {
                 $where_banned = "WHERE `user_banned` <> '0'";
             } else {
                 $where_banned = "AND `user_banned` <> '1'";
@@ -153,9 +149,7 @@ class Ban extends Controller
         foreach ($users_query as $user) {
             $status = '';
 
-            if (
-                $user['user_banned'] == 1
-            ) {
+            if ($user['user_banned'] == 1) {
                 $status = $this->langs->line('bn_status');
             }
 
@@ -209,14 +203,12 @@ class Ban extends Controller
             $bn_change_date   = $this->langs->line('bn_change_date');
             $bn_edit_ban_help = $this->langs->line('bn_edit_ban_help');
 
-            if (
-                $ban_user
-            ) {
+            if ($ban_user) {
                 $parse['banned_until'] = 
                     $bn_banned_until . ' (' .
                     date(FunctionsLib::readConfig('date_format_extended'), 
-                    $ban_user['banned_longer'] 
-                    ) . ')';
+                    $ban_user['banned_longer']) .
+                    ')';
 
                 $parse['reason'] = $ban_user['banned_theme'];
 
@@ -261,18 +253,15 @@ class Ban extends Controller
 
                     $vacation_mode = isset($_POST['vacat']) ?? NULL;
 
-                    if (
-                        isset($ban_user)
-                    ) {
-                        if (
-                            $ban_user['banned_longer'] > time()) {
+                    if (isset($ban_user)) {
+
+                        if ($ban_user['banned_longer'] > time()) {
                             $ban_time += ($ban_user['banned_longer'] - time());
                         }
+
                     }
 
-                    if (
-                        ($ban_time + $current_time) < time()
-                    ) {
+                    if (($ban_time + $current_time) < time()) {
                         $banned_until = $current_time;
                     } else {
                         $banned_until = $current_time + $ban_time;

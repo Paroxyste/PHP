@@ -81,9 +81,7 @@ class Encrypter extends Controller
     {
         $unencrypted = filter_input(INPUT_POST, 'unencrypted');
 
-        if (
-            $unencrypted
-        ) {
+        if ($unencrypted) {
             $this->unencrypted = $unencrypted;
             $this->encrypted   = Functions::hash($unencrypted);
         }

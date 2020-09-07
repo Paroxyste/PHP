@@ -133,9 +133,7 @@ class Announcement extends Controller
             $results[] = $p_user . ': ' . ($result ? $an_sent : $an_fail);
 
             // 20 per row
-            if (
-                $sent_count % 20 == 0
-            ) {
+            if ($sent_count % 20 == 0) {
                 // Wait, prevent flooding
                 sleep(1); 
             }
@@ -159,9 +157,7 @@ class Announcement extends Controller
     {
         $players = $this->Announcement_Model->getAllPlayers();
 
-        if (
-            isset($post['color-picker'])
-        ) {
+        if (isset($post['color-picker'])) {
             $color = $post['color-picker'];
         } else {
             $color = $this->getMessageColor()[$this->user['user_authlevel']];
@@ -212,9 +208,7 @@ class Announcement extends Controller
 
     private function isValidColor(string $color): string
     {
-        if (
-            in_array($color, Format::getHTMLColorsNameList())
-        ) {
+        if (in_array($color, Format::getHTMLColorsNameList())) {
             return $color;
         }
 
@@ -245,25 +239,21 @@ class Announcement extends Controller
             FALSE
         );
 
-        if (
-            $action
-        ) {
+        if ($action) {
+
             if (
                 isset($action['text']) 
                 && $action['text'] != ''
             ) {
 
-                if (
-                    isset($action['message'])
-                ) {
+                if (isset($action['message'])) {
                     $this->doMessageAction($action);
                 }
 
-                if (
-                    isset($action['mail'])
-                ) {
+                if (isset($action['mail'])) {
                     $this->doEmailAction($action);
                 }
+
             } else {
                 $this->alerts[] = Administration::saveMessage(
                     'warning', 

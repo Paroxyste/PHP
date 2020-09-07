@@ -138,6 +138,7 @@ class Maker extends Controller
         $planets = $this->Maker_Model->getAllActivePlanets();
 
         foreach ($planets as $planets_row) {
+
             if (
                 isset($_GET['planet']) 
                 && $_GET['planet'] > 0
@@ -167,6 +168,7 @@ class Maker extends Controller
                             (int) $planets_row['planet_planet']) . 
                     '</option>';
             }
+
         }
 
         return $combo_rows;
@@ -180,6 +182,7 @@ class Maker extends Controller
         $users = $this->Maker_Model->getAllServerUsers();
 
         foreach ($users as $users_row) {
+
             if (
                 isset($_GET['user']) 
                 && $_GET['user'] > 0
@@ -197,6 +200,7 @@ class Maker extends Controller
                         . $users_row['user_name'] . 
                     '</option>';
             }
+
         }
 
         return $combo_rows;
@@ -308,12 +312,9 @@ class Maker extends Controller
                     $mintemp = 0;
                     $maxtemp = 0;
 
-                    if (
-                        !isset($_POST['diameter_check'])
-                    ) {
-                        if (
-                            is_numeric($diameter)
-                        ) {
+                    if (!isset($_POST['diameter_check'])) {
+
+                        if (is_numeric($diameter)) {
                             $size = $diameter;
                         } else {
                             $errors++;
@@ -322,11 +323,11 @@ class Maker extends Controller
                                 $this->langs->line('mk_moon_only_numbers')
                             );
                         }
+
                     }
 
-                    if (
-                        !isset($_POST['temp_check'])
-                    ) {
+                    if (!isset($_POST['temp_check'])) {
+
                         if (
                             is_numeric($temp_max) 
                             && is_numeric($temp_min)
@@ -340,11 +341,10 @@ class Maker extends Controller
                                 $this->langs->line('mk_moon_only_numbers')
                             );
                         }
+
                     }
 
-                    if (
-                        $errors == 0
-                    ) {
+                    if ($errors == 0) {
                         $this->Maker_Model->createNewMoon(
                             $galaxy,
                             $system,
@@ -362,6 +362,7 @@ class Maker extends Controller
                             $this->langs->line('mk_moon_added')
                         );
                     }
+
                 } else {
                     $this->alert = Administration::saveMessage(
                         'warning', 
@@ -433,9 +434,8 @@ class Maker extends Controller
                     $i++;
                 }
 
-                if (
-                    $i == 0
-                ) {
+                if ($i == 0) {
+
                     if (
                         $field_max <= 0 
                         && !is_numeric($field_max)
@@ -443,9 +443,7 @@ class Maker extends Controller
                         $field_max = '163';
                     }
 
-                    if (
-                        strlen($name) <= 0
-                    ) {
+                    if (strlen($name) <= 0) {
                         $name = $this->langs->line('mk_planet_default_name');
                     }
 
@@ -462,12 +460,14 @@ class Maker extends Controller
                         'ok', 
                         $this->langs->line('mk_planet_added')
                     );
+
                 } else {
                     $this->alert = Administration::saveMessage(
                         'warning', 
                         $error
                     );
                 }
+
             } else {
                 $this->alert = Administration::saveMessage(
                     'warning', 
@@ -539,30 +539,22 @@ class Maker extends Controller
                 $i++;
             }
 
-            if (
-                !Functions::validEmail(strip_tags($email))
-            ) {
+            if (!Functions::validEmail(strip_tags($email))) {
                 $error .= $this->langs->line('mk_user_invalid_email');
                 $i++;
             }
 
-            if (
-                $check_user
-            ) {
+            if ($check_user) {
                 $error .= $this->langs->line('mk_user_existing_name');
                 $i++;
             }
 
-            if (
-                $check_email
-            ) {
+            if ($check_email) {
                 $error .= $this->langs->line('mk_user_existing_email');
                 $i++;
             }
 
-            if (
-                $check_planet['count'] != 0
-            ) {
+            if ($check_planet['count'] != 0) {
                 $error .= $this->langs->line('mk_user_existing_planet');
                 $i++;
             }
@@ -574,18 +566,14 @@ class Maker extends Controller
                 $pass = Functions::generatePassword();
             } else {
 
-                if (
-                    strlen($pass) < 4
-                ) {
+                if (strlen($pass) < 4) {
                     $error .= $this->langs->line('mk_user_invalid_password');
                     $i++;
                 }
 
             }
 
-            if (
-                $i == 0
-            ) {
+            if ($i == 0) {
                 $this->Maker_Model->createNewUser(
                     $name, 
                     $email, 

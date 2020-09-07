@@ -96,7 +96,7 @@ class Languages extends Controller
 
         if (
             $fs 
-            && $file_data != ''
+            && $file_data != NULL
         ) {
             fwrite($fs, $file_data);
 
@@ -119,9 +119,7 @@ class Languages extends Controller
         $fs = @fopen($file, 'a+');
         $contents = '';
 
-        if (
-            $fs
-        ) {
+        if ($fs) {
             while (!feof($fs)) {
                 $contents .= fgets($fs, 1024);
             }
@@ -169,13 +167,9 @@ class Languages extends Controller
     {
         $action = filter_input_array(INPUT_POST);
 
-        if (
-            $action
-        ) {
+        if ($action) {
 
-            if (
-                isset($action['file'])
-            ) {
+            if (isset($action['file'])) {
                 $this->doFileAction($action['file']);
             }
 
