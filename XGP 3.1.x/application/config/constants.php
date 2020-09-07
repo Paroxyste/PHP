@@ -267,9 +267,7 @@ mb_convert_encoding() to strip invalid characters. That's utilized by CI_UTF_8,
 but it's also done for consistency with iconv.
 */
 
-if (
-    extension_loaded('mbstring')
-) {
+if (extension_loaded('mbstring')) {
     define('MB_ENABLED', TRUE);
 
     @ini_set('mbstring.internal_encoding', $charset);
@@ -285,9 +283,7 @@ predefined constants is 'strongly discouraged'. iconv.internal_encoding is
 deprecated starting with PHP 5.6 and it's usage triggers E_DEPRECATED messages.
 */
 
-if (
-    extension_loaded('iconv')
-) {
+if (extension_loaded('iconv')) {
     define('ICONV_ENABLED', TRUE);
 
     @ini_set('iconv.internal_encoding', $charset);
