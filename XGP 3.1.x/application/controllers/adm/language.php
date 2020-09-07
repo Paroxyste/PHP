@@ -129,7 +129,7 @@ class Languages extends Controller
 
         if (
             !$contents 
-            && $this->current_file != ''
+            && $this->current_file != NULL
         ) {
             $this->alert = Administration::saveMessage(
                 'error', 
@@ -175,7 +175,7 @@ class Languages extends Controller
 
             if (
                 isset($action['save']) 
-                && $action['save'] != ''
+                && $action['save'] != NULL
             ) {
                 $this->doSaveAction($action['save']);
             }

@@ -115,14 +115,14 @@ class Alliances extends Controller
         }
 
         $parse['al_sub_title'] = '';
-        $parse['type']         = ($type != '')     ? $type     : 'info';
-        $parse['alliance']     = ($alliance != '') ? $alliance : '';
-        $parse['status']       = ($alliance != '') ? ''        : 'disabled';
-        $parse['status_box']   = ($alliance != '') ? ''        : 'disabled';
-        $parse['tag']          = ($alliance != '') ? 'a'       : 'button';
+        $parse['type']         = ($type != NULL)     ? $type     : 'info';
+        $parse['alliance']     = ($alliance != NULL) ? $alliance : '';
+        $parse['status']       = ($alliance != NULL) ? ''        : 'disabled';
+        $parse['status_box']   = ($alliance != NULL) ? ''        : 'disabled';
+        $parse['tag']          = ($alliance != NULL) ? 'a'       : 'button';
     
         $parse['content'] = 
-            ($alliance != '' && $type != '') ? $this->getData($type) : '';
+            ($alliance != NULL && $type != NULL) ? $this->getData($type) : '';
 
         parent::$page->displayAdmin(
             $this->getTemplate()->set('adm/alliances_view', $parse)
@@ -219,7 +219,7 @@ class Alliances extends Controller
         $alert_info = $this->_alert_info;
 
         $parse['alert_info'] = 
-            $this->_alert_type != '' ? Administration::saveMessage($alert_type, $alert_info) : '';
+            $this->_alert_type != NULL ? Administration::saveMessage($alert_type, $alert_info) : '';
 
         return $this->getTemplate()->set(
             'adm/alliances_information_view', 
@@ -284,7 +284,7 @@ class Alliances extends Controller
         $ally_lang_no_ranks = $this->langs->line('al_no_ranks');
 
         $parse['members_table'] = empty($members) ? '<tr><td colspan="6" class="align_center text-error">' . $ally_lang_no_ranks . '</td></tr>' : $members;
-        $parse['alert_info']    = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
+        $parse['alert_info']    = $this->_alert_type != NULL ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
 
         return $this->getTemplate()->set(
             'adm/alliances_members_view', 
@@ -340,7 +340,7 @@ class Alliances extends Controller
         $ally_no_ranks = $this->langs->line('al_no_ranks');
 
         $parse['ranks_table'] = empty($rank_row) ? $ally_no_ranks : $rank_row;
-        $parse['alert_info']  = $this->_alert_type != '' ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
+        $parse['alert_info']  = $this->_alert_type != NULL ? Administration::saveMessage($this->_alert_type, $this->_alert_info) : '';
 
         return $this->getTemplate()->set(
             'adm/alliances_ranks_view', 

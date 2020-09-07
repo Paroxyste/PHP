@@ -243,7 +243,7 @@ class Announcement extends Controller
 
             if (
                 isset($action['text']) 
-                && $action['text'] != ''
+                && $action['text'] != NULL
             ) {
 
                 if (isset($action['message'])) {
