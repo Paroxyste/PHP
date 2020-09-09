@@ -20,7 +20,7 @@ class Planets extends Controller
         'energy_basic_income'    => FILTER_VALIDATE_INT,
     ];
 
-    private string $alert = '';
+    private string $alert;
     private array  $user;
 
     /* SUMMARY

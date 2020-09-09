@@ -11,7 +11,7 @@ use application\libraries\adm\AdministrationLib as Administration;
 
 class Modules extends Controller
 {
-    private string $alert = '';
+    private string $alert;
     private array  $user;
 
     /* SUMMARY

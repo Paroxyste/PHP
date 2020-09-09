@@ -11,9 +11,9 @@ use application\libraries\adm\AdministrationLib as Administration;
 class Languages extends Controller
 {
 
-    private string $alert = '';
-    private string $current_file = '';
-    private array $user;
+    private string $alert;
+    private string $current_file;
+    private array  $user;
 
     /* SUMMARY
      *

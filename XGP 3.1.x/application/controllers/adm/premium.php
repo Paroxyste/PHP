@@ -23,7 +23,7 @@ class Premium extends Controller
     ];
 
 
-    private string $alert = '';
+    private string $alert;
     private array  $user;
 
     /* SUMMARY

@@ -13,8 +13,8 @@ class Encrypter extends Controller
 {
 
     private array  $user;
-    private string $encrypted   = '';
-    private string $unencrypted = '';
+    private string $encrypted;
+    private string $unencrypted;
 
 
     /* SUMMARY

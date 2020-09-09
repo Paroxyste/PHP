@@ -14,8 +14,8 @@ use application\libraries\adm\AdministrationLib as Administration;
 
 class Maker extends Controller
 {
-    private string $alert = '';
-    private array $user;
+    private string $alert;
+    private array  $user;
 
     /* SUMMARY
      * 

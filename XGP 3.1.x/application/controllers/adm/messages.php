@@ -12,8 +12,8 @@ use application\libraries\adm\AdministrationLib as Administration;
 
 class Messages extends Controller
 {
-    private string $alert = '';
-    private array  $results = [];
+    private string $alert;
+    private array  $results;
     private array  $user;
 
     /* SUMMARY

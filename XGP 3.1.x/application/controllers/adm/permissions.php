@@ -13,7 +13,7 @@ use application\libraries\adm\Permissions as Per;
 
 class Permissions extends Controller
 {
-    private string $alert = '';
+    private string $alert;
     private array  $user;
 
     /* SUMMARY
