@@ -88,7 +88,7 @@ class Planets extends Controller
     private function getNewPlanetSettings(): array
     {
         return array_filter(
-            Functions::readConfig('', true),
+            Functions::readConfig('', TRUE),
             function ($key) {
                 return array_key_exists($key, self::PLANET_SETTINGS);
             },
