@@ -122,7 +122,7 @@ class Statistics extends Controller
 
     // ------------------------------------------------------------- userLevels
 
-    private function userLevels()
+    private function userLevels(): array
     {
         $user_levels = [];
         $ranks = [
