@@ -192,11 +192,12 @@ class Post
                                     Reply ($getCommentsNum)
                                 </button>
 
-                                <iframe class='mt-2'
+                                <iframe class='mt-2' scrolling='no'
                                         src='like.php?post_id="
-                                             . strip_tags($id) ."'>
+                                             . strip_tags($id) ."'
+                                        style='width: 100px;'>
                                 </iframe>
-                                
+
                                 $deleteBtn
 
                             </div>
