@@ -133,7 +133,8 @@ if (
         <form action='like.php?post_id=" . strip_tags($id) . "'
               method='POST'>
                 <button type='submit' name='unlike_btn'
-                        class='btn btn-sm btn-link text-danger'>
+                        class='btn btn-sm btn-link text-danger'
+                        style='width: 100%; height: 26px';>
                     <i class='ti-heart'></i>
                     (". $totalLikes .")
                 </button>
@@ -146,7 +147,8 @@ if (
               method='POST'>
             <div>
                 <button type='submit' name='like_btn'
-                        class='btn btn-sm btn-link text-muted'>
+                        class='btn btn-sm btn-link text-muted'
+                        style='width: 100%; height: 26px';>
                     <i class='ti-heart'></i>
                     (". $totalLikes .")
                 </button>
